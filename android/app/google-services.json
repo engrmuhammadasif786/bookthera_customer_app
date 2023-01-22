@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "246117889740",
+    "project_id": "project-1-d9f81",
+    "storage_bucket": "project-1-d9f81.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246117889740:android:ffdab2851ae9132b387469",
+        "android_client_info": {
+          "package_name": "com.asiayeshit.bookthera_customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246117889740-vgm2v3psqiljacd3h6qe7i6j6l799e6l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.asiayeshit.bookthera_customer",
+            "certificate_hash": "d0253255059928689194066ea279be10c683ef80"
+          }
+        },
+        {
+          "client_id": "246117889740-ovimt4uok4qfqi12vb2rq4uqcbav20he.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtnmQLbFIUaJW_j0bHJKP5XpcYhaMr26M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246117889740-ovimt4uok4qfqi12vb2rq4uqcbav20he.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "246117889740-18p12fuadbd3cjo2gakr97nb9d85u1u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.booktheraCustomer1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
