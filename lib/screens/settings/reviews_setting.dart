@@ -1,9 +1,9 @@
-import 'package:bookthera_customer_1/components/custom_appbar.dart';
-import 'package:bookthera_customer_1/components/custom_loader.dart';
-import 'package:bookthera_customer_1/components/custom_readmore.dart';
-import 'package:bookthera_customer_1/screens/provider/widgets/search_field.dart';
-import 'package:bookthera_customer_1/screens/settings/setting_provider.dart';
-import 'package:bookthera_customer_1/utils/Constants.dart';
+import 'package:bookthera_provider/components/custom_appbar.dart';
+import 'package:bookthera_provider/components/custom_loader.dart';
+import 'package:bookthera_provider/components/custom_readmore.dart';
+import 'package:bookthera_provider/screens/provider/widgets/search_field.dart';
+import 'package:bookthera_provider/screens/settings/setting_provider.dart';
+import 'package:bookthera_provider/utils/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';

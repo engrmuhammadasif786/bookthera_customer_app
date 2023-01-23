@@ -1,4 +1,4 @@
-# bookthera_customer_1
+# bookthera_provider
 
 A new Flutter project.
 

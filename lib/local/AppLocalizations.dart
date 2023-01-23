@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:bookthera_customer_1/local/BaseLanguage.dart';
-import 'package:bookthera_customer_1/local/LanguageAr.dart';
-import 'package:bookthera_customer_1/local/LanguageEn.dart';
-import 'package:bookthera_customer_1/local/LanguageFr.dart';
-import 'package:bookthera_customer_1/local/LanguageHi.dart';
+import 'package:bookthera_provider/local/BaseLanguage.dart';
+import 'package:bookthera_provider/local/LanguageAr.dart';
+import 'package:bookthera_provider/local/LanguageEn.dart';
+import 'package:bookthera_provider/local/LanguageFr.dart';
+import 'package:bookthera_provider/local/LanguageHi.dart';
 
 class AppLocalizations extends LocalizationsDelegate<BaseLanguage> {
   const AppLocalizations();

@@ -1,4 +1,4 @@
-import 'package:bookthera_customer_1/models/userModel.dart';
+import 'package:bookthera_provider/models/userModel.dart';
 
 class MessageModel {
     MessageModel({

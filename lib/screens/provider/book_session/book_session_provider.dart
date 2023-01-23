@@ -1,22 +1,22 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:bookthera_customer_1/models/Provider.dart';
-import 'package:bookthera_customer_1/models/ProviderCategory.dart';
-import 'package:bookthera_customer_1/models/book_sessoin.dart';
-import 'package:bookthera_customer_1/models/focus_model.dart';
-import 'package:bookthera_customer_1/models/session_model.dart';
-import 'package:bookthera_customer_1/models/time_slot.dart';
-import 'package:bookthera_customer_1/network/NetworkUtils.dart';
-import 'package:bookthera_customer_1/network/RestApis.dart';
-import 'package:bookthera_customer_1/screens/home/dashboard.dart';
-import 'package:bookthera_customer_1/screens/sessions/audioVideosCalls/call.dart';
-import 'package:bookthera_customer_1/utils/AppWidgets.dart';
-import 'package:bookthera_customer_1/utils/Constants.dart';
-import 'package:bookthera_customer_1/utils/helper.dart';
+import 'package:bookthera_provider/models/Provider.dart';
+import 'package:bookthera_provider/models/ProviderCategory.dart';
+import 'package:bookthera_provider/models/book_sessoin.dart';
+import 'package:bookthera_provider/models/focus_model.dart';
+import 'package:bookthera_provider/models/session_model.dart';
+import 'package:bookthera_provider/models/time_slot.dart';
+import 'package:bookthera_provider/network/NetworkUtils.dart';
+import 'package:bookthera_provider/network/RestApis.dart';
+import 'package:bookthera_provider/screens/home/dashboard.dart';
+import 'package:bookthera_provider/screens/sessions/audioVideosCalls/call.dart';
+import 'package:bookthera_provider/utils/AppWidgets.dart';
+import 'package:bookthera_provider/utils/Constants.dart';
+import 'package:bookthera_provider/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:bookthera_customer_1/utils/helper.dart' as hp;
+import 'package:bookthera_provider/utils/helper.dart' as hp;
 
 import '../../../models/payment_card.dart';
 import '../../../utils/datamanager.dart';

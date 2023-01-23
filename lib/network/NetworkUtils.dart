@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 
-import 'package:bookthera_customer_1/screens/auth/LoginScreen.dart';
+import 'package:bookthera_provider/screens/auth/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:bookthera_customer_1/network/RestApis.dart';
-import 'package:bookthera_customer_1/utils/Common.dart';
-import 'package:bookthera_customer_1/utils/Constants.dart';
+import 'package:bookthera_provider/network/RestApis.dart';
+import 'package:bookthera_provider/utils/Common.dart';
+import 'package:bookthera_provider/utils/Constants.dart';
 
 import '../main.dart';
 

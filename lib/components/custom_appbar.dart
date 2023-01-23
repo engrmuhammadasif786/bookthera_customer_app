@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:bookthera_customer_1/utils/resources/Colors.dart';
+import 'package:bookthera_provider/utils/resources/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';

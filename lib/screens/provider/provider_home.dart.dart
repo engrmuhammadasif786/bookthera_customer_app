@@ -1,10 +1,10 @@
-import 'package:bookthera_customer_1/screens/provider/list_provider.dart';
-import 'package:bookthera_customer_1/screens/provider/provider_filter.dart';
-import 'package:bookthera_customer_1/screens/provider/provider_provider.dart';
-import 'package:bookthera_customer_1/screens/provider/provider_search.dart';
-import 'package:bookthera_customer_1/screens/provider/widgets/build_tile.dart';
-import 'package:bookthera_customer_1/screens/provider/widgets/provider_cell.dart';
-import 'package:bookthera_customer_1/screens/provider/widgets/search_field.dart';
+import 'package:bookthera_provider/screens/provider/list_provider.dart';
+import 'package:bookthera_provider/screens/provider/provider_filter.dart';
+import 'package:bookthera_provider/screens/provider/provider_provider.dart';
+import 'package:bookthera_provider/screens/provider/provider_search.dart';
+import 'package:bookthera_provider/screens/provider/widgets/build_tile.dart';
+import 'package:bookthera_provider/screens/provider/widgets/provider_cell.dart';
+import 'package:bookthera_provider/screens/provider/widgets/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';

@@ -1,11 +1,11 @@
-import 'package:bookthera_customer_1/network/RestApis.dart';
-import 'package:bookthera_customer_1/screens/home/dashboard.dart';
-import 'package:bookthera_customer_1/utils/Constants.dart';
-import 'package:bookthera_customer_1/utils/helper.dart';
+import 'package:bookthera_provider/network/RestApis.dart';
+import 'package:bookthera_provider/screens/home/dashboard.dart';
+import 'package:bookthera_provider/utils/Constants.dart';
+import 'package:bookthera_provider/utils/helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:bookthera_customer_1/utils/helper.dart' as hp;
+import 'package:bookthera_provider/utils/helper.dart' as hp;
 import 'package:provider/provider.dart';
 
 import '../inbox/chat_provider.dart';

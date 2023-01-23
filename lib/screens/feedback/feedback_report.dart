@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:bookthera_customer_1/components/custom_appbar.dart';
-import 'package:bookthera_customer_1/components/custom_button.dart';
-import 'package:bookthera_customer_1/components/custom_loader.dart';
-import 'package:bookthera_customer_1/components/custom_persent_loader.dart';
-import 'package:bookthera_customer_1/screens/sessions/widgets/feed_back_success.dart';
-import 'package:bookthera_customer_1/utils/datamanager.dart';
+import 'package:bookthera_provider/components/custom_appbar.dart';
+import 'package:bookthera_provider/components/custom_button.dart';
+import 'package:bookthera_provider/components/custom_loader.dart';
+import 'package:bookthera_provider/components/custom_persent_loader.dart';
+import 'package:bookthera_provider/screens/sessions/widgets/feed_back_success.dart';
+import 'package:bookthera_provider/utils/datamanager.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';

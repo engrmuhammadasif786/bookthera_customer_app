@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:bookthera_customer_1/models/Provider.dart';
-import 'package:bookthera_customer_1/screens/inbox/FullScreenVideoViewer.dart';
-import 'package:bookthera_customer_1/screens/provider/provider_provider.dart';
-import 'package:bookthera_customer_1/screens/provider/sessions_tab.dart';
-import 'package:bookthera_customer_1/utils/Constants.dart';
-import 'package:bookthera_customer_1/utils/resources/Colors.dart';
-import 'package:bookthera_customer_1/utils/resources/Images.dart';
+import 'package:bookthera_provider/models/Provider.dart';
+import 'package:bookthera_provider/screens/inbox/FullScreenVideoViewer.dart';
+import 'package:bookthera_provider/screens/provider/provider_provider.dart';
+import 'package:bookthera_provider/screens/provider/sessions_tab.dart';
+import 'package:bookthera_provider/utils/Constants.dart';
+import 'package:bookthera_provider/utils/resources/Colors.dart';
+import 'package:bookthera_provider/utils/resources/Images.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

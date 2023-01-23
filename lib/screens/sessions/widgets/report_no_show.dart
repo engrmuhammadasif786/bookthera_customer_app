@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:bookthera_customer_1/components/custom_button.dart';
-import 'package:bookthera_customer_1/screens/home/dashboard.dart';
-import 'package:bookthera_customer_1/utils/helper.dart';
+import 'package:bookthera_provider/components/custom_button.dart';
+import 'package:bookthera_provider/screens/home/dashboard.dart';
+import 'package:bookthera_provider/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';

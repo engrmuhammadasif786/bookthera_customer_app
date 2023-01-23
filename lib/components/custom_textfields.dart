@@ -1,4 +1,4 @@
-import 'package:bookthera_customer_1/utils/resources/Colors.dart';
+import 'package:bookthera_provider/utils/resources/Colors.dart';
 import 'package:flutter/material.dart';
 
 

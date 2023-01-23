@@ -1,10 +1,10 @@
-import 'package:bookthera_customer_1/components/custom_appbar.dart';
-import 'package:bookthera_customer_1/components/custom_textfields.dart';
-import 'package:bookthera_customer_1/screens/provider/book_session/book_session_provider.dart';
-import 'package:bookthera_customer_1/screens/provider/book_session/payment_screen.dart';
-import 'package:bookthera_customer_1/screens/provider/book_session/widgets/focus_selection.dart';
-import 'package:bookthera_customer_1/screens/provider/book_session/widgets/upload_image.dart';
-import 'package:bookthera_customer_1/utils/helper.dart';
+import 'package:bookthera_provider/components/custom_appbar.dart';
+import 'package:bookthera_provider/components/custom_textfields.dart';
+import 'package:bookthera_provider/screens/provider/book_session/book_session_provider.dart';
+import 'package:bookthera_provider/screens/provider/book_session/payment_screen.dart';
+import 'package:bookthera_provider/screens/provider/book_session/widgets/focus_selection.dart';
+import 'package:bookthera_provider/screens/provider/book_session/widgets/upload_image.dart';
+import 'package:bookthera_provider/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';

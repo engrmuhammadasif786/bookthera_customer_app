@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "bookthera_customer_1" "\0"
+            VALUE "FileDescription", "bookthera_provider" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "bookthera_customer_1" "\0"
+            VALUE "InternalName", "bookthera_provider" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "bookthera_customer_1.exe" "\0"
-            VALUE "ProductName", "bookthera_customer_1" "\0"
+            VALUE "OriginalFilename", "bookthera_provider.exe" "\0"
+            VALUE "ProductName", "bookthera_provider" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

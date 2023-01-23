@@ -1,9 +1,9 @@
 import 'dart:ffi';
 
-import 'package:bookthera_customer_1/models/book_sessoin.dart';
-import 'package:bookthera_customer_1/network/RestApis.dart';
-import 'package:bookthera_customer_1/utils/Constants.dart';
-import 'package:bookthera_customer_1/utils/datamanager.dart';
+import 'package:bookthera_provider/models/book_sessoin.dart';
+import 'package:bookthera_provider/network/RestApis.dart';
+import 'package:bookthera_provider/utils/Constants.dart';
+import 'package:bookthera_provider/utils/datamanager.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 

@@ -1,4 +1,4 @@
-import 'package:bookthera_customer_1/local/BaseLanguage.dart';
+import 'package:bookthera_provider/local/BaseLanguage.dart';
 
 class LanguageEn extends BaseLanguage {
   @override

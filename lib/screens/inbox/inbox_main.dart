@@ -1,8 +1,8 @@
-import 'package:bookthera_customer_1/models/MessageModel.dart';
-import 'package:bookthera_customer_1/screens/inbox/chat_provider.dart';
-import 'package:bookthera_customer_1/screens/provider/widgets/search_field.dart';
-import 'package:bookthera_customer_1/utils/Constants.dart';
-import 'package:bookthera_customer_1/utils/helper.dart' as hp;
+import 'package:bookthera_provider/models/MessageModel.dart';
+import 'package:bookthera_provider/screens/inbox/chat_provider.dart';
+import 'package:bookthera_provider/screens/provider/widgets/search_field.dart';
+import 'package:bookthera_provider/utils/Constants.dart';
+import 'package:bookthera_provider/utils/helper.dart' as hp;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:nb_utils/nb_utils.dart';

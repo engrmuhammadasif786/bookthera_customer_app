@@ -1,7 +1,7 @@
-import 'package:bookthera_customer_1/components/custom_loader.dart';
-import 'package:bookthera_customer_1/screens/sessions/empty_sessions.dart';
-import 'package:bookthera_customer_1/screens/sessions/session_provider.dart';
-import 'package:bookthera_customer_1/utils/resources/Colors.dart';
+import 'package:bookthera_provider/components/custom_loader.dart';
+import 'package:bookthera_provider/screens/sessions/empty_sessions.dart';
+import 'package:bookthera_provider/screens/sessions/session_provider.dart';
+import 'package:bookthera_provider/utils/resources/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';

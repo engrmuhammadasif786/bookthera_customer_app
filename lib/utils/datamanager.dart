@@ -1,8 +1,8 @@
 
-import 'package:bookthera_customer_1/models/book_sessoin.dart';
-import 'package:bookthera_customer_1/models/notification_setting.dart';
-import 'package:bookthera_customer_1/models/payment_card.dart';
-import 'package:bookthera_customer_1/utils/Constants.dart';
+import 'package:bookthera_provider/models/book_sessoin.dart';
+import 'package:bookthera_provider/models/notification_setting.dart';
+import 'package:bookthera_provider/models/payment_card.dart';
+import 'package:bookthera_provider/utils/Constants.dart';
 
 class Datamanager {
 
