@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:bookthera_provider/models/MessageModel.dart';
-import 'package:bookthera_provider/network/RestApis.dart';
+import 'package:bookthera_customer/models/MessageModel.dart';
+import 'package:bookthera_customer/network/RestApis.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';

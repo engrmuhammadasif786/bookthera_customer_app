@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:bookthera_provider/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/resources/Colors.dart';
 
 class AppTheme {
   //

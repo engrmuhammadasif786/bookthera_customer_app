@@ -1,4 +1,4 @@
-import 'package:bookthera_provider/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';

@@ -1,10 +1,10 @@
-import 'package:bookthera_provider/components/custom_button.dart';
-import 'package:bookthera_provider/components/custom_loader.dart';
-import 'package:bookthera_provider/components/custom_textform_field.dart';
-import 'package:bookthera_provider/screens/settings/setting_provider.dart';
-import 'package:bookthera_provider/utils/Constants.dart';
-import 'package:bookthera_provider/utils/datamanager.dart';
-import 'package:bookthera_provider/utils/resources/Colors.dart';
+import 'package:bookthera_customer/components/custom_button.dart';
+import 'package:bookthera_customer/components/custom_loader.dart';
+import 'package:bookthera_customer/components/custom_textform_field.dart';
+import 'package:bookthera_customer/screens/settings/setting_provider.dart';
+import 'package:bookthera_customer/utils/Constants.dart';
+import 'package:bookthera_customer/utils/datamanager.dart';
+import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';

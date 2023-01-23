@@ -1,6 +1,6 @@
-import 'package:bookthera_provider/components/custom_appbar.dart';
-import 'package:bookthera_provider/screens/settings/setting_provider.dart';
-import 'package:bookthera_provider/utils/resources/Colors.dart';
+import 'package:bookthera_customer/components/custom_appbar.dart';
+import 'package:bookthera_customer/screens/settings/setting_provider.dart';
+import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';

@@ -1,8 +1,8 @@
-import 'package:bookthera_provider/screens/feedback/feedback_inbox.dart';
-import 'package:bookthera_provider/screens/feedback/feedback_report.dart';
-import 'package:bookthera_provider/screens/feedback/feedback_suggestion.dart';
-import 'package:bookthera_provider/utils/helper.dart';
-import 'package:bookthera_provider/utils/resources/Colors.dart';
+import 'package:bookthera_customer/screens/feedback/feedback_inbox.dart';
+import 'package:bookthera_customer/screens/feedback/feedback_report.dart';
+import 'package:bookthera_customer/screens/feedback/feedback_suggestion.dart';
+import 'package:bookthera_customer/utils/helper.dart';
+import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';

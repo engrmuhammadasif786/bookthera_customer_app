@@ -1,4 +1,4 @@
-import 'package:bookthera_provider/models/Provider.dart';
+import 'package:bookthera_customer/models/Provider.dart';
 
 class ProviderCategory {
   String? sId;

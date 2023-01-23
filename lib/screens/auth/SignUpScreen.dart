@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:bookthera_provider/components/custom_textform_field.dart';
-import 'package:bookthera_provider/screens/auth/LoginScreen.dart';
-import 'package:bookthera_provider/utils/resources/Colors.dart';
+import 'package:bookthera_customer/components/custom_textform_field.dart';
+import 'package:bookthera_customer/screens/auth/LoginScreen.dart';
+import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';

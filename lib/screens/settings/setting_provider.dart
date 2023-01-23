@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:bookthera_provider/models/book_sessoin.dart';
-import 'package:bookthera_provider/models/payment_card.dart';
-import 'package:bookthera_provider/network/RestApis.dart';
-import 'package:bookthera_provider/screens/settings/notifications_setting.dart';
-import 'package:bookthera_provider/utils/Constants.dart';
-import 'package:bookthera_provider/utils/datamanager.dart';
+import 'package:bookthera_customer/models/book_sessoin.dart';
+import 'package:bookthera_customer/models/payment_card.dart';
+import 'package:bookthera_customer/network/RestApis.dart';
+import 'package:bookthera_customer/screens/settings/notifications_setting.dart';
+import 'package:bookthera_customer/utils/Constants.dart';
+import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 

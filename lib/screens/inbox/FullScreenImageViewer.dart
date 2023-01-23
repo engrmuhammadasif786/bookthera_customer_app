@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:bookthera_provider/utils/Constants.dart';
-import 'package:bookthera_provider/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/Constants.dart';
+import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';

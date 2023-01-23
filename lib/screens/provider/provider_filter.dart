@@ -1,8 +1,8 @@
-import 'package:bookthera_provider/components/custom_button.dart';
-import 'package:bookthera_provider/screens/provider/provider_provider.dart';
-import 'package:bookthera_provider/screens/provider/widgets/search_field.dart';
-import 'package:bookthera_provider/utils/datamanager.dart';
-import 'package:bookthera_provider/utils/resources/Colors.dart';
+import 'package:bookthera_customer/components/custom_button.dart';
+import 'package:bookthera_customer/screens/provider/provider_provider.dart';
+import 'package:bookthera_customer/screens/provider/widgets/search_field.dart';
+import 'package:bookthera_customer/utils/datamanager.dart';
+import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';

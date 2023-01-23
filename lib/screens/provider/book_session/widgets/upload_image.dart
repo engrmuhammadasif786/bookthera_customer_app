@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:bookthera_provider/components/custom_button.dart';
-import 'package:bookthera_provider/screens/provider/book_session/book_session_provider.dart';
-import 'package:bookthera_provider/utils/Constants.dart';
-import 'package:bookthera_provider/utils/resources/Colors.dart';
+import 'package:bookthera_customer/components/custom_button.dart';
+import 'package:bookthera_customer/screens/provider/book_session/book_session_provider.dart';
+import 'package:bookthera_customer/utils/Constants.dart';
+import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';

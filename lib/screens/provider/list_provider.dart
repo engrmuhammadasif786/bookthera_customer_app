@@ -1,7 +1,7 @@
 
-import 'package:bookthera_provider/models/Provider.dart';
-import 'package:bookthera_provider/screens/provider/provider_provider.dart';
-import 'package:bookthera_provider/screens/provider/widgets/search_field.dart';
+import 'package:bookthera_customer/models/Provider.dart';
+import 'package:bookthera_customer/screens/provider/provider_provider.dart';
+import 'package:bookthera_customer/screens/provider/widgets/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';

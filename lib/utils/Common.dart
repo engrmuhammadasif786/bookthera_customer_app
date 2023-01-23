@@ -10,9 +10,9 @@ import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:bookthera_provider/network/RestApis.dart';
-import 'package:bookthera_provider/utils/Constants.dart';
-import 'package:bookthera_provider/utils/resources/Colors.dart';
+import 'package:bookthera_customer/network/RestApis.dart';
+import 'package:bookthera_customer/utils/Constants.dart';
+import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:url_launcher/url_launcher_string.dart';
 

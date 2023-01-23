@@ -1,14 +1,14 @@
 
-import 'package:bookthera_provider/models/Provider.dart';
-import 'package:bookthera_provider/models/ProviderCategory.dart';
-import 'package:bookthera_provider/network/RestApis.dart';
-import 'package:bookthera_provider/screens/home/dashboard.dart';
-import 'package:bookthera_provider/screens/inbox/chat_provider.dart';
-import 'package:bookthera_provider/utils/Constants.dart';
-import 'package:bookthera_provider/utils/helper.dart';
+import 'package:bookthera_customer/models/Provider.dart';
+import 'package:bookthera_customer/models/ProviderCategory.dart';
+import 'package:bookthera_customer/network/RestApis.dart';
+import 'package:bookthera_customer/screens/home/dashboard.dart';
+import 'package:bookthera_customer/screens/inbox/chat_provider.dart';
+import 'package:bookthera_customer/utils/Constants.dart';
+import 'package:bookthera_customer/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:bookthera_provider/utils/helper.dart' as hp;
+import 'package:bookthera_customer/utils/helper.dart' as hp;
 import 'package:provider/provider.dart';
 
 class ProviderProvider extends ChangeNotifier {

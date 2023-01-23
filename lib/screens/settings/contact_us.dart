@@ -1,7 +1,7 @@
-import 'package:bookthera_provider/components/custom_loader.dart';
-import 'package:bookthera_provider/components/custom_textfields.dart';
-import 'package:bookthera_provider/screens/settings/setting_provider.dart';
-import 'package:bookthera_provider/utils/datamanager.dart';
+import 'package:bookthera_customer/components/custom_loader.dart';
+import 'package:bookthera_customer/components/custom_textfields.dart';
+import 'package:bookthera_customer/screens/settings/setting_provider.dart';
+import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';

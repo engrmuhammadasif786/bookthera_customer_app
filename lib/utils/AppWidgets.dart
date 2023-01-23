@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:bookthera_provider/main.dart';
-import 'package:bookthera_provider/utils/resources/Colors.dart';
-import 'package:bookthera_provider/utils/resources/Size.dart';
+import 'package:bookthera_customer/main.dart';
+import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/resources/Size.dart';
 
 import 'dots_indicator/DotsDecorator.dart';
 

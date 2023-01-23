@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:bookthera_provider/components/custom_appbar.dart';
-import 'package:bookthera_provider/components/custom_button.dart';
-import 'package:bookthera_provider/screens/sessions/widgets/feed_back_success.dart';
-import 'package:bookthera_provider/utils/helper.dart';
+import 'package:bookthera_customer/components/custom_appbar.dart';
+import 'package:bookthera_customer/components/custom_button.dart';
+import 'package:bookthera_customer/screens/sessions/widgets/feed_back_success.dart';
+import 'package:bookthera_customer/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';

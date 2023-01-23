@@ -1,6 +1,6 @@
 {
-    "name": "bookthera_provider",
-    "short_name": "bookthera_provider",
+    "name": "bookthera_customer",
+    "short_name": "bookthera_customer",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

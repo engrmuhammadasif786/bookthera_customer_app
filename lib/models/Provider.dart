@@ -1,5 +1,5 @@
-import 'package:bookthera_provider/models/reviewModel.dart';
-import 'package:bookthera_provider/models/session_model.dart';
+import 'package:bookthera_customer/models/reviewModel.dart';
+import 'package:bookthera_customer/models/session_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ProviderModel {

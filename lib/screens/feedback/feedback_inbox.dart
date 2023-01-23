@@ -1,7 +1,7 @@
-import 'package:bookthera_provider/components/custom_appbar.dart';
-import 'package:bookthera_provider/models/ConversationModel.dart';
-import 'package:bookthera_provider/models/HomeConversationModel.dart';
-import 'package:bookthera_provider/screens/inbox/chat_screen_view.dart';
+import 'package:bookthera_customer/components/custom_appbar.dart';
+import 'package:bookthera_customer/models/ConversationModel.dart';
+import 'package:bookthera_customer/models/HomeConversationModel.dart';
+import 'package:bookthera_customer/screens/inbox/chat_screen_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';

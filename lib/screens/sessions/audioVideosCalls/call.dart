@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
-import 'package:bookthera_provider/components/custom_loader.dart';
-import 'package:bookthera_provider/screens/sessions/session_provider.dart';
-import 'package:bookthera_provider/screens/sessions/widgets/report_no_show.dart';
-import 'package:bookthera_provider/utils/Constants.dart';
+import 'package:bookthera_customer/components/custom_loader.dart';
+import 'package:bookthera_customer/screens/sessions/session_provider.dart';
+import 'package:bookthera_customer/screens/sessions/widgets/report_no_show.dart';
+import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:nb_utils/nb_utils.dart';
