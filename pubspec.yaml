@@ -11,14 +11,10 @@ dependencies:
     sdk: flutter
 
   # Required
-  cupertino_icons: ^1.0.5
   intl: ^0.17.0
   nb_utils: ^4.6.20
-  package_info: ^2.0.2
   cached_network_image: ^3.2.1
-  flutter_vector_icons: ^1.0.0
   loading_indicator: ^3.1.0
-  intl_phone_number_input: ^0.7.0+2
   pin_code_fields: ^7.4.0
   flutter_rating_bar: ^4.0.1
   table_calendar: ^3.0.8
@@ -28,10 +24,6 @@ dependencies:
   web_socket_channel: ^2.3.0
   percent_indicator: ^4.2.2
   readmore: ^2.2.0
-
-  # Html
-  html: 0.15.0
-  flutter_widget_from_html: ^0.8.5
 
   # API call
   http: ^0.13.5
@@ -50,7 +42,6 @@ dependencies:
   webview_flutter: ^3.0.4
 
   # File Download
-  internet_file: ^1.2.0
   permission_handler: ^10.0.0
 
   # Local storage path
@@ -70,7 +61,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^2.2.0
   flutter_launcher_icons: ^0.11.0
   #flutter packages pub run build_runner build
 

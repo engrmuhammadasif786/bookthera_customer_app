@@ -4,8 +4,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:html/dom.dart' as dom;
-import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:path_provider/path_provider.dart';
@@ -22,10 +20,6 @@ Future<void> launchURL(String url, {bool forceWebView = true, Map<String, String
   await url_launcher.launchUrl(Uri.parse(url), mode: LaunchMode.inAppWebView);
 }
 
-String parseHtmlString(String? htmlString) {
-  return parse(parse(htmlString).body!.text).documentElement!.text;
-}
-
 extension SExt on String {
   int getYear() {
     return DateTime.parse(this).year;
@@ -40,13 +34,6 @@ extension SExt on String {
   }
 
   bool get isVideoPlayerFile => this.contains("mp4") || this.contains("m4v") || this.contains("mkv") || this.contains("mov");
-
-  String get urlFromIframe {
-    var document = parse(this);
-    dom.Element? link = document.querySelector('iframe');
-    String? iframeLink = link != null ? link.attributes['src'].validate() : '';
-    return iframeLink.validate();
-  }
 
   bool get isYoutubeUrl {
     for (var exp in [
@@ -170,8 +157,6 @@ Future<void> launchUrl(String url, {bool forceWebView = false}) async {
     toast('Invalid URL: $url');
   });
 }
-
-String urlFromIframe({required String embedContent}) => parse(embedContent).getElementsByTagName('iframe')[0].attributes['src']!;
 
 Future<String> prepareSaveDir() async {
   final _localPath = (await getCachedDirPath())!;

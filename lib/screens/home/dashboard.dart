@@ -9,6 +9,7 @@ import 'package:bookthera_customer/screens/settings/settings_main.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,13 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   TextEditingController searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseMessaging.instance.requestPermission();
+  }
+
   @override
   Widget build(BuildContext context) {
     int selectedIndex = context.watch<HomeProvider>().selectedIndex;

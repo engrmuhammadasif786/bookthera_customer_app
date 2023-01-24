@@ -4,7 +4,6 @@ import 'package:bookthera_customer/screens/settings/chage_password.dart';
 import 'package:bookthera_customer/screens/settings/setting_provider.dart';
 import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:image_picker/image_picker.dart' as ip;
 import 'package:nb_utils/nb_utils.dart' as nb;
 import 'package:provider/provider.dart';
