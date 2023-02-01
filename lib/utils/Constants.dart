@@ -4,6 +4,7 @@ const mBaseUrl='https://bookthera.herokuapp.com/';
 // const mBaseUrl='http://localhost:8000/';
 const app_name = "Bookthera";
 const socketUrl= "wss://bookthera.herokuapp.com/api/v1/ws";
+// const socketUrl= "ws://localhost:8000/api/v1/ws";
 
 /// Network timeout message
 const timeOutMsg =

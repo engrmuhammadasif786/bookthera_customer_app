@@ -13,6 +13,7 @@ import 'package:nb_utils/nb_utils.dart' as nb;
 import 'package:provider/provider.dart';
 
 import '../../components/custom_loader.dart';
+import '../../utils/Common.dart';
 import '../../utils/helper.dart';
 
 class ProviderHome extends StatefulWidget {
@@ -48,6 +49,7 @@ class _ProviderHomeState extends State<ProviderHome> {
                         Navigator.of(context)
                             .push(MaterialPageRoute(
                                 builder: (context) => ListProviders(
+                                  appBarTitle: 'Saved',
                                       onInitCall: () {
                                         context
                                             .read<ProviderProvider>()
@@ -159,34 +161,6 @@ class _ProviderHomeState extends State<ProviderHome> {
             ],
           ),
     );
-  }
-
-  void showCustomDialog(BuildContext context, Widget child,{Function? onthen}) {
-    showGeneralDialog(
-      context: context,
-      pageBuilder: (BuildContext buildContext, Animation<double> animation,
-          Animation<double> secondaryAnimation) {
-        return Builder(builder: (context) {
-          return Container();
-        });
-      },
-      barrierDismissible: true,
-      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-      transitionDuration: const Duration(milliseconds: 150),
-      transitionBuilder: (_, animation, secondaryAnimation, c) =>
-          nb.dialogAnimatedWrapperWidget(
-              dialogAnimation: nb.DialogAnimation.DEFAULT,
-              curve: Curves.easeInBack,
-              animation: animation,
-              child: child),
-    ).then((value) {
-      if (value!=null && (value as bool)==true) {
-        print('on then call');
-        if (onthen!=null) {
-          onthen();
-        }
-      }
-    });
   }
 }
 

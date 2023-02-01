@@ -207,7 +207,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(minWidth: double.infinity),
                     child: CustomButton(
-                        title: isEnterOtp?'Reset Password': 'Send Link', onPressed: isEnterOtp? resetPassword:sendOTP),
+                        title: isEnterOtp?'Reset Password': 'Send OTP', onPressed: isEnterOtp? resetPassword:sendOTP),
                   ),
                 ),
               ],

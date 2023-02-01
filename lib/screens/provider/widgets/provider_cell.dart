@@ -168,7 +168,7 @@ class _ProviderCellState extends State<ProviderCell> {
                             Icon(
                               Icons.star,
                               size: 20,
-                              color: colorPrimary,
+                              color: Color(0xffFFB206),
                             ),
                             SizedBox(width: 3),
                             Text(

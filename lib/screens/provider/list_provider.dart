@@ -1,6 +1,9 @@
 
+import 'package:bookthera_customer/components/custom_appbar.dart';
 import 'package:bookthera_customer/models/Provider.dart';
+import 'package:bookthera_customer/screens/provider/provider_filter.dart';
 import 'package:bookthera_customer/screens/provider/provider_provider.dart';
+import 'package:bookthera_customer/screens/provider/provider_search.dart';
 import 'package:bookthera_customer/screens/provider/widgets/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -10,6 +13,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/custom_loader.dart';
+import '../../utils/Common.dart';
 import '../../utils/resources/Colors.dart';
 import 'widgets/provider_cell.dart';
 
@@ -40,20 +44,38 @@ class _ListProvidersState extends State<ListProviders> {
       providerList=widget.providers;
     }
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.appBarTitle?? 'Providers',
-          style: primaryTextStyle(
-              color: textColorPrimary, size: 20, weight: FontWeight.w500),
-        ),
-      ),
+      appBar: CustomAppbar(title: widget.appBarTitle??"",),
       body: CustomLoader(
         isLoading: isLoading,
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 16),
-              child: CustomSearchField(isShowFavourite: false,),
+              child: CustomSearchField(
+                      onFavouriteTap: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(
+                                builder: (context) => ListProviders(
+                                  appBarTitle: 'Saved',
+                                      onInitCall: () {
+                                        context
+                                            .read<ProviderProvider>()
+                                            .doCallGetProvidersByFavourite();
+                                      },
+                                    )))
+                            .then((value) {
+                          context
+                              .read<ProviderProvider>()
+                              .doCallGetProvidersByCategory();
+                        });
+                      },
+                      onFilter: () {
+                        showCustomDialog(context, ProviderFilter());
+                      },
+                      onTap: () {
+                        showCustomDialog(context, ProviderSearch());
+                      },
+                    ),
             ),
             Expanded(
               child: ListView.builder(

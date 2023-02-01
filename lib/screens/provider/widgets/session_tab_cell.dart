@@ -126,7 +126,7 @@ class SessionTabCell extends StatelessWidget {
                 children: [
                   if(isChat=='true')
                   Expanded(child: SessionButton(
-                    isOutlined: true,
+                    isOutlined: isPromotion?false: true,
                     title: 'Chat Now', onPressed: (){
                       push(context, ChatScreen(senderId: providerId, senderName: venderName));
                     })),

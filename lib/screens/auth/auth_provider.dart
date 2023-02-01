@@ -3,6 +3,7 @@ import 'package:bookthera_customer/screens/home/dashboard.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:bookthera_customer/utils/helper.dart' as hp;
@@ -132,6 +133,10 @@ class AuthProvider extends ChangeNotifier{
         toast(value);
       }else{
         if (value) {
+          FirebaseMessaging.instance.getToken().then((fcmToken) {
+              print({"fcmToken": fcmToken});
+              callSaveFcmToken({"fcmToken": fcmToken ?? ''});
+          });
           context.read<ChatProvider>().connectSocket();
           hp.pushAndRemoveUntil(context, Dashboard(),false);
         }

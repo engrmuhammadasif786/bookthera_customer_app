@@ -126,10 +126,10 @@ class _BookSessionDetailState extends State<BookSessionDetail> {
                         child: SizedBox(
                           width: double.infinity,
                           child: SessionButton(title: 'Book Appointment', onPressed: (){
-                            // bool status = context.read<BookSesstionProvider>().bookSessionValidator(context);
-                            // if (status) {
+                            bool status = context.read<BookSesstionProvider>().bookSessionValidator(context);
+                            if (status) {
                               context.read<BookSesstionProvider>().doCallBookSession(context);
-                            // }
+                            }
                           })),
                       )
                     ],

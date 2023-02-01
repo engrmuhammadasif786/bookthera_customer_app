@@ -21,6 +21,41 @@ Future<void> launchURL(String url, {bool forceWebView = true, Map<String, String
 }
 
 extension SExt on String {
+
+  String time24To12Format(String duration) {
+    String formatedtime = '';
+
+   try {
+      this.split('-').forEach((element) {
+      int hour = int.parse(element.split(':').first);
+      int minutes = int.parse(element.split(':').last);
+      if (duration.isNotEmpty) {
+        int sum = minutes+int.parse(duration);
+        minutes = sum%60;
+        if (sum>60) {
+          hour=hour+1;
+        }
+      }
+      
+      int mode=hour%12;
+      String reuslt = '';
+      if (hour < 12) {
+        reuslt = mode.toString() + ':' + "$minutes" + 'am';
+      } else {
+        reuslt = mode.toString() + ':' + "$minutes" + 'pm';
+      }
+      if (formatedtime.isEmpty) {
+        formatedtime = reuslt;
+      } else {
+        formatedtime = formatedtime + '-' + reuslt;
+      }
+    });
+   } catch (e) {
+     formatedtime=this;
+   }
+    return formatedtime;
+  }
+  
   int getYear() {
     return DateTime.parse(this).year;
   }
@@ -188,3 +223,31 @@ Future<File> getFilePath(String fileName) async {
   File srcFilepath = File("$filePath/downloads/$fileName");
   return srcFilepath;
 }
+
+void showCustomDialog(BuildContext context, Widget child,{Function? onthen}) {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (BuildContext buildContext, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
+        return Builder(builder: (context) {
+          return Container();
+        });
+      },
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      transitionDuration: const Duration(milliseconds: 150),
+      transitionBuilder: (_, animation, secondaryAnimation, c) =>
+          dialogAnimatedWrapperWidget(
+              dialogAnimation: DialogAnimation.DEFAULT,
+              curve: Curves.easeInBack,
+              animation: animation,
+              child: child),
+    ).then((value) {
+      if (value!=null && (value as bool)==true) {
+        print('on then call');
+        if (onthen!=null) {
+          onthen();
+        }
+      }
+    });
+  }

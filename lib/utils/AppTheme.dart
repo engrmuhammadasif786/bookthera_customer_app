@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class AppTheme {
   //
@@ -13,22 +14,33 @@ class AppTheme {
     primaryColorDark: colorPrimaryDark,
     errorColor: Color(0xFFE15858),
     hoverColor: colorPrimary.withOpacity(0.1),
-    cardColor: navigationBackground,
+    // cardColor: navigationBackground,
     disabledColor: Colors.white10,
     appBarTheme: AppBarTheme(
       color: appBackground,
       iconTheme: IconThemeData(color: textColorPrimary),
-      // systemOverlayStyle: SystemUiOverlayStyle(
-      //   statusBarIconBrightness: Brightness.light,
-      //   statusBarColor: appBackground,
-      // ),
+      systemOverlayStyle: isAndroid? SystemUiOverlayStyle(
+    systemNavigationBarColor: Color(0xFF000000),
+    
+  ):null,
     ),
-    colorScheme: ColorScheme.light(
+    switchTheme: SwitchThemeData(
+          thumbColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+              if (states.contains(MaterialState.selected)) {
+                return colorAccent;
+              }
+              if (states.contains(MaterialState.disabled)) {
+                return borderColor;
+              }
+              return borderColor;
+            }),
+            trackColor: MaterialStateProperty.all(Color(0xffD9D9D9)),
+        ),    colorScheme: ColorScheme.light(
       primary: colorPrimary,
       onPrimary: colorPrimary,
       secondary: colorPrimary,
     ),
-    cardTheme: CardTheme(color: navigationBackground),
+    // cardTheme: CardTheme(color: Colors.white),
     iconTheme: IconThemeData(color: textColorPrimary),
     textTheme: TextTheme(
       button: TextStyle(color: Colors.white),

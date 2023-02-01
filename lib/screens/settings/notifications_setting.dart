@@ -169,9 +169,9 @@ class _NotificationsSettingState extends State<NotificationsSetting> {
           onChanged: (value) {
             context.read<SettingProvider>().setToggle(notificationsObj);
           },
-          thumbColor: MaterialStateProperty.all(colorAccent),
-          trackColor: MaterialStateProperty.all(Color(0xffD9D9D9)),
-          inactiveThumbColor: Color(0xffB1B1B1),
+          // thumbColor: MaterialStateProperty.all(colorAccent),
+          // trackColor: MaterialStateProperty.all(Color(0xffD9D9D9)),
+          // inactiveThumbColor: Color(0xffB1B1B1),
         ),
       ],
     );

@@ -35,7 +35,7 @@ Future<dynamic> callLogin(Map request) async {
 
     // save user info
     Map data = res['data'];
-    await saveUserData(data);
+    // await saveUserData(data);
   } else if (res['message'] != null) {
     return res['message'];
   } else {
@@ -45,17 +45,13 @@ Future<dynamic> callLogin(Map request) async {
 }
 
 Future<dynamic> callSaveFcmToken(Map request) async {
-  Map res = await postRequest('api/v1/fcm-token', body: request);
-  if (res['success']) {
-    // token saved succcessfully
-  }
+  postRequest('api/v1/fcm-token', body: request);
+  // if (res['success']) {
+  //   // token saved succcessfully
+  // }
 }
 
 Future<dynamic> callProfile() async {
-  FirebaseMessaging.instance.getToken().then((fcmToken) {
-      print({"fcmToken": fcmToken});
-      callSaveFcmToken({"fcmToken": fcmToken ?? ''});
-  });
   Map res = await getRequest('api/v1/me');
   if (res['success']) {
     // save token
@@ -77,9 +73,22 @@ Future<dynamic> callProfile() async {
   return true;
 }
 
-Future<dynamic> callRegister(Map request) async {
-  Map res =
-      await postRequest('api/v1/register', body: request, aAuthRequired: false);
+Future<dynamic> callRegister(Map body) async {
+  MultipartRequest multipartRequest =
+      await getMultiPartRequest('api/v1/register');
+
+  List keys = body.keys.toList();
+  for (var i = 0; i < keys.length; i++) {
+    String key=keys[i];
+    print(key);
+    multipartRequest.fields[key] = body[key];
+  }
+  print(multipartRequest.fields);
+  multipartRequest.headers.addAll(await buildTokenHeader());
+
+  Response response = await Response.fromStream(await multipartRequest.send());
+  Map<String, dynamic> res = jsonDecode(response.body);
+
   if (res['success']) {
     // save token
     await setValue(TOKEN, res['token']);
@@ -91,7 +100,7 @@ Future<dynamic> callRegister(Map request) async {
 
     // save user info
     Map data = res['data'];
-    await saveUserData(data);
+    // await saveUserData(data);
   } else if (res['message'] != null) {
     return res['message'];
   } else {
@@ -114,7 +123,7 @@ Future<dynamic> callGoogleSignin(Map request) async {
 
     // save user info
     Map data = res['data'];
-    await saveUserData(data);
+    // await saveUserData(data);
   } else if (res['message'] != null) {
     return res['message'];
   } else {
@@ -154,7 +163,7 @@ Future<void> saveUserData(Map<dynamic, dynamic> data) async {
     Datamanager().notificationSetting =
         NotificationSetting.fromJson(data['notificationSettings']);
   }
-  Datamanager().popularSearch = await callPopularSearch() ?? [];
+  Datamanager().popularSearch = data['popularSearch'] != null ? data['popularSearch'] : [];
 }
 
 getUserData() {
@@ -189,7 +198,7 @@ Future<dynamic> callResetPassword(Map request) async {
 
     // save user info
     Map data = res['data'];
-    await saveUserData(data);
+    // await saveUserData(data);
   } else if (res['message'] != null) {
     return res['message'];
   } else {
@@ -460,7 +469,7 @@ Future<dynamic> callStripeConfirmPaymentIntent(String id, Map body) async {
 
 Future<dynamic> callGetSessions() async {
   Map res =
-      await getRequest('api/v1/get-bookSession?id=${getStringAsync(USER_ID)}');
+      await getRequest('api/v1/get-bookSession');
   if (res['success']) {
     List data = <BookSession>[];
     if (res['data'] != null) {

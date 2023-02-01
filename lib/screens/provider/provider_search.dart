@@ -130,7 +130,7 @@ class _ProviderSearchState extends State<ProviderSearch> {
                 runSpacing: 5,
                 spacing: 5,
                 children:
-                    Datamanager().popularSearch.take(3).map((e) => _focus(e)).toList(),
+                    Datamanager().popularSearch.take(3).map((e) => _focus(e['name'])).toList(),
               ),
             )
           ],

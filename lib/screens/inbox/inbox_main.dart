@@ -38,7 +38,7 @@ class _InboxMainState extends State<InboxMain> {
     onSearch(q);
     return CustomLoader(
       isLoading: chatProvider.isLoading,
-      child: Column(
+      child: chatProvider.messagesList.isEmpty?Center(child: Text('No recent messages to show'),): Column(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),

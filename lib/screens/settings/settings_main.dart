@@ -87,7 +87,7 @@ class _SettingsMainState extends State<SettingsMain> {
                         displayCircleImage(Datamanager().profile, 130, true)),
                 Positioned.directional(
                   textDirection: Directionality.of(context),
-                  start: 80,
+                  start: 0,
                   end: 0,
                   child: FloatingActionButton(
                       backgroundColor: colorPrimary,

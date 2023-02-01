@@ -115,7 +115,7 @@ class ChatProvider with ChangeNotifier {
             }
             break;
           case 'error':
-            toast(body['message']);
+            // toast(body['message']);
             break;
           default:
         }
@@ -200,7 +200,7 @@ class ChatProvider with ChangeNotifier {
     setLoader(true);
     callGetMessages().then((value) {
       if (value is String) {
-        toast(value);
+        // toast(value);
       } else if (value is List<MessageModel>) {
         messagesList = value;
       }

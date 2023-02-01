@@ -11,6 +11,7 @@ import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -103,7 +104,9 @@ class _DashboardState extends State<Dashboard> {
           currentIndex: selectedIndex,
           type: BottomNavigationBarType.fixed,
           selectedItemColor: colorPrimary,
-          unselectedItemColor: textPrimaryColor,
+          unselectedItemColor: textColorSecondary,
+          selectedFontSize: 12,
+          unselectedFontSize: 12,
           onTap: (i) async {
             if (i==2) {
               context.read<ChatProvider>().updateViewFeedback(false);
@@ -119,23 +122,13 @@ class _DashboardState extends State<Dashboard> {
           },
           items: [
             BottomNavigationBarItem(
-              icon: Image.asset('assets/icons/ic_home.png',
-                  fit: BoxFit.fitHeight,
-                  color: textPrimaryColor,
-                  height: 20,
-                  width: 20),
-              activeIcon: Image.asset('assets/icons/ic_home.png',
-                  color: colorPrimary, height: 20, width: 20),
+              icon: iconWidget('assets/icons/ic_home_inactive.png'),
+              activeIcon: iconWidget('assets/icons/ic_home.png',color: colorPrimary),
               label: 'Providers',
             ),
             BottomNavigationBarItem(
-              icon: Image.asset('assets/icons/ic_calender.png',
-                  fit: BoxFit.fitHeight,
-                  color: textPrimaryColor,
-                  height: 20,
-                  width: 20),
-              activeIcon: Image.asset('assets/icons/ic_calender.png',
-                  color: colorPrimary, height: 20, width: 20),
+              icon: iconWidget('assets/icons/ic_calender.png'),
+              activeIcon: iconWidget('assets/icons/ic_calender.png',color: colorPrimary),
               label: 'Sessions',
             ),
             BottomNavigationBarItem(
@@ -144,11 +137,7 @@ class _DashboardState extends State<Dashboard> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(top: 4,right: 4),
-                    child: Image.asset('assets/icons/ic_flag.png',
-                        fit: BoxFit.fitHeight,
-                        color: textPrimaryColor,
-                        height: 22,
-                        width: 22),
+                    child: iconWidget('assets/icons/ic_flag.png'),
                   ),
                 if (feedbackCount > 0 && context.watch<ChatProvider>().isViewFeedback)
                     Positioned(
@@ -173,8 +162,7 @@ class _DashboardState extends State<Dashboard> {
                     )
                 ],
               ),
-              activeIcon: Image.asset('assets/icons/ic_flag.png',
-                  color: colorPrimary, height: 22, width: 22),
+              activeIcon: iconWidget('assets/icons/ic_flag.png',color: colorPrimary),
               label: 'Feedback',
             ),
             BottomNavigationBarItem(
@@ -183,11 +171,7 @@ class _DashboardState extends State<Dashboard> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(top: 4,right: 4),
-                    child: Image.asset('assets/icons/ic_chat.png',
-                        fit: BoxFit.fitHeight,
-                        color: textPrimaryColor,
-                        height: 22,
-                        width: 22),
+                    child: iconWidget('assets/icons/ic_chat.png'),
                   ),
                   if (count > 0 && context.watch<ChatProvider>().isViewChat)
                     Positioned(
@@ -212,14 +196,19 @@ class _DashboardState extends State<Dashboard> {
                     )
                 ],
               ),
-              activeIcon: Image.asset('assets/icons/ic_chat.png',
-                  color: colorPrimary, height: 22, width: 22),
+              activeIcon: iconWidget('assets/icons/ic_chat.png',color: colorPrimary),
               label: 'Inbox',
             ),
             BottomNavigationBarItem(
-              icon: displayCircleImage(Datamanager().profile, 32, false),
+              icon: Padding(
+                padding: const EdgeInsets.only(bottom: 6.0,top: 15),
+                child: getCircularImageProvider(NetworkImage(Datamanager().profile), 27, false,isCamera: false),
+              ),
               activeIcon:
-                  Icon(Icons.settings_outlined, size: 22, color: colorPrimary),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 6.0,top: 15),
+                    child: getCircularImageProvider(NetworkImage(Datamanager().profile), 27, false,isCamera: false),
+                  ),
               label: 'Settings',
             ),
           ],
@@ -233,6 +222,17 @@ class _DashboardState extends State<Dashboard> {
                     : selectedIndex == 3
                         ? InboxMain()
                         : SettingsMain());
+  }
+
+  Widget iconWidget(String image,{Color? color}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6.0,top: 15),
+      child: Image.asset(image,
+                  fit: BoxFit.fitHeight,
+                  color: color ?? iconColor,
+                  height: 20,
+                  width: 20),
+    );
   }
 
   Widget _buildSearchField() => TextField(

@@ -36,8 +36,6 @@ PODS:
   - AppAuth/Core (1.6.0)
   - AppAuth/ExternalUserAgent (1.6.0):
     - AppAuth/Core
-  - audio_session (0.0.1):
-    - Flutter
   - connectivity_plus (0.0.1):
     - Flutter
     - ReachabilitySwift
@@ -137,24 +135,12 @@ PODS:
   - iris_event (0.0.1):
     - AgoraIrisEventFlutter_iOS (= 2.0.0)
     - Flutter
-  - just_audio (0.0.1):
-    - Flutter
-  - libphonenumber (0.0.1):
-    - Flutter
-    - libPhoneNumber-iOS
-  - libPhoneNumber-iOS (0.9.15)
-  - libphonenumber_plugin (0.0.1):
-    - Flutter
-    - libphonenumber
-    - libPhoneNumber-iOS
   - nanopb (2.30909.0):
     - nanopb/decode (= 2.30909.0)
     - nanopb/encode (= 2.30909.0)
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - nb_utils (0.0.1):
-    - Flutter
-  - package_info (0.0.1):
     - Flutter
   - path_provider_ios (0.0.1):
     - Flutter
@@ -172,14 +158,11 @@ PODS:
     - Flutter
   - video_player (0.0.1):
     - Flutter
-  - wakelock (0.0.1):
-    - Flutter
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - agora_rtc_engine (from `.symlinks/plugins/agora_rtc_engine/ios`)
-  - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - emoji_picker_flutter (from `.symlinks/plugins/emoji_picker_flutter/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
@@ -190,18 +173,13 @@ DEPENDENCIES:
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - iris_event (from `.symlinks/plugins/iris_event/ios`)
-  - just_audio (from `.symlinks/plugins/just_audio/ios`)
-  - libphonenumber (from `.symlinks/plugins/libphonenumber/ios`)
-  - libphonenumber_plugin (from `.symlinks/plugins/libphonenumber_plugin/ios`)
   - nb_utils (from `.symlinks/plugins/nb_utils/ios`)
-  - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
-  - wakelock (from `.symlinks/plugins/wakelock/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
@@ -223,7 +201,6 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
-    - libPhoneNumber-iOS
     - nanopb
     - PromisesObjC
     - ReachabilitySwift
@@ -232,8 +209,6 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   agora_rtc_engine:
     :path: ".symlinks/plugins/agora_rtc_engine/ios"
-  audio_session:
-    :path: ".symlinks/plugins/audio_session/ios"
   connectivity_plus:
     :path: ".symlinks/plugins/connectivity_plus/ios"
   emoji_picker_flutter:
@@ -254,16 +229,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   iris_event:
     :path: ".symlinks/plugins/iris_event/ios"
-  just_audio:
-    :path: ".symlinks/plugins/just_audio/ios"
-  libphonenumber:
-    :path: ".symlinks/plugins/libphonenumber/ios"
-  libphonenumber_plugin:
-    :path: ".symlinks/plugins/libphonenumber_plugin/ios"
   nb_utils:
     :path: ".symlinks/plugins/nb_utils/ios"
-  package_info:
-    :path: ".symlinks/plugins/package_info/ios"
   path_provider_ios:
     :path: ".symlinks/plugins/path_provider_ios/ios"
   permission_handler_apple:
@@ -276,8 +243,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
   video_player:
     :path: ".symlinks/plugins/video_player/ios"
-  wakelock:
-    :path: ".symlinks/plugins/wakelock/ios"
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
@@ -287,7 +252,6 @@ SPEC CHECKSUMS:
   AgoraIrisRTC_iOS: 820fbab2d78d870a1bad4b1a02f950a390c73b48
   AgoraRtcEngine_iOS: 33f0136ad4196b2a31c8470e6b536fe77fb25f8b
   AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
-  audio_session: 4f3e461722055d21515cf3261b64c973c062f345
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   emoji_picker_flutter: df19dac03a2b39ac667dc8d1da939ef3a9e21347
   Firebase: 5ae8b7cf8efce559a653aef0ad95bab3f427c351
@@ -311,13 +275,8 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
   image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
   iris_event: fdcf9bbb53095fd9609ea19941df551d0398a789
-  just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
-  libphonenumber: bd14d5abfc5939ab0b0767234e2d8e2593af258e
-  libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
-  libphonenumber_plugin: 7cf755ad1656145935d6c208173a476bd3f12898
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   nb_utils: ada4338858d8827ec92fdab2a545206b4ba4cfb1
-  package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
@@ -327,7 +286,6 @@ SPEC CHECKSUMS:
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
-  wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 
 PODFILE CHECKSUM: cc1f88378b4bfcf93a6ce00d2c587857c6008d3b

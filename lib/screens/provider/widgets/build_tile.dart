@@ -32,7 +32,7 @@ class buildTitleRow extends StatelessWidget {
                     onTap: () {
                       onClick!.call();
                     },
-                    child: Text('View All', style: TextStyle(color: colorPrimary, fontFamily: "Poppinsm")),
+                    child: Text('see all >>', style: TextStyle(color: colorPrimary, fontFamily: "Poppinsm",fontSize: 14,fontWeight: FontWeight.w600)),
                   ),
           ],
         ),

@@ -144,6 +144,9 @@ class BookSesstionProvider extends ChangeNotifier {
   }
 
   getDateSlots(DateTime dateTime) {
+    if (timeslots.isEmpty) {
+      return;
+    }
     selectedDate = dateTime;
     slotsList.clear();
     switch (dateTime.weekday) {

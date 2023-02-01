@@ -135,7 +135,7 @@ class _BillingSettingState extends State<BillingSetting> {
                           width: size.width * 0.4,
                           child: CustomButton(
                               borderRadius: 10,
-                              title: 'Save Card',
+                              title: 'Add New Card',
                               onPressed: () {
                                 if (!settingProvider.isShowCardFrom) {
                                   context
@@ -150,6 +150,7 @@ class _BillingSettingState extends State<BillingSetting> {
                   ],
                 ),
               ),
+              if(settingProvider.bookSessions.isNotEmpty)
               Container(
                 padding: EdgeInsets.all(14),
                 margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -483,7 +484,7 @@ class _BillingSettingState extends State<BillingSetting> {
                   },
                   child: Icon(
                     Icons.delete,
-                    color: errorColor,
+                    color: colorPrimary,
                     size: 23,
                   ),
                 ),

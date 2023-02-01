@@ -34,11 +34,27 @@ class SessionCancelSheet extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 11.0, top: 8),
-              child: Text('Cancellation Reason',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
-                      color: textColorPrimary)),
+              child: Row(
+                children: [
+                  GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Image.asset(
+                          'assets/images/arrow_back.png',
+                          height: 33,
+                          width: 33,
+                          color: colorPrimary,
+                        )),
+                  Spacer(flex: 1,),
+                  Text('Cancellation Reason',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                          color: textColorPrimary)),
+                Spacer(flex: 2,),
+                ],
+              ),
             ),
             SizedBox(height: 8,),
             CustomTextField(

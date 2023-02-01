@@ -66,7 +66,7 @@ class _AccountSettingState extends State<AccountSetting> {
                   Center(child: getCircularImageProvider( imageProvider, 130, false)),
                   Positioned.directional(
                     textDirection: Directionality.of(context),
-                    start: 80,
+                    start: 0,
                     end: 0,
                     child: FloatingActionButton(
                         backgroundColor: colorPrimary,

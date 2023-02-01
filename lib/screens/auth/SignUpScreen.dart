@@ -6,9 +6,12 @@ import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_field/countries.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/custom_loader.dart';
+import '../../components/custom_phone_field.dart';
 import '../../components/custom_textfields.dart';
 import '../../utils/helper.dart';
 import 'auth_provider.dart';
@@ -22,6 +25,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpState extends State<SignUpScreen> {
   final ImagePicker _imagePicker = ImagePicker();
+  TextEditingController nameController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -29,11 +33,25 @@ class _SignUpState extends State<SignUpScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   GlobalKey<FormState> _key = GlobalKey();
-  String? firstName, lastName, email, mobile, password, confirmPassword;
+  String? username, firstName, lastName, email, mobile, password, confirmPassword;
   AutovalidateMode _validate = AutovalidateMode.disabled;
   String? _phoneNumber;
   bool _isPhoneValid = false;
+  Country selectedCountry=Country(
+    name: "United States",
+    flag: "🇺🇸",
+    code: "US",
+    dialCode: "1",
+    minLength: 10,
+    maxLength: 10,
+  );
 
+  @override
+  void initState() {
+    super.initState();
+    ThemeData.light();
+  }
+  
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -178,6 +196,17 @@ class _SignUpState extends State<SignUpScreen> {
           ],
         ),
         CustomTextFormField(
+              controller: nameController,
+              hintText: "Username",
+              validator: validateEmptyField,
+              onSaved: (String? val) {
+                username = val;
+              },
+              prefixIcon: Icon(
+                Icons.person,
+                color: Colors.grey,
+              )),
+        CustomTextFormField(
           controller: emailController,
           hintText: 'Email',
           validator: validateEmail,
@@ -190,18 +219,17 @@ class _SignUpState extends State<SignUpScreen> {
             color: Colors.grey,
           ),
         ),
-        CustomTextFormField(
+        PhoneTextFormField(
           controller: phoneController,
-          hintText: 'Mobile',
-          validator: validateMobile,
-          keyboardType: TextInputType.phone,
-          onSaved: (String? val) {
-            _phoneNumber = val;
+          onCountryChanged: (country) {
+            selectedCountry=country;
           },
-          prefixIcon: Icon(
-            Icons.phone,
-            color: Colors.grey,
-          ),
+          hintText: 'Phone Number',
+          validator: validateMobileWithPhone,
+          keyboardType: TextInputType.phone,
+          onSaved: (PhoneNumber? val) {
+            _phoneNumber = val!=null? val.completeNumber:null;
+          },
         ),
         /// user mobile text field, this is hidden in case of sign up with
         /// phone number
@@ -259,7 +287,7 @@ class _SignUpState extends State<SignUpScreen> {
             onPressed: () {
               authProviderFalse.setIsPasswordVisible();
             },
-            icon: Icon(Icons.visibility_outlined)),
+            icon: Icon(authProviderTrue.isPasswordVisible?Icons.visibility_off_outlined:Icons.visibility_outlined)),
         ),
         CustomTextFormField(
           controller: confirmPasswordController,
@@ -269,7 +297,7 @@ class _SignUpState extends State<SignUpScreen> {
             onPressed: () {
               authProviderFalse.setIsConPasswordVisible();
             },
-            icon: Icon(Icons.visibility_outlined)),
+            icon: Icon(authProviderTrue.isConPasswordVisible?Icons.visibility_off_outlined:Icons.visibility_outlined)),
           validator: (value){
              return validateConfirmPassword(passwordController.text,value);
           },
@@ -492,13 +520,16 @@ class _SignUpState extends State<SignUpScreen> {
   /// and navigate to [ContainerScreen] else we show error
   _signUp() async {
     if (_key.currentState?.validate() ?? false) {
-      
+       if (phoneController.text.isEmpty ) {
+         return "Phone number is required";
+       }
       _key.currentState!.save();
       Map request={};
       request['fname']=firstNameController.text.trim();
       request['lname']=lastNameController.text.trim();
+      request['uname']=nameController.text.trim();
       request['email']=emailController.text.trim();
-      request['phone']=phoneController.text.trim();
+      request['phone']=selectedCountry.dialCode+phoneController.text.trim();
       request['password']=passwordController.text.trim();
       request['confirmPassword']=confirmPasswordController.text.trim();
       request['role']='user';

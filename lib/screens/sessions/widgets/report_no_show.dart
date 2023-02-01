@@ -46,53 +46,53 @@ class Report extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.topRight,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: Image.asset('assets/icons/ic_report.png'),
-            ),
-            Text(
-              'Report No Show',
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18.0),
-            ),
-            Text(
-              '04:54',
-              style: TextStyle(
-                  color: colorPrimary,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20.0),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: size.height * 0.03),
-              child: SizedBox(
-                  width: size.width * 0.5,
-                  child: CustomButton(
-                      borderRadius: 10,
-                      title: 'Report',
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        showDialog(
-                            context: context,
-                            builder: (context) => ReportSuccess(
-                                  size: size,
-                                ));
-                      })),
-            )
-          ],
+        Align(
+          alignment: Alignment.topLeft,
+          child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Image.asset(
+                          'assets/images/arrow_back.png',
+                          height: 33,
+                          width: 33,
+                          color: colorPrimary,
+                        )),
         ),
-        IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: Icon(
-              Icons.cancel_outlined,
-              color: errorColor,
-            ))
+        Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Image.asset('assets/icons/ic_report.png'),
+        ),
+        Text(
+          'Report No Show',
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18.0),
+        ),
+        Text(
+          '04:54',
+          style: TextStyle(
+              color: colorPrimary,
+              fontWeight: FontWeight.w600,
+              fontSize: 20.0),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: size.height * 0.03),
+          child: SizedBox(
+              width: size.width * 0.5,
+              child: CustomButton(
+                  borderRadius: 10,
+                  title: 'Report',
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    showDialog(
+                        context: context,
+                        builder: (context) => ReportSuccess(
+                              size: size,
+                            ));
+                  })),
+        )
       ],
     );
   }

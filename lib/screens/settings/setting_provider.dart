@@ -4,8 +4,10 @@ import 'package:bookthera_customer/models/book_sessoin.dart';
 import 'package:bookthera_customer/models/payment_card.dart';
 import 'package:bookthera_customer/network/RestApis.dart';
 import 'package:bookthera_customer/screens/settings/notifications_setting.dart';
+import 'package:bookthera_customer/screens/settings/widgets/sent_success.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/datamanager.dart';
+import 'package:bookthera_customer/utils/helper.dart' as hp;
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -271,7 +273,7 @@ class SettingProvider with ChangeNotifier {
     });
   }
 
-  doCallContactUs(String comments,BuildContext context) {
+  doCallContactUs(String comments,BuildContext ctx) {
     setLoader(true);
     Map body={};
     body['comments']=comments;
@@ -280,8 +282,7 @@ class SettingProvider with ChangeNotifier {
         toast(value);
       } else {
         if (value) {
-          toast('Email sent successfully');
-          Navigator.of(context).pop();
+         showDialog(context: ctx, builder: (context)=>SentSuccess());
         }
       }
       setLoader(false);

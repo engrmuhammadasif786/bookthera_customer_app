@@ -10,6 +10,7 @@ import 'package:bookthera_customer/screens/sessions/widgets/edit_session.dart';
 import 'package:bookthera_customer/screens/sessions/widgets/rate_sheet.dart';
 import 'package:bookthera_customer/screens/sessions/widgets/report_no_show.dart';
 import 'package:bookthera_customer/screens/sessions/widgets/session_cancel_sheet.dart';
+import 'package:bookthera_customer/utils/Common.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +47,7 @@ class SessionCell extends StatelessWidget {
     bool isAudio = false;
     var sessionName = '';
     var sessionDes = '';
+    var sessionLength = '';
     String date;
     dynamic profile = AssetImage("assets/images/placeholder.jpg");
 
@@ -67,6 +69,7 @@ class SessionCell extends StatelessWidget {
     if (bookSession.sessionData != null) {
       sessionName = bookSession.sessionData!.name!;
       sessionDes = bookSession.sessionData!.description!;
+      sessionLength=bookSession.sessionData!.length??'';
     }
 
     return Padding(
@@ -202,7 +205,7 @@ class SessionCell extends StatelessWidget {
                               SizedBox(
                                 width: 5,
                               ),
-                              Text(bookSession.time!,
+                              Text(bookSession.time!.time24To12Format('0')+"-"+bookSession.time!.time24To12Format(sessionLength),
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500,

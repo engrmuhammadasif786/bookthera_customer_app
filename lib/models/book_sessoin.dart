@@ -144,10 +144,10 @@ class SessionData {
 
   SessionData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
-    name = json['name'];
-    description = json['description'];
-    length = json['length'];
-    price = json['price'];
+    name = json['name']??"";
+    description = json['description']??"";
+    length = json['length']??"";
+    price = json['price']??"";
   }
 
   Map<String, dynamic> toJson() {

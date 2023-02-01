@@ -54,8 +54,9 @@ class _FullScreenVideoViewerState extends State<FullScreenVideoViewer> {
                   : Container(),
             ),
           )),
+      
       floatingActionButton: FloatingActionButton(
-        backgroundColor: colorPrimary,
+        backgroundColor: Colors.white.withOpacity(0.4),
         heroTag: widget.heroTag,
         onPressed: () {
           setState(() {
@@ -63,8 +64,9 @@ class _FullScreenVideoViewerState extends State<FullScreenVideoViewer> {
           });
         },
         child: Icon(
-          _controller.value.isPlaying ? CupertinoIcons.pause : CupertinoIcons.play_arrow_solid,
-        color: Colors.white,
+          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+        color: colorPrimary,
+        size: 32,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

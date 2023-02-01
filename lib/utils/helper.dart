@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:image/image.dart' as Im;
+import 'package:intl_phone_field/phone_number.dart';
 import 'dart:math' as Math;
 import 'package:path_provider/path_provider.dart';
 
@@ -47,11 +48,22 @@ String? validateMobile(String? value) {
   String pattern = r'(^\+?[0-9]*$)';
   RegExp regExp = RegExp(pattern);
   if (value?.length == 0) {
-    return 'Mobile is required';
+    return 'Phone number is required';
   } else if (!regExp.hasMatch(value ?? '')) {
-    return 'Mobile Number must be digits';
+    return 'Phone number Number must be digits';
   } else if (value!.length < 10 || value.length > 11) {
     return 'please enter valid number';
+  }
+  return null;
+}
+
+String? validateMobileWithPhone(PhoneNumber? value) {
+  String pattern = r'(^\+?[0-9]*$)';
+  RegExp regExp = RegExp(pattern);
+  if (value == null || value.number.isEmpty) {
+    return 'Mobile is required';
+  } else if (!regExp.hasMatch(value.completeNumber)) {
+    return 'Mobile Number must be digits';
   }
   return null;
 }
@@ -181,8 +193,8 @@ Widget _getFlatImageProvider(ImageProvider provider) {
 Widget displayCircleImage(String picUrl, double size, hasBorder) => CachedNetworkImage(
     memCacheHeight: 50,
     memCacheWidth: 50,
-    height: size,
-    width: size,
+    height: size+16,
+    width: size+16,
     imageBuilder: (context, imageProvider) => getCircularImageProvider(imageProvider, size, hasBorder),
     imageUrl: picUrl,
     placeholder: (context, url) => _getPlaceholderOrErrorImage(size, hasBorder),
@@ -210,11 +222,12 @@ Widget _getPlaceholderOrErrorImage(double size, hasBorder) => ClipOval(
       ),
     );
 
-Widget getCircularImageProvider(ImageProvider provider, double size, bool hasBorder) {
+Widget getCircularImageProvider(ImageProvider provider, double size, bool hasBorder, {bool isCamera=true}) {
   return ClipOval(
       child: Container(
-    width: size,
-    height: size,
+    width: isCamera? size+16:size,
+    height:isCamera? size+16:size,
+    margin: isCamera? EdgeInsets.only(bottom: 16):null,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(size / 2)),
         border: Border.all(
@@ -225,7 +238,8 @@ Widget getCircularImageProvider(ImageProvider provider, double size, bool hasBor
         image: DecorationImage(
           image: provider,
           fit: BoxFit.cover,
-        )),
+        )
+        ),
   ));
 }
 

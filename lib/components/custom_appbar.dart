@@ -56,6 +56,15 @@ class CustomAppbar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return AppBar(
+      leading: IconButton(
+        icon: Image.asset(
+                        'assets/images/arrow_back.png',
+                        height: 33,
+                        width: 33,
+                        color: colorPrimary,
+                      ),
+        onPressed: () => Navigator.of(context).pop(),
+      ), 
       backgroundColor: Colors.white,
       title: titleWidget?? Text(title,
           style: primaryTextStyle(

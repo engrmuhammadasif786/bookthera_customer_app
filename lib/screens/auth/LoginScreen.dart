@@ -1,5 +1,6 @@
 import 'package:bookthera_customer/components/custom_button.dart';
 import 'package:bookthera_customer/components/custom_loader.dart';
+import 'package:bookthera_customer/components/error_indicator.dart';
 import 'package:bookthera_customer/network/NetworkUtils.dart';
 import 'package:bookthera_customer/network/RestApis.dart';
 import 'package:bookthera_customer/screens/auth/ResetPasswordScreen.dart';
@@ -27,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController = TextEditingController();
   AutovalidateMode _validate = AutovalidateMode.disabled;
   GlobalKey<FormState> _key = GlobalKey();
+  String message='';
 
   @override
   void initState() {
@@ -96,6 +98,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: size.height * 0.3,
                     ),
 
+                    ErrorIndicator(message: message,onCancel: () {
+                      message='';
+                    },),
                     /// email address text field, visible when logging with email
                     /// and password
                     ConstrainedBox(
@@ -106,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: TextFormField(
                             textAlignVertical: TextAlignVertical.center,
                             textInputAction: TextInputAction.next,
-                            validator: hp.validateEmail,
+                            // validator: hp.validateEmail,
                             controller: _emailController,
                             style:
                                 TextStyle(fontSize: 18.0, color: Colors.white),
@@ -155,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: const EdgeInsets.only(
                             top: 32.0, right: 24.0, left: 24.0),
                         child: TextFormField(
-                            validator: hp.validatePassword,
+                            // validator: hp.validatePassword,
                             textAlignVertical: TextAlignVertical.center,
                             controller: _passwordController,
                             obscureText:
@@ -184,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         .setIsPasswordVisible();
                                   },
                                   icon: Icon(
-                                    Icons.visibility_outlined,
+                                    context.watch<AuthProvider>().isPasswordVisible?Icons.visibility_off: Icons.visibility_outlined,
                                     color: Colors.white,
                                   )),
                               errorStyle: TextStyle(color: Colors.white),
@@ -266,7 +271,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         constraints:
                             const BoxConstraints(minWidth: double.infinity),
                         child: CustomButton(
-                            title: 'logn',
+                            title: 'login',
                             onPressed: () {
                               _login(context);
                             }),
@@ -351,15 +356,33 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _login(BuildContext context) async {
-    if (_key.currentState?.validate() ?? false) {
-      _key.currentState!.save();
+    message='';
+    if (hp.validateEmptyField(_emailController.text)!=null) {
+      message="Username is required";
+    }else if (hp.validatePassword(_passwordController.text)!=null) {
+      message=hp.validatePassword(_passwordController.text)??"";
+    }
+    if (message.isNotEmpty) {
+      setState(() {
+        
+      });
+    }else{
       Map request = {};
       request['emailUname'] = _emailController.text.trim();
       request['password'] = _passwordController.text.trim();
       await Provider.of<AuthProvider>(context, listen: false)
           .doLogin(request, context);
-    } else {
-      _validate = AutovalidateMode.onUserInteraction;
     }
+    // if (_key.currentState?.validate() ?? false) {
+    //   _key.currentState!.save();
+      // Map request = {};
+      // request['emailUname'] = _emailController.text.trim();
+      // request['password'] = _passwordController.text.trim();
+      // await Provider.of<AuthProvider>(context, listen: false)
+      //     .doLogin(request, context);
+    // } else {
+      
+      // _validate = AutovalidateMode.onUserInteraction;
+    // }
   }
 }
