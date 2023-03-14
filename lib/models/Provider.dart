@@ -13,7 +13,7 @@ class ProviderModel {
   int? reviewsSum;
   int? sessionsCompleted;
   int? totalEarned;
-  String? onlineStatus;
+  bool? onlineStatus;
   bool? isFavourite;
   bool? isVideoSession;
   bool? isAudioSession;
@@ -79,7 +79,7 @@ class ProviderModel {
     reviewsSum = json['reviewsSum'] ?? 0;
     sessionsCompleted = json['sessionsCompleted'] ?? 0;
     totalEarned = json['totalEarned'] ?? 0;
-    onlineStatus = json['onlineStatus'] ?? "";
+    onlineStatus = json['onlineStatus'] ?? false;
     isFavourite = json['isFavourite'] ?? false;
     isVideoSession = json['isVideoSession'] ?? true;
     isAudioSession = json['isAudioSession'] ?? true;

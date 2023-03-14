@@ -196,7 +196,7 @@ class ChatProvider with ChangeNotifier {
   doCallGetMessages() {
     messagesList.clear();
 
-    connectSocket();
+    // connectSocket();
     setLoader(true);
     callGetMessages().then((value) {
       if (value is String) {

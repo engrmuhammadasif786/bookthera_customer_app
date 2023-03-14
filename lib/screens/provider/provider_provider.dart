@@ -58,7 +58,7 @@ class ProviderProvider extends ChangeNotifier {
         providerCategoryList.forEach((element) {
           element.data.forEach((user) {
             if (chatProvider.isUserOnline(user.owner!)) {
-              user.onlineStatus = '1';
+              user.onlineStatus =true;
             }
           });
         });
@@ -78,7 +78,7 @@ class ProviderProvider extends ChangeNotifier {
         favouriteProvidersList = value;
         favouriteProvidersList.forEach((element) {
            if (chatProvider.isUserOnline(element.owner!)) {
-              element.onlineStatus = '1';
+              element.onlineStatus = true;
             }
         });
       }
@@ -111,7 +111,7 @@ class ProviderProvider extends ChangeNotifier {
       } else if (value is ProviderModel) {
         providerModel = value;
         if (chatProvider.isUserOnline(providerId)) {
-          providerModel!.onlineStatus='1';
+          providerModel!.onlineStatus=true;
         }
       }
     });
@@ -146,7 +146,7 @@ class ProviderProvider extends ChangeNotifier {
         providersList = value;
         providersList.forEach((element) {
           if (chatProvider.isUserOnline(element.owner!)) {
-            element.onlineStatus='1';
+            element.onlineStatus=true;
           }
         });
       }
@@ -164,7 +164,7 @@ class ProviderProvider extends ChangeNotifier {
         providersList = value;
          providersList.forEach((element) {
           if (chatProvider.isUserOnline(element.owner!)) {
-            element.onlineStatus='1';
+            element.onlineStatus=true;
           }
         });
       }

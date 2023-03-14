@@ -27,12 +27,12 @@ class AppTheme {
     switchTheme: SwitchThemeData(
           thumbColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
               if (states.contains(MaterialState.selected)) {
-                return colorAccent;
-              }
-              if (states.contains(MaterialState.disabled)) {
                 return borderColor;
               }
-              return borderColor;
+              if (states.contains(MaterialState.disabled)) {
+                return colorAccent;
+              }
+              return colorAccent;
             }),
             trackColor: MaterialStateProperty.all(Color(0xffD9D9D9)),
         ),    colorScheme: ColorScheme.light(

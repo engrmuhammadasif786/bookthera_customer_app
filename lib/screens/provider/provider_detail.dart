@@ -174,7 +174,7 @@ class _ProviderDetailState extends State<ProviderDetail> {
                                         SizedBox(width: 8,),
                                         Icon(
                                           Icons.circle,
-                                          color:widget.provider.onlineStatus=='1'? Color(0XFF3dae7d):Colors.grey,
+                                          color:widget.provider.onlineStatus!? Color(0XFF3dae7d):Colors.grey,
                                           size: 13,
                                         ),
                                         Spacer(),

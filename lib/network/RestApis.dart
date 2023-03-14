@@ -135,7 +135,7 @@ Future<dynamic> callGoogleSignin(Map request) async {
 Future<void> saveUserData(Map<dynamic, dynamic> data) async {
   await setValue(USER_ID, data['_id']);
   await setValue(FIRST_NAME, data['fname']);
-  await setValue(LAST_NAME, data['lname']);
+  await setValue(LAST_NAME, data['lname']??"");
   await setValue(USER_ROLE, data['role']);
   await setValue(isLoggedIn, true);
 

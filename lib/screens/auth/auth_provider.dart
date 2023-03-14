@@ -64,12 +64,12 @@ class AuthProvider extends ChangeNotifier{
     body['password'] = userCredential.credential!.accessToken;
     body['role'] = 'user';
     setLoader(true);
-    callGoogleSignin(body).then((value) {
+    callGoogleSignin(body).then((value) async {
       if (value is String) {
         toast(value);
       }else if(value is bool) {
         if (value) {
-          doCallProfile(context).then((value) {
+          await doCallProfile(context).then((value) {
             hp.pushReplacement(context, Dashboard());
           });
         }else{
