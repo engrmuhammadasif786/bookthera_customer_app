@@ -44,7 +44,7 @@ class MessageModel {
         message: json["message"]??'',
         mediaFile: MediaFile.fromJson(json["mediaFile"]),
         sender: UserModel.fromJson(json["sender"]),
-        receiver: UserModel.fromJson(json["receiver"]),
+        receiver: json["receiver"]!=null? UserModel.fromJson(json["receiver"]):null,
         sent: json["sent"]??true,
         sentAt:json["sentAt"]!=null? DateTime.parse(json["sentAt"]):DateTime.now(),
         delivered: json["delivered"]??false,

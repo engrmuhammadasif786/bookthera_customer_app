@@ -153,9 +153,9 @@ Future<Map> putRequest(String endPoint, {Map? body, bool aAuthRequired = true}) 
   }
 }
 
-Future<MultipartRequest> getMultiPartRequest(String endPoint) async {
+Future<MultipartRequest> getMultiPartRequest(String endPoint,{String? method}) async {
   String url = '$mBaseUrl$endPoint';
-  return MultipartRequest('POST', Uri.parse(url));
+  return MultipartRequest(method ?? 'POST', Uri.parse(url));
 }
 
 Future sendMultiPartRequest(MultipartRequest multiPartRequest) async {

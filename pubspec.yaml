@@ -1,7 +1,7 @@
 name: bookthera_customer
 description: A new Flutter project.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0.3+6
+version: 1.0.4+8
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
@@ -20,12 +20,13 @@ dependencies:
   table_calendar: ^3.0.8
   photo_view: ^0.14.0
   emoji_picker_flutter: ^1.5.1
-  agora_rtc_engine: ^6.1.0
+  agora_rtc_engine: ^6.2.1
   web_socket_channel: ^2.3.0
   percent_indicator: ^4.2.2
   readmore: ^2.2.0
   intl_phone_field: ^3.1.0
-
+  flutter_braintree: ^3.0.0
+  
   # API call
   http: ^0.13.5
 

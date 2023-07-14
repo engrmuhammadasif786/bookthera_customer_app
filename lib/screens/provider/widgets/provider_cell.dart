@@ -30,11 +30,13 @@ class _ProviderCellState extends State<ProviderCell> {
   Widget build(BuildContext context) {
     bool isVideo=false;
     dynamic imageProvider;
-    if (widget.provider.mediaFiles.first.thumbnail!=null) {
-      imageProvider=widget.provider.mediaFiles.first.thumbnail!.url;
-      isVideo=true;
-    }else{
-      imageProvider=widget.provider.mediaFiles.first.url;
+    if (widget.provider.mediaFiles.isNotEmpty) {
+       if (widget.provider.mediaFiles.first.thumbnail!=null) {
+        imageProvider=widget.provider.mediaFiles.first.thumbnail!.url;
+        isVideo=true;
+      }else{
+        imageProvider=widget.provider.mediaFiles.first.url;
+      }   
     }
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -58,12 +60,12 @@ class _ProviderCellState extends State<ProviderCell> {
               ],
               color: Colors.white),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            // mainAxisSize: MainAxisSize.min,
             children: [
                 CachedNetworkImage(
                    width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.2,
-                  imageUrl: imageProvider,
+                  imageUrl: imageProvider??sampleImage,
                   placeholder: (context, url) => placeholderWidget(),
                   imageBuilder: (context,image) {
                     return Container(
@@ -135,11 +137,12 @@ class _ProviderCellState extends State<ProviderCell> {
                     );
                   }
                 ),
+              
               SizedBox(height: 8),
               Container(
                 margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
                 child: Column(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   // mainAxisSize: MainAxisSize.min,
                   children: [
                     Row(
@@ -195,30 +198,13 @@ class _ProviderCellState extends State<ProviderCell> {
                     SizedBox(
                       height: 10,
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // ImageIcon(
-                        //   AssetImage('assets/images/location3x.png'),
-                        //   size: 15,
-                        //   color: Color(0xff9091A4),
-                        // ),
-                        // SizedBox(
-                        //   width: 5,
-                        // ),
-                        Expanded(
-                          child: Text(widget.provider.tagLine!,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontFamily: "Poppinssr",
-                                letterSpacing: 0.5,
-                                color: Color(0xff555353),
-                              )),
-                        ),
-                      ],
-                    ),
+                    Text(widget.provider.tagLine!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontFamily: "Poppinssr",
+                              color: Color(0xff555353),
+                            )),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 10),
                       child: Row(
@@ -274,9 +260,11 @@ class _ProviderCellState extends State<ProviderCell> {
                               ],
                             ),
                           ),
+                        
                         ],
                       ),
                     )
+                  
                   ],
                 ),
               )
@@ -285,5 +273,6 @@ class _ProviderCellState extends State<ProviderCell> {
         ),
       ),
     );
+  
   }
 }

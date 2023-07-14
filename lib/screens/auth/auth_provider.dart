@@ -87,6 +87,7 @@ class AuthProvider extends ChangeNotifier{
       await setValue(USER_EMAIL, request['emailUname']);
       await setValue(PASSWORD, request['password']);
     }
+    request['appRole']='user';
     await callLogin(request).then((value) {
       setLoader(false);
       if (value is String) {

@@ -49,7 +49,7 @@ class CustomTextFormField extends StatelessWidget {
           obscureText: obscureText,
           obscuringCharacter: '*',
           maxLines: maxLines,
-          inputFormatters: [],
+          inputFormatters: inputFormatters,
           showCursor: isEditable,
           readOnly: !isEditable,
           enableInteractiveSelection: isEditable,

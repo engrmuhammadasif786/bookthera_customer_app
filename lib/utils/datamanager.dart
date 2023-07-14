@@ -22,6 +22,8 @@ class Datamanager {
   String phone='';
   String email='';
   String role='';
+  double serviceFee = 0.0; 
+  bool isRecordVideo = false; 
   String profile=placehorder;
   List recentSearch=[];
   List popularSearch=[];

@@ -212,6 +212,7 @@ class _DashboardState extends State<Dashboard> {
               label: 'Settings',
             ),
           ],
+        
         ),
         body: selectedIndex == 0
             ? ProviderHome()

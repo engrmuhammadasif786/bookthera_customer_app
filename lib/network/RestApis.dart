@@ -22,6 +22,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 Future<dynamic> callLogin(Map request) async {
+  request['appRole'] = 'user';
   Map res =
       await postRequest('api/v1/login', body: request, aAuthRequired: false);
   if (res['success']) {
@@ -42,6 +43,16 @@ Future<dynamic> callLogin(Map request) async {
     return false;
   }
   return true;
+}
+
+Future<dynamic> callBraintreeClientToken() async {
+  Map res =await getRequest('api/v1/client-token');
+  if (res['success']) {
+    // token saved succcessfully
+    return res['data']; // return client token
+  }else{
+    toast(res['message']);
+  }
 }
 
 Future<dynamic> callSaveFcmToken(Map request) async {
@@ -164,6 +175,12 @@ Future<void> saveUserData(Map<dynamic, dynamic> data) async {
         NotificationSetting.fromJson(data['notificationSettings']);
   }
   Datamanager().popularSearch = data['popularSearch'] != null ? data['popularSearch'] : [];
+  if (data['settings'] != null) {
+    dynamic adminCustomerCommision = data['settings']['adminCustomerCommision'];
+    double serviceFee = adminCustomerCommision is int ? adminCustomerCommision.toDouble() : adminCustomerCommision;
+    Datamanager().serviceFee=serviceFee;
+    Datamanager().isRecordVideo = data['settings']['recordVideo']=="1";
+  }
 }
 
 getUserData() {
@@ -522,6 +539,31 @@ Future<dynamic> callGetMessagesById(String senderId) async {
   }
 }
 
+Future<dynamic> callUpdateVenderProfile(String providerId,
+    Map<dynamic, dynamic> body, File? image) async {
+  MultipartRequest multipartRequest =
+      await getMultiPartRequest('api/v1/provider?id=${providerId}',method: "PUT");
+
+  List keys = body.keys.toList();
+  for (var i = 0; i < keys.length; i++) {
+    multipartRequest.fields[keys[i]] = body[keys[i]];
+  }
+  print(multipartRequest.fields);
+  multipartRequest.headers.addAll(await buildTokenHeader());
+
+  if (image != null)
+    multipartRequest.files
+        .add(await MultipartFile.fromPath('profilePic', image.path));
+
+  Response response = await Response.fromStream(await multipartRequest.send());
+  Map<String, dynamic> res = jsonDecode(response.body);
+  if (res['success']) {
+    return true;
+  } else {
+    print(res['message']);
+  }
+}
+
 Future<dynamic> callUpdateProfile(
     Map<dynamic, dynamic> body, File? image) async {
   MultipartRequest multipartRequest =
@@ -561,7 +603,7 @@ HttpClient getHttpClient() {
   return httpClient;
 }
 
-callUploadMedia(File image, Function(double) onSendPresss) async {
+Future<dynamic> callUploadMedia(File image, Function(double) onSendPresss) async {
   MultipartRequest multipartRequest =
       await getMultiPartRequest('api/v1/upload-video');
 
@@ -711,8 +753,8 @@ Future<dynamic> callGetReviews() async {
   }
 }
 
-Future<dynamic> callGetAgoraToken(String channel, String role, int uid) async {
-  Map res = await getRequest('rtc/$channel/$role/uid/$uid');
+Future<dynamic> callGetAgoraToken(String channel, String role, String uid,String sessionId) async {
+  Map res = await getRequest('rtc/$channel/$role/uid/$uid/session/${sessionId}');
   if (res['rtcToken'] != null) {
     return res['rtcToken'];
   } else {

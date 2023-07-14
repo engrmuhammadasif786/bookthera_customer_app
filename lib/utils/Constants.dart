@@ -29,12 +29,10 @@ const chatDateTimeFormat = 'hh:mm a';
 const SECOND_MILLIS = 1000;
 const MINUTE_MILLIS = 60 * SECOND_MILLIS;
 const HOUR_MILLIS = 60 * MINUTE_MILLIS;
-const serviceFee = 1.0; 
 const appVersion='v1.0.0';
 const stripePublicKey = 'pk_test_51KByHxHQNZGr8l6UYjOw3asVXPfTLIgh8QJNtDy7CXWg64cTGkpjhnwmwCAKyPjaHbKZDJPN8zJnVa4RGxExzaW800OUshbrxy';
 const stripeSecretKey = 'sk_test_51KByHxHQNZGr8l6UwkEWaWzccMac6JZaDF8YVc2oZ2jkyXerMoEqn2ot5jqSfinoRvNcY2DF14yfg4W01mmVJ10000bvOCSB7W';
  
 const agoraAppId = '9c3053c586514d319f2ce2519f252960';
-const aograToken = '0069c3053c586514d319f2ce2519f252960IADZeixy8zB0GexXciT0C3tm6EYDTKkmtdZUbIhe4XJSeQx+f9i379yDIgC/kktQjJLMYwQAAQAcT8tjAgAcT8tjAwAcT8tjBAAcT8tj';
 
 const placehorder='https://w7.pngwing.com/pngs/754/2/png-transparent-samsung-galaxy-a8-a8-user-login-telephone-avatar-pawn-blue-angle-sphere-thumbnail.png';

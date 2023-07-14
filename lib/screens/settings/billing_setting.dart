@@ -6,6 +6,7 @@ import 'package:bookthera_customer/components/custom_loader.dart';
 import 'package:bookthera_customer/models/book_sessoin.dart';
 import 'package:bookthera_customer/models/payment_card.dart';
 import 'package:bookthera_customer/screens/settings/setting_provider.dart';
+import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -220,7 +221,7 @@ class _BillingSettingState extends State<BillingSetting> {
       sessionDuration = bookSession.sessionData!.length!;
       sessionPrice = bookSession.sessionData!.price!;
       if (double.tryParse(sessionPrice)!=null) {
-        sessionPrice=(double.parse(sessionPrice)+serviceFee).toString();  
+        sessionPrice=(double.parse(sessionPrice)+Datamanager().serviceFee).toString();  
       }
     }
 

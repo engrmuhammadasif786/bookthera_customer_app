@@ -28,7 +28,7 @@ class _FullScreenVideoViewerState extends State<FullScreenVideoViewer> {
         setState(() {
           
         });
-      });
+      })..play();
     _controller.setLooping(true);
   }
 

@@ -291,7 +291,11 @@ class SessionCell extends StatelessWidget {
                                   push(
                                       context,
                                       AudioVideoScreen(
+                                        providerId: bookSession.providerId!,
+                                        sessionTime: sessionLength,
+                                        type: bookSession.type!,
                                         channelName: bookSession.channelName!,
+                                        sessionId: bookSession.sId!,
                                       ));
                                 })),
                       ],

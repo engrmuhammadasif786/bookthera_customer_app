@@ -14,7 +14,9 @@ import 'package:bookthera_customer/screens/sessions/audioVideosCalls/call.dart';
 import 'package:bookthera_customer/utils/AppWidgets.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/helper.dart';
+import 'package:bookthera_customer/utils/paypalPaymentService.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_braintree/flutter_braintree.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:bookthera_customer/utils/helper.dart' as hp;
 
@@ -76,7 +78,7 @@ class BookSesstionProvider extends ChangeNotifier {
   getTotal() {
     isShowCardFrom = paymentCards.isEmpty ? true : false;
     if (selectedSesssion != null) {
-      total = selectedSesssion!.price + serviceFee;
+      total = selectedSesssion!.price + Datamanager().serviceFee;
     }
     notifyListeners();
   }
@@ -250,8 +252,7 @@ class BookSesstionProvider extends ChangeNotifier {
   bool bookSessionValidator(BuildContext context) {
     hideKeyboard(context);
     bool status = false;
-    if (image != null &&
-        selectedFocus != null &&
+    if (selectedFocus != null &&
         intensionsController.text.isNotEmpty) {
       status = true;
     }
@@ -284,7 +285,9 @@ class BookSesstionProvider extends ChangeNotifier {
     body['time'] = selectedTime;
     body['intensions'] = intensionsController.text;
     body['type'] = sesstionType == SesstionType.Video ? 'video' : 'audio';
-    File? selectedImage = (isIOS ?await compressImage(image!) : image) as File;
+    File? selectedImage;
+    if(image!=null)
+     selectedImage = (isIOS ?await compressImage(image!) : image) as File;
     callGetCreateBookSession(body, selectedImage).then((value) {
       setLoader(false);
       if (value is String) {
@@ -297,9 +300,9 @@ class BookSesstionProvider extends ChangeNotifier {
     });
   }
 
-  doCallUpdateBookSession(BuildContext context, PaymentCard paymentCard) {
+  doCallUpdateBookSession(BuildContext context, PaymentCard paymentCard,{String paymentIntentId=''}) {
     setLoader(true);
-    Map body = {"isPayment": "true"};
+    Map body = {"isPayment": "true","paymentIntentId":paymentIntentId,"captureAmount":total};
     if (saveCard) {
       body['isSaveCard'] = "true";
       if (paymentCard.id != null) {
@@ -373,46 +376,56 @@ class BookSesstionProvider extends ChangeNotifier {
       setLoader(true);
       int paymentCardIndex =
           paymentCards.indexWhere((element) => element.isPrimary == '1');
-      Map card = {
-        "card[number]": paymentCards[paymentCardIndex].number,
-        "card[exp_month]": paymentCards[paymentCardIndex].expiryMonth,
-        "card[exp_year]": paymentCards[paymentCardIndex].expiryYear,
-        "card[cvc]": paymentCards[paymentCardIndex].cvv,
-      };
-      Map paymentData = {
-        "amount": (total * 100).toStringAsFixed(0),
-        "currency": 'usd',
-        "payment_method_types[]": 'card'
-      };
-      print({card, paymentData});
+      // Map card = {
+      //   "card[number]": paymentCards[paymentCardIndex].number,
+      //   "card[exp_month]": paymentCards[paymentCardIndex].expiryMonth,
+      //   "card[exp_year]": paymentCards[paymentCardIndex].expiryYear,
+      //   "card[cvc]": paymentCards[paymentCardIndex].cvv,
+      // };
+      // Map paymentData = {
+      //   "amount": (total * 100).toStringAsFixed(0),
+      //   "currency": 'usd',
+      //   "payment_method_types[]": 'card'
+      // };
+      // print({card, paymentData});
       try {
-        await callStripePaymentIntent(paymentData).then((id) {
-          print({"payment_intent": id});
-          if (id != null) {
-            callStripeTokenApi(card).then((value) {
-              if (value != null) {
-                print({"token": value});
-                callStripeConfirmPaymentIntent(id, {
-                  'payment_method_data[type]': "card",
-                  "payment_method_data[card[token]]": value
-                }).then((value) {
-                  setLoader(false);
-                  if (value) {
-                    // payment success
-                    doCallUpdateBookSession(
-                        context, paymentCards[paymentCardIndex]);
-                  } else {
-                    toast(errorSomethingWentWrong);
-                  }
-                });
-              } else {
-                setLoader(false);
-              }
-            });
-          } else {
-            setLoader(false);
-          }
-        });
+        // await callStripePaymentIntent(paymentData).then((id) {
+        //   print({"payment_intent": id});
+        //   if (id != null) {
+        //     callStripeTokenApi(card).then((value) {
+        //       if (value != null) {
+        //         print({"token": value});
+        //         callStripeConfirmPaymentIntent(id, {
+        //           'payment_method_data[type]': "card",
+        //           "payment_method_data[card[token]]": value
+        //         }).then((value) {
+        //           setLoader(false);
+        //           if (value) {
+        //             // payment success
+        //             doCallUpdateBookSession(
+        //                 context, paymentCards[paymentCardIndex],paymentIntentId:id);
+        //           } else {
+        //             toast(errorSomethingWentWrong);
+        //           }
+        //         });
+        //       } else {
+        //         setLoader(false);
+        //       }
+        //     });
+        //   } else {
+        //     setLoader(false);
+        //   }
+        // });
+
+        PaymentService paymentService =PaymentService();
+        dynamic paymentNoun = await paymentService.tokenizeCreditCard(BraintreeCreditCardRequest(cardNumber: paymentCards[paymentCardIndex].number!, expirationMonth: paymentCards[paymentCardIndex].expiryMonth!, expirationYear: paymentCards[paymentCardIndex].expiryYear!, cvv: paymentCards[paymentCardIndex].cvv!,cardholderName: paymentCards[paymentCardIndex].name));
+        if (paymentNoun==null) {
+          setLoader(false);
+          toast(errorSomethingWentWrong);
+        }else{
+           doCallUpdateBookSession(
+                        context, paymentCards[paymentCardIndex],paymentIntentId:paymentNoun);
+        }
       } catch (e) {
         toast(errorSomethingWentWrong);
       }

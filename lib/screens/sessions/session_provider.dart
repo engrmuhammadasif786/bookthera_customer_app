@@ -82,15 +82,16 @@ class SessionProvider with ChangeNotifier {
     });
   }
 
-  Future<dynamic> doCallGetAgoraToken(String channel) async{
+  Future<dynamic> doCallGetAgoraToken(String channel,String sessionId) async{
     String role = 'audience';
     String userId=getStringAsync(USER_ID);
-    int uid = int.parse(userId.substring(userId.length-5),radix: 16);
+    // int uid = int.parse(userId.substring(userId.length-5),radix: 16);
     String token='';
     setLoader(true);
-    await callGetAgoraToken(channel,role,uid).then((value) {
+    await callGetAgoraToken(channel,role,userId,sessionId).then((value) {
       if (value is String) {
         token = value;
+        print("Token retrieved: $token");
       }
       setLoader(false); 
     });

@@ -38,6 +38,7 @@ class _SignUpState extends State<SignUpScreen> {
   String? _phoneNumber;
   bool _isPhoneValid = false;
   Country selectedCountry=Country(
+    nameTranslations: {},
     name: "United States",
     flag: "🇺🇸",
     code: "US",

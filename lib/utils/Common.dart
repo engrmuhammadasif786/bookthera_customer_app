@@ -40,9 +40,9 @@ extension SExt on String {
       int mode=hour%12;
       String reuslt = '';
       if (hour < 12) {
-        reuslt = mode.toString() + ':' + "$minutes" + 'am';
+        reuslt = mode.toString() + ':' + "$minutes".padLeft(2,'0') + 'am';
       } else {
-        reuslt = mode.toString() + ':' + "$minutes" + 'pm';
+        reuslt = mode.toString() + ':' + "$minutes".padLeft(2,'0') + 'pm';
       }
       if (formatedtime.isEmpty) {
         formatedtime = reuslt;
@@ -93,16 +93,18 @@ class CardNumberInputFormatter extends TextInputFormatter {
       return newValue;
     }
 
-    var buffer = new StringBuffer();
-    for (int i = 0; i < text.length; i++) {
-      buffer.write(text[i]);
-      var nonZeroIndex = i + 1;
-      if (nonZeroIndex % 4 == 0 && nonZeroIndex != text.length) {
-        buffer.write('  '); // Add double spaces.
-      }
-    }
+    // var buffer = new StringBuffer();
+    // for (int i = 0; i < text.length; i++) {
+    //   buffer.write(text[i]);
+    //   var nonZeroIndex = i + 1;
+    //   if (nonZeroIndex % 4 == 0 && nonZeroIndex != 16) {
+    //     buffer.write(' '); // Add double spaces.
+    //   }
+    // }
 
-    var string = buffer.toString();
+    // var string = buffer.toString();
+    var string =text;
+    if(text.removeAllWhiteSpace().length % 4 == 0) string += " ";
     return newValue.copyWith(
         text: string,
         selection: new TextSelection.collapsed(offset: string.length));
@@ -119,16 +121,18 @@ class CardMonthInputFormatter extends TextInputFormatter {
       return newValue;
     }
 
-    var buffer = new StringBuffer();
-    for (int i = 0; i < text.length; i++) {
-      buffer.write(text[i]);
-      var nonZeroIndex = i + 1;
-      if (nonZeroIndex % 2 == 0 && nonZeroIndex != text.length) {
-        buffer.write('/'); 
-      }
-    }
+    // var buffer = new StringBuffer();
+    // for (int i = 0; i < text.length; i++) {
+    //   buffer.write(text[i]);
+    //   var nonZeroIndex = i + 1;
+    //   if (nonZeroIndex % 2 == 0 && nonZeroIndex != text.length) {
+    //     buffer.write('/'); 
+    //   }
+    // }
 
-    var string = buffer.toString();
+    // var string = buffer.toString();
+    var string =text;
+    if(text.replaceAll('/', '').length==2) string += "/";
     return newValue.copyWith(
         text: string,
         selection: new TextSelection.collapsed(offset: string.length));

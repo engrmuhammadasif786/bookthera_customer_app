@@ -96,7 +96,7 @@ class _ProviderHomeState extends State<ProviderHome> {
                                 ),
                                 Container(
                                     width: MediaQuery.of(context).size.width,
-                                    height: 290,
+                                    height: 300,
                                     child: ListView.builder(
                                         shrinkWrap: true,
                                         scrollDirection: Axis.horizontal,

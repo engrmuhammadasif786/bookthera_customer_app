@@ -6,6 +6,7 @@ import 'package:bookthera_customer/screens/provider/book_session/book_session_pr
 import 'package:bookthera_customer/screens/provider/book_session/order_success.dart';
 import 'package:bookthera_customer/utils/Common.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
+import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:bookthera_customer/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -151,7 +152,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     keyboardType: TextInputType.datetime,
                                     // validator: validateName,
                                     inputFormatters: [
-                                      new LengthLimitingTextInputFormatter(4),
+                                      new LengthLimitingTextInputFormatter(5),
                                       new CardMonthInputFormatter()
                                     ],
                                     onSaved: (String? val) {
@@ -169,7 +170,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     keyboardType: TextInputType.number,
                                     obscureText: true,
                                     inputFormatters: [
-                                      new LengthLimitingTextInputFormatter(3),
+                                      new LengthLimitingTextInputFormatter(4),
                                     ],
                                     // validator: validateName,
                                     onSaved: (String? val) {
@@ -280,7 +281,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           infoCell('Session Type', provider.sesstionType.name),
           infoCell('Session Price',
               '\$${provider.selectedSesssion!.price.toStringAsFixed(2)}'),
-          infoCell('Service Fee', '\$${serviceFee.toStringAsFixed(2)}'),
+          infoCell('Service Fee', '\$${Datamanager().serviceFee.toStringAsFixed(2)}'),
           infoCell('Total', '\$${provider.total.toStringAsFixed(2)}',
               keyFont: FontWeight.w600,
               ValueFont: FontWeight.w700,

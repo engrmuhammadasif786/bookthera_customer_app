@@ -36,104 +36,106 @@ class _ProviderSearchState extends State<ProviderSearch> {
                   spreadRadius: 0,
                   color: Colors.black.withOpacity(0.15))
             ]),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomSearchField(
-              searchController: searchControlelr,
-              isShowFavourite: false,
-              isFilter: false,
-              showCursor: true,
-              onSearchTap: () {
-                Navigator.of(context).pop();
-                if (searchControlelr.text.trim().isNotEmpty) {
-                  context.read<ProviderProvider>().doCallGetProvidersSearch(searchControlelr.text);  
-                }
-              },
-              onSubmitted: (q) {
-                Navigator.of(context).pop();
-                if (q.trim().isNotEmpty) {
-                  context.read<ProviderProvider>().doCallGetProvidersSearch(q);  
-                }
-              },
-            ),
-            if (Datamanager().recentSearch.isNotEmpty)
-              ListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                minVerticalPadding: 0,
-                leading: Text(
-                  'Recents',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                ),
-                trailing: TextButton(
-                  onPressed: () {
-                     setState(() {
-                              Datamanager()
-                                  .recentSearch.clear();
-                            });
-                  },
-                  child: Text(
-                    'Clear all',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: colorPrimary),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomSearchField(
+                searchController: searchControlelr,
+                isShowFavourite: false,
+                isFilter: false,
+                showCursor: true,
+                onSearchTap: () {
+                  Navigator.of(context).pop();
+                  if (searchControlelr.text.trim().isNotEmpty) {
+                    context.read<ProviderProvider>().doCallGetProvidersSearch(searchControlelr.text);  
+                  }
+                },
+                onSubmitted: (q) {
+                  Navigator.of(context).pop();
+                  if (q.trim().isNotEmpty) {
+                    context.read<ProviderProvider>().doCallGetProvidersSearch(q);  
+                  }
+                },
+              ),
+              if (Datamanager().recentSearch.isNotEmpty)
+                ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                  minVerticalPadding: 0,
+                  leading: Text(
+                    'Recents',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                  ),
+                  trailing: TextButton(
+                    onPressed: () {
+                       setState(() {
+                                Datamanager()
+                                    .recentSearch.clear();
+                              });
+                    },
+                    child: Text(
+                      'Clear all',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: colorPrimary),
+                    ),
                   ),
                 ),
-              ),
-            ListView.separated(
-                separatorBuilder: (context, index) => SizedBox(
-                      height: 16,
-                    ),
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                reverse: true,
-                itemCount: Datamanager().recentSearch.take(3).length,
-                itemBuilder: (context, index) => ListTile(
-                      minVerticalPadding: 0,
-                      contentPadding: EdgeInsets.zero,
-                      onTap: () {
-                        searchControlelr.text=Datamanager()
-                                  .recentSearch[index];
-                      },
-                      leading: Text(
-                        Datamanager().recentSearch[index],
-                        style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.w400),
+              ListView.separated(
+                  separatorBuilder: (context, index) => SizedBox(
+                        height: 16,
                       ),
-                      trailing: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              Datamanager()
-                                  .recentSearch
-                                  .removeAt(index);
-                            });
-                          },
-                          child: Icon(
-                            Icons.close,
-                            size: 16,
-                          )),
-                    )),
-            if(Datamanager().popularSearch.isNotEmpty)
-            Padding(
-              padding: EdgeInsets.only(left: 16,right: 16,top: 8),
-              child: Text(
-                'Popular Search',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  reverse: true,
+                  itemCount: Datamanager().recentSearch.take(3).length,
+                  itemBuilder: (context, index) => ListTile(
+                        minVerticalPadding: 0,
+                        contentPadding: EdgeInsets.zero,
+                        onTap: () {
+                          searchControlelr.text=Datamanager()
+                                    .recentSearch[index];
+                        },
+                        leading: Text(
+                          Datamanager().recentSearch[index],
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w400),
+                        ),
+                        trailing: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                Datamanager()
+                                    .recentSearch
+                                    .removeAt(index);
+                              });
+                            },
+                            child: Icon(
+                              Icons.close,
+                              size: 16,
+                            )),
+                      )),
+              if(Datamanager().popularSearch.isNotEmpty)
+              Padding(
+                padding: EdgeInsets.only(left: 16,right: 16,top: 8),
+                child: Text(
+                  'Popular Search',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 23),
-              child: Wrap(
-                runSpacing: 5,
-                spacing: 5,
-                children:
-                    Datamanager().popularSearch.take(3).map((e) => _focus(e['name'])).toList(),
-              ),
-            )
-          ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 23),
+                child: Wrap(
+                  runSpacing: 5,
+                  spacing: 5,
+                  children:
+                      Datamanager().popularSearch.take(3).map((e) => _focus(e['name'])).toList(),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

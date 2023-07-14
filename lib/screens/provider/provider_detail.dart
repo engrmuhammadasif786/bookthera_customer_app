@@ -41,57 +41,57 @@ class _ProviderDetailState extends State<ProviderDetail> {
   Widget build(BuildContext context) {
     var _height = MediaQuery.of(context).size.height;
     var _width = MediaQuery.of(context).size.width;
+    dynamic videoTag;
     dynamic imageProvider;
     bool isVideo=false;
-    if (widget.provider.mediaFiles.first.thumbnail!=null) {
-      imageProvider=widget.provider.mediaFiles.first.thumbnail!.url;
-      isVideo=true;
-    }else{
-      imageProvider=widget.provider.mediaFiles.first.url;
+    if (widget.provider.mediaFiles.isNotEmpty) {
+      if (widget.provider.mediaFiles.first.thumbnail!=null) {
+        imageProvider=widget.provider.mediaFiles.first.thumbnail!.url;
+        isVideo=true;
+        videoTag = widget.provider.mediaFiles.first.publicId!;
+      }else{
+        imageProvider=widget.provider.mediaFiles.first.url;
+      }
     }
     dynamic profileImage = widget.provider.venderProfile!.url!.isNotEmpty?NetworkImage(widget.provider.venderProfile!.url!) :AssetImage(
                                             "assets/images/placeholder.jpg");
-    String videoTag = widget.provider.mediaFiles.first.publicId!;
     String videoUrl = widget.provider.venderProfile!.url!;
     return DefaultTabController(
         initialIndex: 0,
         length: 3,
         child: Scaffold(
           body: Stack(children: [
-            Hero(
-              tag: videoTag,
-              child: GestureDetector(
-                onTap: () {
-                  if (videoUrl.isNotEmpty) {
+            GestureDetector(
+              onTap: () {
+                if (widget.provider.mediaFiles.isNotEmpty) {
                   push(context, FullScreenVideoViewer(videoUrl: widget.provider.mediaFiles.first.url!, heroTag: videoTag));  
-                  }
-                },
-                child: Container(
-                    height: _height * 0.3,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(image: NetworkImage(imageProvider),fit: BoxFit.cover),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color: Colors.white38,
-                            blurRadius: 25.0,
-                            offset: Offset(0.0, 0.75))
-                      ],
-                    ),
-                    width: _width * 1,
-                    alignment: Alignment.center,
-                    child: isVideo? Container(
-                          height: 32,
-                          width: 32,
-                          margin: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.white.withOpacity(0.4)),
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.play_arrow,
-                            color: colorPrimary,
-                          ),
-                        ):null),
-              ),
+                }
+              },
+              child: Container(
+                  height: _height * 0.3,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(image: NetworkImage(imageProvider??sampleImage),fit: BoxFit.cover),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: Colors.white38,
+                          blurRadius: 25.0,
+                          offset: Offset(0.0, 0.75))
+                    ],
+                  ),
+                  width: _width * 1,
+                  alignment: Alignment.center,
+                  child: isVideo? Container(
+                        height: 32,
+                        width: 32,
+                        margin: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.white.withOpacity(0.4)),
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.play_arrow,
+                          color: colorPrimary,
+                        ),
+                      ):null),
             ),
             Positioned(
                 top: _height * 0.033,

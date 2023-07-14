@@ -36,7 +36,7 @@ class SesssionModel {
     owner = json['owner'] ?? "";
     name = json['name'] ?? "";
     description = json['description'] ?? "";
-    price = json['price'] == null ? 0.0 : double.parse(json['price']);
+    price = json['price'] == null ? 0.0 : double.tryParse(json['price'])??0.0;
     length = json['length'] ?? "";
     status = json['status'] ?? "";
     isVideo = isPromotionTrue?'true': json['isVideo'] ?? "";

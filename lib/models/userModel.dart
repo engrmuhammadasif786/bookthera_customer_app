@@ -27,7 +27,7 @@ class UserModel {
         lname: json["lname"]??"",
         email: json["email"]??"",
         uname: json["uname"]??"",
-        avatar: UserModelAvatar.fromJson(json["avatar"]),
+        avatar: json["avatar"]!=null? UserModelAvatar.fromJson(json["avatar"]):null,
         followingStatus: json["followingStatus"]??"",
         createdAt:json["createdAt"]!=null? DateTime.parse(json["createdAt"]):DateTime.now(),
         updatedAt:json["updatedAt"]!=null?  DateTime.parse(json["updatedAt"]):DateTime.now(),

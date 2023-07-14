@@ -75,10 +75,11 @@ class _InboxMainState extends State<InboxMain> {
     sentTime = hp.setLastSeen(messageModel.sentAt!.millisecondsSinceEpoch);
     if (messageModel.senderId == getStringAsync(USER_ID)) {
       senderId = messageModel.receiverId!;
-      senderUname = messageModel.receiver!.uname!;
-      if (messageModel.receiver!.avatar!.url!.isNotEmpty) {
+      if(messageModel.receiver!=null)
+      {senderUname = messageModel.receiver!.uname!;
+      if (messageModel.receiver!.avatar!=null) {
         senderProfile = NetworkImage(messageModel.receiver!.avatar!.url!);
-      }
+      }}
       if (messageModel.seen!) {
         doneStatus = Icon(
           Icons.done_all,
@@ -221,9 +222,11 @@ class _InboxMainState extends State<InboxMain> {
       String senderLname = '';
       String senderUname = '';
       if (element.senderId == getStringAsync(USER_ID)) {
-        senderFname = element.receiver!.fname!;
-        senderLname = element.receiver!.lname!;
-        senderUname = element.receiver!.uname!;
+        if(element.receiver!=null){
+          senderFname = element.receiver!.fname!;
+          senderLname = element.receiver!.lname!;
+          senderUname = element.receiver!.uname!;
+        }
       } else {
         senderFname = element.sender!.fname!;
         senderLname = element.sender!.lname!;

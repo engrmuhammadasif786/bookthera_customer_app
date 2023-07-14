@@ -290,7 +290,8 @@ class _ChatScreenViewState extends State<ChatScreenView> {
               skinToneDialogBgColor: Colors.white,
               skinToneIndicatorColor: Colors.grey,
               enableSkinTones: true,
-              showRecentsTab: true,
+              
+              // showRecentsTab: true,
               recentsLimit: 28,
               replaceEmojiOnLimitExceed: false,
               noRecents: const Text(
@@ -574,7 +575,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
   Widget remoteMessageView(MessageModel messageData, bool isTyping) {
     dynamic senderProfile = AssetImage("assets/images/placeholder.jpg");
     if (messageData.sender != null) {
-      if (messageData.sender!.avatar!.url!.isNotEmpty) {
+      if (messageData.sender!.avatar!=null) {
         senderProfile = NetworkImage(messageData.sender!.avatar!.url!);
       }
     }
