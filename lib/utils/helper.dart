@@ -75,6 +75,27 @@ String? validatePassword(String? value) {
     return null;
 }
 
+String? validateCardNumber(String? value) {
+  if ((value?.length ?? 0) < 19)
+    return 'Card number must of 16 digits long';
+  else
+    return null;
+}
+
+String? validateCVV(String? value) {
+  if ((value?.length ?? 0) < 3)
+    return 'Card cvv must of minimum 3 digits';
+  else
+    return null;
+}
+
+String? validateExpiryDate(String? value) {
+  if ((value?.length ?? 0) < 5)
+    return 'Invalid card expiry date';
+  else
+    return null;
+}
+
 String? validateEmail(String? value) {
   String pattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -229,7 +250,7 @@ Widget getCircularImageProvider(ImageProvider provider, double size, bool hasBor
     height:isCamera? size+16:size,
     margin: isCamera? EdgeInsets.only(bottom: 16):null,
     decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(size / 2)),
+        borderRadius: BorderRadius.all(Radius.circular(500)),
         border: Border.all(
           color: Colors.white,
           style: hasBorder ? BorderStyle.solid : BorderStyle.none,

@@ -2,16 +2,22 @@ import 'dart:io';
 
 import 'package:bookthera_customer/components/custom_button.dart';
 import 'package:bookthera_customer/screens/home/dashboard.dart';
+import 'package:bookthera_customer/screens/sessions/session_provider.dart';
+import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:provider/provider.dart';
 
 import '../../../utils/resources/Colors.dart';
 
 class ReportNoShow extends StatelessWidget {
-  const ReportNoShow({super.key});
+  final String waitingtime;
+  final String sessionId;
+  final String providerId;
+  const ReportNoShow({super.key,required this.sessionId,required this.providerId,  required this.waitingtime});
 
   @override
   Widget build(BuildContext context) {
@@ -30,20 +36,20 @@ class ReportNoShow extends StatelessWidget {
                   spreadRadius: 2,
                   color: Colors.black.withOpacity(0.1))
             ]),
-        child: Report(size: size),
+        child: Report(size: size,sessionId: sessionId,waitingtime: waitingtime,providerId: providerId,),
       ),
     );
   }
 }
 
 class Report extends StatelessWidget {
-  const Report({
-    Key? key,
-    required this.size,
-  }) : super(key: key);
-
+  final String waitingtime;
+  final String sessionId;
+  final String providerId;
   final Size size;
+  const Report({super.key,required this.size, required this.sessionId,required this.providerId,  required this.waitingtime});
 
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -71,7 +77,7 @@ class Report extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18.0),
         ),
         Text(
-          '04:54',
+          waitingtime,
           style: TextStyle(
               color: colorPrimary,
               fontWeight: FontWeight.w600,
@@ -83,14 +89,14 @@ class Report extends StatelessWidget {
               width: size.width * 0.5,
               child: CustomButton(
                   borderRadius: 10,
-                  title: 'Report',
+                  title: context.watch<SessionProvider>().isLoading?"Reporting...": 'Report',
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    showDialog(
-                        context: context,
-                        builder: (context) => ReportSuccess(
-                              size: size,
-                            ));
+                    context.read<SessionProvider>().doCallReportNoShow({
+                      "waitingTime":waitingtime,
+                      "sessionId":sessionId,
+                      "reportToId":providerId,
+                      "reportTo":"provider"
+                    }, context);
                   })),
         )
       ],
@@ -101,13 +107,12 @@ class Report extends StatelessWidget {
 class ReportSuccess extends StatelessWidget {
   const ReportSuccess({
     Key? key,
-    required this.size,
   }) : super(key: key);
 
-  final Size size;
-
+  
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Dialog(
       child: Container(
         padding: EdgeInsets.all(14),

@@ -6,8 +6,10 @@ import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:provider/provider.dart';
 
 import 'widgets/feed_back_success.dart';
+import 'widgets/report_no_show.dart';
 
 class SessionProvider with ChangeNotifier {
   bool isLoading = false;
@@ -18,6 +20,14 @@ class SessionProvider with ChangeNotifier {
 
   setLoader(bool stauts) {
     isLoading = stauts;
+    notifyListeners();
+  }
+
+  void updateReviewBy(String id) {
+    int index=sessionList.indexWhere((element) => element.sId==id);
+    if (index!=-1) {
+      sessionList[index].reviewByProvider='1';
+    }
     notifyListeners();
   }
 
@@ -76,6 +86,7 @@ class SessionProvider with ChangeNotifier {
         toast(value);
       } else if (value) {
         // true
+        context.read<SessionProvider>().updateReviewBy(body['sessionId']);
         showDialog(context: context, builder: (context) => FeedbackSuccess());
       }
       setLoader(false);
@@ -96,5 +107,24 @@ class SessionProvider with ChangeNotifier {
       setLoader(false); 
     });
     return token;
+  }
+
+  doCallReportNoShow(Map body,BuildContext context){
+    if(isLoading)return;
+    setLoader(true);
+    callReportNoShow(body).then((value) {
+      setLoader(false);
+      if (value==true) {
+        Navigator.of(context).pop();
+        showDialog(
+            context: context,
+            builder: (context) => ReportSuccess(
+                ));
+      } else {
+        if (value is String) {
+          toast(value);
+        }
+      }
+    });
   }
 }

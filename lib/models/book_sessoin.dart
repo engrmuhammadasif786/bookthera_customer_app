@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 class BookSession {
   String? providerId;
   String? sessionId;
+  String? customerId;
   String? focusId;
   String isPromotion='';
   String? isPayment;
@@ -20,11 +21,14 @@ class BookSession {
   SessionData? sessionData;
   String? channelName;
   String? cancellationReasion;
+  String? noShowReportBy;
+  String? reviewByProvider;
 
   BookSession(
       {this.providerId,
       this.sessionId,
       this.focusId,
+      this.customerId,
       this.isPromotion="false",
       this.isPayment,
       this.profilePic,
@@ -39,11 +43,14 @@ class BookSession {
       this.iV,
       this.providerData,
       this.cancellationReasion,
+      this.noShowReportBy,
+      this.reviewByProvider,
       this.sessionData,this.channelName=''});
 
   BookSession.fromJson(Map<String, dynamic> json) {
     providerId = json['providerId'];
     sessionId = json['sessionId'];
+    customerId = json['customerId'];
     focusId = json['focusId'];
     isPromotion = json['isPromotion']??"false";
     isPayment = json['isPayment']??"false";
@@ -66,7 +73,9 @@ class BookSession {
         ? new SessionData.fromJson(json['sessionData'])
         : null;
     channelName=json['agoraChannel']??'test';
+    reviewByProvider=json['reviewByProvider']??'0';
     cancellationReasion=json['cancellationReasion']??'';
+    noShowReportBy=json['noShowReportBy'];
   }
 
   Map<dynamic, dynamic> toJson() {

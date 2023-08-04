@@ -180,6 +180,7 @@ Future<void> saveUserData(Map<dynamic, dynamic> data) async {
     double serviceFee = adminCustomerCommision is int ? adminCustomerCommision.toDouble() : adminCustomerCommision;
     Datamanager().serviceFee=serviceFee;
     Datamanager().isRecordVideo = data['settings']['recordVideo']=="1";
+    Datamanager().layoutChoice = data['settings']['layoutChoice']??'simple';
   }
 }
 
@@ -331,20 +332,39 @@ Future<dynamic> callGetProviderById(String providerId) async {
 Future<dynamic> callGetProviders(
     {String price = '',
     String reviewsCount = '',
-    bool isAudio = true,
-    bool isVideo = true,
-    bool isChat = true,
-    bool isBook = true,
-    bool promotion = true,
-    bool onlineOnly = false}) async {
-  String path =
-      'api/v1/get-providers?isAudio=$isAudio&isVideo=$isVideo&promotion=$promotion&isChat=$isChat&isBook=$isBook';
-  if (price.isNotEmpty) {
-    path = path + "&price=$price";
+    bool? isAudio,
+    bool? isVideo,
+    bool? isChat,
+    bool? isBook,
+    bool? promotion,
+    bool? onlineOnly}) async {
+   String path = 'api/v1/get-providers?';
+
+  if (isAudio != null) {
+    path += 'isAudio=$isAudio&';
   }
+
+  if (isVideo != null) {
+    path += 'isVideo=$isVideo&';
+  }
+
+  if (promotion != null) {
+    path += 'promotion=$promotion&';
+  }
+
+  if (isChat != null) {
+    path += 'isChat=$isChat&';
+  }
+
+  if (isBook != null) {
+    path += 'isBook=$isBook&';
+  }
+
   if (reviewsCount.isNotEmpty) {
-    path = path + "&reviewsCount=$reviewsCount";
+    path = path + "reviewsCount=$reviewsCount";
   }
+  // Remove the trailing '&' if any, and return the final URL.
+  path = path.endsWith('&') ? path.substring(0, path.length - 1) : path;
   Map res = await getRequest(path);
   if (res['success']) {
     List data = <ProviderModel>[];
@@ -602,6 +622,27 @@ HttpClient getHttpClient() {
 
   return httpClient;
 }
+
+Future<dynamic> callCreateTicket(Map body) async {
+  Map res =
+      await postRequest('api/v1/create-ticket',body: body);
+  if (res['success']) {
+    return true;
+  } else {
+    return res['message'];
+  }
+}
+
+Future<dynamic> callReportNoShow(Map body) async {
+  Map res =
+      await postRequest('api/v1/report-no-show',body: body);
+  if (res['success']) {
+    return true;
+  } else {
+    return res['message'];
+  }
+}
+
 
 Future<dynamic> callUploadMedia(File image, Function(double) onSendPresss) async {
   MultipartRequest multipartRequest =

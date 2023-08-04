@@ -36,7 +36,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     int selectedIndex = context.watch<HomeProvider>().selectedIndex;
-    int count = context.watch<ChatProvider>().messagesList.where((element) => !element.seen!).length;
+    int count = context.watch<ChatProvider>().messagesList.where((element) => !element.seen! &&  element.senderId!=getStringAsync(USER_ID)).length;
     int feedbackCount= context.watch<ChatProvider>().messagesList.where((element) => element.bugSuggestionType!='normal' && !element.seen!).length;
    return Scaffold(
         backgroundColor: Color(0xffF5F5F5),
@@ -75,7 +75,7 @@ class _DashboardState extends State<Dashboard> {
             actions: [
               Visibility(
                 visible: selectedIndex == 0 &&
-                    context.watch<ProviderProvider>().providersList.isNotEmpty,
+                    context.watch<ProviderProvider>().providersList.isNotEmpty && Datamanager().layoutChoice=='focused',
                 child: IconButton(
                     visualDensity: VisualDensity(horizontal: -4),
                     padding: EdgeInsets.only(right: 10),

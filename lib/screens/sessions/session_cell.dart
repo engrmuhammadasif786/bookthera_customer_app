@@ -94,7 +94,7 @@ class SessionCell extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (sessionTabConst != SessionTabConst.Completed)
+                if (sessionTabConst != SessionTabConst.Completed && bookSession.noShowReportBy!=null)
                   SizedBox(
                     height: 46,
                   )
@@ -301,16 +301,17 @@ class SessionCell extends StatelessWidget {
                       ],
                     ),
                   )
-                else if (sessionTabConst == SessionTabConst.Completed)
+                else if (sessionTabConst == SessionTabConst.Completed && bookSession.reviewByProvider=='0')
                   Align(
                     alignment: Alignment.center,
                     child: TextButton(
                       onPressed: () {
-                        push(
-                            context,
-                            RateSheet(
-                              providerId: bookSession.providerId!,
-                            ));
+                          push(
+                              context,
+                              RateSheet(
+                                userId: bookSession.customerId!,
+                                sessionId: bookSession.sId!,
+                              ));
                       },
                       child: Text(
                         'Leave a Review!',
@@ -343,7 +344,7 @@ class SessionCell extends StatelessWidget {
               ],
             ),
           ),
-          if (sessionTabConst != SessionTabConst.Completed)
+          if (sessionTabConst != SessionTabConst.Completed && bookSession.noShowReportBy!=null)
             Row(
               children: [
                 Container(
@@ -354,7 +355,7 @@ class SessionCell extends StatelessWidget {
                       image: DecorationImage(
                           image: AssetImage('assets/images/session_bar.png'))),
                   alignment: Alignment.center,
-                  child: Text('No Show reported by provider!',
+                  child: Text('No Show reported by ${bookSession.noShowReportBy=='user'?'Customer':'Provider'}!',
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.white,

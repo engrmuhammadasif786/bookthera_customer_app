@@ -5,6 +5,7 @@ import 'package:bookthera_customer/screens/provider/provider_search.dart';
 import 'package:bookthera_customer/screens/provider/widgets/build_tile.dart';
 import 'package:bookthera_customer/screens/provider/widgets/provider_cell.dart';
 import 'package:bookthera_customer/screens/provider/widgets/search_field.dart';
+import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -29,7 +30,11 @@ class _ProviderHomeState extends State<ProviderHome> {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<ProviderProvider>().getChatProvider(context);
-      context.read<ProviderProvider>().doCallGetProvidersByCategory();
+      if (Datamanager().layoutChoice=='simple') {
+        context.read<ProviderProvider>().doCallGetProviders();    
+      } else {
+        context.read<ProviderProvider>().doCallGetProvidersByCategory();
+      }
     });
   }
   @override

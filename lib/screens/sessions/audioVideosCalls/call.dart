@@ -21,6 +21,7 @@ import '../../../utils/datamanager.dart';
 
 const appId = agoraAppId;
 var token = '';
+final timerKey = GlobalKey<_CountDownState>();
 
 class AudioVideoScreen extends StatefulWidget {
   const AudioVideoScreen(
@@ -50,7 +51,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
   late final RtcEngineEx _engine;
   CloudRecordingManager cloudRecordingManager = CloudRecordingManager();
   String? filePath;
-
+  
   get remoteUid => _remoteUid;
 
   @override
@@ -267,7 +268,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
             ),
           ),
           _remoteUid != null
-              ? CountDown(widget: widget)
+              ? CountDown(widget: widget,key: timerKey,)
               : Padding(
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
@@ -364,7 +365,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
   }
 
   void _onToggleReport() {
-    showDialog(context: context, builder: (context) => ReportNoShow());
+    showDialog(context: context, builder: (context) => ReportNoShow(sessionId: widget.sessionId,providerId: widget.providerId, waitingtime: timerKey.currentState!=null? timerKey.currentState!.waitingTime:'',));
   }
 }
 
@@ -382,16 +383,20 @@ class CountDown extends StatefulWidget {
 
 class _CountDownState extends State<CountDown> {
   late Timer _timer;
-  int _start = 0;
+  int start = 0;
+  String get waitingTime {
+    int maxTime = int.parse(widget.widget.sessionTime) * 60;
+    return '${((maxTime - start) / 60).floor().toString().padLeft(2,'0')}:${((maxTime - start) % 60).toString().padLeft(2,'0')}';
+  }
 
   void startTimer() {
-    _start = int.parse(widget.widget.sessionTime) * 60;
+    start = int.parse(widget.widget.sessionTime) * 60;
     log('timer started-->>>>>>');
     _timer = new Timer.periodic(
         Duration(seconds: 1),
         (Timer timer) => setState(() {
-              _start = _start - 1;
-              if (_start == 0) _timer.cancel();
+              start = start - 1;
+              if (start == 0) _timer.cancel();
             }));
   }
 
@@ -412,7 +417,7 @@ class _CountDownState extends State<CountDown> {
     return Padding(
       padding: const EdgeInsets.only(top: 4),
       child: Text(
-        '${(_start / 60).floor()}:${_start % 60}',
+        '${(start / 60).floor().toString().padLeft(2,'0')}:${(start % 60).toString().padLeft(2,'0')}',
         style: TextStyle(
             color: Colors.white, fontWeight: FontWeight.w600, fontSize: 22),
       ),

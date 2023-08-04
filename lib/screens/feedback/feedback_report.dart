@@ -189,33 +189,17 @@ class _FeedbackReportState extends State<FeedbackReport> {
       return toast('Please provide bug description');
     }
     Map data = {
-      'type': 'send-message',
-      'payload': {
-        'receiverId': Datamanager().adminId,
-        'message': bugController.text.trim(),
-        'bugSuggestionType': 'bug'
-      }
+      'message': bugController.text.trim(),
+      'bugSuggestionType': 'bug'
     };
-    context.read<ChatProvider>().channel.sink.add(jsonEncode(data)); // message
     if (selectedFile != null) {
       await context.read<ChatProvider>().doCallMediaUpload(selectedFile!);
       List url = context.read<ChatProvider>().mediaFile;
       if (url.isNotEmpty) {
-        Map data = {
-          'type': 'send-message',
-          'payload': {
-            'receiverId': Datamanager().adminId,
-            'mediaFile': url.first,
-            'bugSuggestionType': 'bug'
-          }
-        };
-        context
-            .read<ChatProvider>()
-            .channel
-            .sink
-            .add(jsonEncode(data)); // media file
+        data['mediaFile']=url.first;
       }
     }
+    await context.read<ChatProvider>().doCallCreateTicket(data);
     bugController.clear();
     isFileSelected = false;
     selectedFile = null;

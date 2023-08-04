@@ -1,21 +1,19 @@
-import 'package:bookthera_customer/components/custom_appbar.dart';
-import 'package:bookthera_customer/components/custom_button.dart';
-import 'package:bookthera_customer/screens/sessions/session_provider.dart';
-import 'package:bookthera_customer/screens/sessions/widgets/feed_back_success.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 
+import '../../../components/custom_appbar.dart';
+import '../../../components/custom_button.dart';
 import '../../../components/custom_loader.dart';
 import '../../../components/custom_textfields.dart';
 import '../../../utils/resources/Colors.dart';
+import '../session_provider.dart';
 
 class RateSheet extends StatelessWidget {
-  RateSheet({super.key,required this.providerId});
-  String providerId;
+  RateSheet({super.key,required this.userId,required this.sessionId});
+  String userId;
+  String sessionId;
   TextEditingController publicFeedback = TextEditingController();
   TextEditingController privateFeedback = TextEditingController();
   String contentRating='';
@@ -47,7 +45,7 @@ class RateSheet extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'Rate your Provider!',
+                    'Rate your Customer!',
                     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
                   ),
                 ),
@@ -64,7 +62,7 @@ class RateSheet extends StatelessWidget {
                       itemPadding: EdgeInsets.only(right: 4.0),
                       itemBuilder: (context, number) => Icon(
                         Icons.star,
-                        color: Color(0xFFF98600),
+                        color: Color(0xFFFFB206),
                       ),
                       onRatingUpdate: (rating) {
                         contentRating=rating.toStringAsFixed(0);
@@ -104,7 +102,7 @@ class RateSheet extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 11.0, top: 8),
-                  child: Text('Private Feedback',
+                  child: Text('Anything that would make the experience better\n(private)',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 13,
@@ -132,10 +130,11 @@ class RateSheet extends StatelessWidget {
                             return;
                           }
                           Map body={};
-                          body['reviewToId'] = providerId;
+                          body['reviewToId'] = userId;
                           body['stars'] = contentRating;
                           body['publicReview']=publicFeedback.text;
                           body['privateReview']=privateFeedback.text;
+                          body['sessionId']=sessionId;
                          context.read<SessionProvider>().doCallCreateReview(context, body);
                         }),
                   ),

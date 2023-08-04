@@ -29,6 +29,7 @@ class PaymentScreen extends StatefulWidget {
 class _PaymentScreenState extends State<PaymentScreen> {
   // const PaymentScreen({super.key});
   TextEditingController couponController = TextEditingController();
+  GlobalKey<FormState> _formKey=GlobalKey();
   
   @override
   void initState() {
@@ -112,6 +113,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       Column(
                         children: [
                           Form(
+                            key: _formKey,
                               child: Column(
                             children: [
                               CustomTextFormField(
@@ -134,7 +136,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   CardNumberInputFormatter(),
                                   new LengthLimitingTextInputFormatter(19),
                                 ],
-                                // validator: validateName,
+                                validator: validateCardNumber,
                                 onSaved: (String? val) {
                                   provider.cardNum = val;
                                 },
@@ -150,7 +152,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     label: "Exp Date",
                                     hintText: 'MM/YY',
                                     keyboardType: TextInputType.datetime,
-                                    // validator: validateName,
+                                    validator: validateExpiryDate,
                                     inputFormatters: [
                                       new LengthLimitingTextInputFormatter(5),
                                       new CardMonthInputFormatter()
@@ -172,7 +174,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     inputFormatters: [
                                       new LengthLimitingTextInputFormatter(4),
                                     ],
-                                    // validator: validateName,
+                                    validator: validateCVV,
                                     onSaved: (String? val) {
                                       provider.cvv = val;
                                     },
@@ -193,8 +195,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       .read<BookSesstionProvider>()
                                       .updateSaveCard();
                                 },
-                                thumbColor:
-                                    MaterialStateProperty.all(colorAccent),
+                                // thumbColor:
+                                //     MaterialStateProperty.all(colorAccent),
                               ),
                               Text(
                                 'Save this card for future paument?',
@@ -214,9 +216,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           borderRadius: 8,
                           title: provider.isShowCardFrom?'Save Card': 'Purchase \$${provider.total}',
                           onPressed: () {
-                            context
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              context
                                 .read<BookSesstionProvider>()
                                 .makePaymentStripe(context);
+                            }
                           }),
                     ),
                     SizedBox(

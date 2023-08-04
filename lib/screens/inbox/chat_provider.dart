@@ -106,10 +106,16 @@ class ChatProvider with ChangeNotifier {
                 messagesList[index] = messagesByIdList.last;
               }
 
-              if (newMessage.senderId != getStringAsync(USER_ID) && !isViewChat) {
-                if (!newMessage.seen!) {
-                  messagesList.add(newMessage);
-                }
+              // if (newMessage.senderId != getStringAsync(USER_ID) && !isViewChat) {
+              //   if (!newMessage.seen!) {
+              //     messagesList.add(newMessage);
+              //   }
+              // }
+              index = messagesList.indexWhere((element) => element.senderId==newMessage.senderId,);
+              if (index==-1) {
+                messagesList.add(newMessage);
+              }else{
+                messagesList[index]=newMessage;
               }
               notifyListeners();
             }
@@ -278,5 +284,15 @@ class ChatProvider with ChangeNotifier {
         curve: Curves.fastOutSlowIn,
       );
     }
+  }
+
+  doCallCreateTicket(Map body){
+    setLoader(true);
+    callCreateTicket(body).then((value) {
+      setLoader(false);
+      if (value is String) {
+        toast(value);
+      }
+    });
   }
 }

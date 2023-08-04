@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
-
+import 'package:nb_utils/nb_utils.dart' as nb;
+import '../../utils/Constants.dart';
 import '../inbox/chat_provider.dart';
 
 class FeedbackMain extends StatelessWidget {
@@ -29,7 +30,7 @@ class FeedbackMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    int feedbackCount= context.watch<ChatProvider>().messagesList.where((element) => element.bugSuggestionType!='normal' && !element.seen!).length;
+    int feedbackCount= context.watch<ChatProvider>().messagesList.where((element) => element.bugSuggestionType!='normal' && !element.seen! && element.senderId!=nb.getStringAsync(USER_ID)).length;
     return SingleChildScrollView(
       child: Column(
         children: [

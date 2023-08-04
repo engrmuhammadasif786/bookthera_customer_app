@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Image.asset('assets/images/auth_bg.png'),
+          Image.asset('assets/images/auth_bg.png',fit: BoxFit.cover,width: size.width,height: size.height,),
           Container(
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.2),

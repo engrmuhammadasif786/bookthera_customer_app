@@ -779,6 +779,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
     data['type'] = 'send-message';
     data['payload']['receiverId'] = widget.senderId;
     data['payload']['message'] = content;
+    data['payload']['bugSuggestionType'] = widget.bugSuggestionType;
     if (mediaFile != null) {
       data['payload']['mediaFile'] = mediaFile;
       if (mediaFile['mediaType'] == 'image') {

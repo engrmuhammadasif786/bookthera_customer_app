@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 import '../../../components/custom_button.dart';
+import '../../../utils/Common.dart';
+import '../../../utils/Constants.dart';
 import '../../../utils/resources/Colors.dart';
 import '../../provider/widgets/sessions_button.dart';
 
@@ -73,7 +76,11 @@ class FeedbackSuccess extends StatelessWidget {
                           title: 'Sure, Rate & Review',
                           onPressed: () {
                             Navigator.of(context).pop();
-                            Navigator.of(context).pop();
+                            if (isIOS) {
+                              launchUrl(appstoreUrl);  
+                            } else {
+                              launchUrl(playstoreUrl);
+                            }
                             // push(context, BookSessionMain());
                           })),
                 ],

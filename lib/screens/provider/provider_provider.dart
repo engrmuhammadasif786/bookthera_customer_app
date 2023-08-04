@@ -121,12 +121,12 @@ class ProviderProvider extends ChangeNotifier {
   doCallGetProviders(
       {String price = '',
       String reviewsCount = '',
-      bool isAudio = true,
-      bool isVideo = true,
-      bool isChat = true,
-      bool isBook = true,
-      bool promotion = true,
-      bool onlineOnly = false}) {
+      bool? isAudio,
+      bool? isVideo,
+      bool? isChat,
+      bool? isBook,
+      bool? promotion,
+      bool? onlineOnly}) {
     setLoader(true);
     chatProvider.getOnlineUser();
     callGetProviders(
