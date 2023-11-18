@@ -1,3 +1,4 @@
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -46,7 +47,7 @@ class RateSheet extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     'Rate your Customer!',
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: getFontSize(20)),
                   ),
                 ),
                 Padding(
@@ -58,7 +59,7 @@ class RateSheet extends StatelessWidget {
                       minRating: 1,
                       direction: Axis.horizontal,
                       unratedColor: Colors.grey.withOpacity(0.5),
-                      itemSize: 41,
+                      itemSize: getSize(41),
                       itemPadding: EdgeInsets.only(right: 4.0),
                       itemBuilder: (context, number) => Icon(
                         Icons.star,
@@ -71,22 +72,22 @@ class RateSheet extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 30.0, bottom: 24),
+                  padding: getPadding(top: 30.0, bottom: 24),
                   child: Divider(
                     color: Color(0xffD9D9D9),
                     thickness: 1,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 11.0, top: 8),
+                  padding: getPadding(bottom: 11.0, top: 8),
                   child: Text('Public Feedback',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 13,
+                          fontSize: getFontSize(13),
                           color: textColorPrimary)),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
+                  padding: getPadding(bottom: 8.0),
                   child: CustomTextField(
                     textEditingController: publicFeedback,
                     maxLines: 5,
@@ -94,22 +95,22 @@ class RateSheet extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 30.0, bottom: 24),
+                  padding: getPadding(top: 30.0, bottom: 24),
                   child: Divider(
                     color: Color(0xffD9D9D9),
                     thickness: 1,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 11.0, top: 8),
+                  padding: getPadding(bottom: 11.0, top: 8),
                   child: Text('Anything that would make the experience better\n(private)',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 13,
+                          fontSize: getFontSize(13),
                           color: textColorPrimary)),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
+                  padding: getPadding(bottom: 8.0),
                   child: CustomTextField(
                     textEditingController: privateFeedback,
                     maxLines: 5,
@@ -117,7 +118,7 @@ class RateSheet extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 75.0),
+                  padding: getPadding(top: 75.0),
                   child: SizedBox(
                     width: size.width,
                     child: CustomButton(

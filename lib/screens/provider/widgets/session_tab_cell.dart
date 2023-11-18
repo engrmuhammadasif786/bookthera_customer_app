@@ -7,6 +7,7 @@ import 'package:bookthera_customer/screens/provider/book_session/book_session_pr
 import 'package:bookthera_customer/screens/provider/provider_detail.dart';
 import 'package:bookthera_customer/screens/provider/widgets/sessions_button.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -54,8 +55,8 @@ class SessionTabCell extends StatelessWidget {
           children: [
             if(isPromotion)
             Container(
-              width: 87,
-              height: 27,
+              width: getSize(87),
+              height: getSize(27),
               margin: EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
                 image: DecorationImage(image: AssetImage('assets/icons/promotion_bar.png'))
@@ -63,7 +64,7 @@ class SessionTabCell extends StatelessWidget {
               alignment: Alignment.center,
               child: Text('Promotion',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: getFontSize(12),
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
                     )),
@@ -75,37 +76,37 @@ class SessionTabCell extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: getFontSize(15),
                       fontWeight: FontWeight.w600,
                     )),
                 Spacer(),
                 Text('\$$price',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: getFontSize(18),
                       fontWeight: FontWeight.w600,
                       color: colorPrimary,
                     )),
               ],
             ),
             SizedBox(
-              height: 10,
+              height: getSize(10),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 10),
+              padding: getPadding(top: 8.0, bottom: 10),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if(isVideo=='true')
                   Icon(
                     Icons.videocam,
-                    size: 20,
+                    size: getSize(20),
                     color: colorPrimary,
                   ),
                   SizedBox(width: 3),
                   if(isAudio=='true')
                   Icon(
                     Icons.mic,
-                    size: 20,
+                    size: getSize(20),
                     color: colorPrimary,
                   ),
                   Spacer(),
@@ -114,14 +115,14 @@ class SessionTabCell extends StatelessWidget {
                     style: TextStyle(
                         fontWeight: FontWeight.w400,
                         color: colorPrimary,
-                        fontSize: 14),
+                        fontSize: getFontSize(14)),
                   ),
                 ],
               ),
             ),
             CustomReadmore(text: description!),
             Padding(
-              padding: const EdgeInsets.only(top: 16.0),
+              padding: getPadding(top: 16.0),
               child: Row(
                 children: [
                   if(isChat=='true')

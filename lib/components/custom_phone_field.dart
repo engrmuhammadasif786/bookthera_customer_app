@@ -1,4 +1,5 @@
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -41,8 +42,17 @@ class PhoneTextFormField extends StatelessWidget {
   void Function(Country)? onCountryChanged;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
+    return Container(
+      margin: getMargin(top: 16.0, right: 8.0, left: 8.0),
+      decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(getSize(5.89)),
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: Offset(1.5, 1.5),
+                                  blurRadius: 11.77,
+                                  color: Colors.black.withOpacity(0.1))
+                            ]),
       child: IntlPhoneField(
         // showCountryFlag: false,
         // dropdownIcon: Icon(
@@ -53,7 +63,7 @@ class PhoneTextFormField extends StatelessWidget {
         onCountryChanged: onCountryChanged,
         disableLengthCheck: true,
         showDropdownIcon: false,
-        flagsButtonPadding: EdgeInsets.only(left: 16),
+        flagsButtonPadding: getPadding(left: 16),
         pickerDialogStyle: PickerDialogStyle(
           backgroundColor: Colors.white,
           countryNameStyle: TextStyle(fontWeight: FontWeight.w500),
@@ -64,7 +74,7 @@ class PhoneTextFormField extends StatelessWidget {
           validator: validator,
           controller: controller,
           onChanged: onSaved,
-          // style: TextStyle(fontSize: 18.0, color: Colors.black),
+          style: TextStyle(fontSize: getFontSize(18), color: Colors.black),
           keyboardType: keyboardType,
           cursorColor: colorPrimary,
           obscureText: obscureText,
@@ -73,11 +83,11 @@ class PhoneTextFormField extends StatelessWidget {
           readOnly: !isEditable,
           focusNode: focusNode,
           decoration: InputDecoration(
-            contentPadding:contentPadding?? EdgeInsets.only(left: 16, right: 16),
+            contentPadding:contentPadding?? getPadding(left: 16, right: 16),
             hintText:  hintText,
             labelText:label?? hintText,
-            // labelStyle: TextStyle(color: Colors.white),
-            // hintStyle: TextStyle(color: Colors.white),
+            labelStyle: TextStyle(fontSize: getFontSize(16),fontWeight: FontWeight.w500),
+            hintStyle: TextStyle(fontSize: getFontSize(16),fontWeight: FontWeight.w500),
             floatingLabelStyle: TextStyle(color: colorPrimary),
             prefixIcon:prefixIcon,
             suffixIcon: suffixIcon,

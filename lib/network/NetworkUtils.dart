@@ -74,9 +74,8 @@ Future<Map> getRequest(String endPoint, {bool aAuthRequired = true}) async {
     Response response = await get(Uri.parse(url), headers: headers).timeout(const Duration(minutes: 5));
 
     log('GET: $url');
-    if (response.statusCode == 401) {
+    if (response.statusCode == 400 || response.statusCode==401) {
       await refreshToken(aReloadApp: true);
-      getRequest(endPoint);
     }else if (response.body.isNotEmpty) {
       log('Status: ${response.statusCode} ${response.body}');
     } else {
@@ -107,7 +106,7 @@ Future<Map> deleteRequest(String endPoint, {bool aAuthRequired = true}) async {
     log('DELETE: $url');
     if (response.statusCode == 401) {
       await refreshToken(aReloadApp: true);
-      deleteRequest(endPoint);
+      // deleteRequest(endPoint);
     }else if (response.body.isNotEmpty) {
       log('Status: ${response.statusCode} ${response.body}');
     } else {
@@ -136,7 +135,7 @@ Future<Map> putRequest(String endPoint, {Map? body, bool aAuthRequired = true}) 
 
     if (response.statusCode == 401) {
       await refreshToken(aReloadApp: true);
-      putRequest(endPoint);
+      // putRequest(endPoint);
     }else if (response.body.isNotEmpty) {
       log('Status: ${response.statusCode} ${response.body}');
     } else {
@@ -173,25 +172,28 @@ Future sendMultiPartRequest(MultipartRequest multiPartRequest) async {
 }
 
 Future<void> refreshToken({bool? aReloadApp, BuildContext? context}) async {
-  log('Refreshing Token $aReloadApp');
+  // logout();
+  setValue(isLoggedIn, false);
+  LoginScreen().launch(AppKeys.navigatorKey.currentContext!);
+  // log('Refreshing Token $aReloadApp');
 
-  var request = {
-    "emailUname": getStringAsync(USER_EMAIL),
-    "password": getStringAsync(PASSWORD),
-  };
-  await callLogin(request).then((res) async {
-    log('New token saved');
-    if (aReloadApp != null) {
-      //
-    } else {
-      //
-    }
-  }).catchError((error) {
-    log(error);
-    if (context != null) {
-      // LoginScreen().launch(context);
-    } else {
-      //
-    }
-  });
+  // var request = {
+  //   "emailUname": getStringAsync(USER_EMAIL),
+  //   "password": getStringAsync(PASSWORD),
+  // };
+  // await callLogin(request).then((res) async {
+  //   log('New token saved');
+  //   if (aReloadApp != null) {
+  //     //
+  //   } else {
+  //     //
+  //   }
+  // }).catchError((error) {
+  //   log(error);
+  //   if (context != null) {
+  //     LoginScreen().launch(context);
+  //   } else {
+  //     //
+  //   }
+  // });
 }

@@ -5,6 +5,7 @@ import 'package:bookthera_customer/components/custom_appbar.dart';
 import 'package:bookthera_customer/components/custom_button.dart';
 import 'package:bookthera_customer/screens/sessions/widgets/feed_back_success.dart';
 import 'package:bookthera_customer/utils/helper.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -65,15 +66,15 @@ class _FeedbackSuggestionState extends State<FeedbackSuggestion> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 11.0, top: 8),
+                  padding: getPadding(bottom: 11.0, top: 8),
                   child: Text('How can we make the app better?',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 15,
+                          fontSize: getFontSize(15),
                           color: textColorPrimary)),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
+                  padding: getPadding(bottom: 8.0),
                   child: CustomTextField(
                     textEditingController: bugController,
                     maxLines: 12,
@@ -93,8 +94,8 @@ class _FeedbackSuggestionState extends State<FeedbackSuggestion> {
                               onUpload(context, true);
                             },
                             child: Container(
-                              height: 65,
-                              width: 65,
+                              height: getSize(65),
+                              width: getSize(65),
                               margin: EdgeInsets.only(bottom: 8),
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle, color: colorPrimary),
@@ -109,14 +110,14 @@ class _FeedbackSuggestionState extends State<FeedbackSuggestion> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 13,
+                                  fontSize: getFontSize(13),
                                   color: textColorPrimary)),
                         ],
                       ),
                     ),
                   ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 75.0),
+                  padding: getPadding(top: 75.0),
                   child: SizedBox(
                     width: size.width,
                     child: CustomButton(

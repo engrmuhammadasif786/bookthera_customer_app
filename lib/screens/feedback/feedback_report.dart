@@ -7,6 +7,7 @@ import 'package:bookthera_customer/components/custom_loader.dart';
 import 'package:bookthera_customer/components/custom_persent_loader.dart';
 import 'package:bookthera_customer/screens/sessions/widgets/feed_back_success.dart';
 import 'package:bookthera_customer/utils/datamanager.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -60,15 +61,15 @@ class _FeedbackReportState extends State<FeedbackReport> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 11.0, top: 8),
+                  padding: getPadding(bottom: 11.0, top: 8),
                   child: Text('Please give a description of the bug',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 15,
+                          fontSize: getFontSize(15),
                           color: textColorPrimary)),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
+                  padding: getPadding(bottom: 8.0),
                   child: CustomTextField(
                     textEditingController: bugController,
                     maxLines: 12,
@@ -79,7 +80,7 @@ class _FeedbackReportState extends State<FeedbackReport> {
                   previewMedia(size)
                 else
                   Padding(
-                    padding: EdgeInsets.only(top: size.height * 0.06),
+                    padding: getPadding(top: size.height * 0.06),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -90,9 +91,9 @@ class _FeedbackReportState extends State<FeedbackReport> {
                                 onUpload(context, true);
                               },
                               child: Container(
-                                height: 65,
-                                width: 65,
-                                margin: EdgeInsets.only(bottom: 8),
+                                height: getSize(65),
+                                width: getSize(65),
+                                margin: getPadding(bottom: 8),
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: colorPrimary),
@@ -107,7 +108,7 @@ class _FeedbackReportState extends State<FeedbackReport> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 13,
+                                    fontSize: getFontSize(13),
                                     color: textColorPrimary)),
                           ],
                         ),
@@ -118,9 +119,9 @@ class _FeedbackReportState extends State<FeedbackReport> {
                                 onUpload(context, false);
                               },
                               child: Container(
-                                height: 65,
-                                width: 65,
-                                margin: EdgeInsets.only(bottom: 8),
+                                height: getSize(65),
+                                width: getSize(65),
+                                margin: getPadding(bottom: 8),
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: colorPrimary),
@@ -135,7 +136,7 @@ class _FeedbackReportState extends State<FeedbackReport> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 13,
+                                    fontSize: getFontSize(13),
                                     color: textColorPrimary)),
                           ],
                         ),
@@ -143,7 +144,7 @@ class _FeedbackReportState extends State<FeedbackReport> {
                     ),
                   ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 75.0),
+                  padding: getPadding(top: 75.0),
                   child: SizedBox(
                     width: size.width,
                     child: CustomButton(
@@ -212,7 +213,7 @@ class _FeedbackReportState extends State<FeedbackReport> {
       return Container(
         height: size.height * 0.15,
         width: size.width * 0.3,
-        margin: EdgeInsets.only(right: 8, top: 16),
+        margin: getPadding(right: 8, top: 16),
         child: Stack(
           alignment: Alignment.topRight,
           children: [
@@ -239,7 +240,7 @@ class _FeedbackReportState extends State<FeedbackReport> {
       return Container(
         height: size.height * 0.15,
         width: size.width * 0.3,
-        margin: EdgeInsets.only(right: 8, top: 16),
+        margin: getPadding(right: 8, top: 16),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             image: DecorationImage(

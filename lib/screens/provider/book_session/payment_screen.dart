@@ -8,6 +8,7 @@ import 'package:bookthera_customer/utils/Common.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:bookthera_customer/utils/helper.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -72,14 +73,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 13),
+                      padding: getPadding(bottom: 13),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('Payment Details',
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 15,
+                                  fontSize: getFontSize(15),
                                   color: Colors.black)),
                           GestureDetector(
                               onTap: () {
@@ -100,13 +101,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       ListView.separated(
                           separatorBuilder: (context, index) => Divider(
                                 color: Color(0xffD9D9D9),
-                                thickness: 1,
-                                height: 32,
+                                thickness: getSize(1),
+                                height: getSize(32),
                               ),
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: provider.paymentCards.length,
-                          padding: EdgeInsets.only(top: 16, bottom: 24),
+                          padding: getPadding(top: 16, bottom: 24),
                           itemBuilder: (context, index) =>
                               cardCell(provider.paymentCards[index], context))
                     else
@@ -125,6 +126,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 },
                                 prefixIcon: Icon(
                                   Icons.person,
+                                  size: getSize(18),
                                 ),
                               ),
                               CustomTextFormField(
@@ -142,6 +144,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 },
                                 prefixIcon: Icon(
                                   Icons.credit_card,
+                                  size: getSize(18),
                                 ),
                               ),
                               Row(
@@ -162,6 +165,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     },
                                     prefixIcon: Icon(
                                       Icons.event,
+                                      size: getSize(18),
                                     ),
                                   )),
                                   Expanded(
@@ -180,6 +184,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     },
                                     prefixIcon: Icon(
                                       Icons.lock,
+                                      size: getSize(18),
                                     ),
                                   )),
                                 ],
@@ -202,7 +207,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 'Save this card for future paument?',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 12,
+                                    fontSize: getFontSize(12),
                                     color: textColorPrimary),
                               )
                             ],
@@ -216,8 +221,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           borderRadius: 8,
                           title: provider.isShowCardFrom?'Save Card': 'Purchase \$${provider.total}',
                           onPressed: () {
-                            if (_formKey.currentState!.validate()) {
+                            if (provider.isShowCardFrom && _formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
+                              context
+                                .read<BookSesstionProvider>()
+                                .makePaymentStripe(context);
+                            }else{
                               context
                                 .read<BookSesstionProvider>()
                                 .makePaymentStripe(context);
@@ -258,27 +267,27 @@ class _PaymentScreenState extends State<PaymentScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 13),
+            padding: getPadding(bottom: 13),
             child: Text('Session Details',
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
-                    fontSize: 15,
+                    fontSize: getFontSize(15),
                     color: Colors.black)),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 8),
+            padding: getPadding(bottom: 8),
             child: Text('Session Intentions *',
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
-                    fontSize: 13,
+                    fontSize: getFontSize(13),
                     color: textColorPrimary)),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
+            padding: getPadding(bottom: 8.0),
             child: Text(provider.intensionsController.text,
                 style: TextStyle(
                     fontWeight: FontWeight.w400,
-                    fontSize: 13,
+                    fontSize: getFontSize(13),
                     color: borderColor)),
           ),
           infoCell('Date',
@@ -290,9 +299,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
           infoCell('Total', '\$${provider.total.toStringAsFixed(2)}',
               keyFont: FontWeight.w600,
               ValueFont: FontWeight.w700,
-              fontSize: 15),
+              fontSize: getFontSize(15)),
           Padding(
-            padding: const EdgeInsets.only(top: 25.0),
+            padding: getPadding(top: 25.0),
             child: Row(
               children: [
                 Expanded(
@@ -306,8 +315,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ),
                 SizedBox(
                     width: size.width * 0.25,
+                    height: getSize(54),
                     child: CustomButton(
-                        borderRadius: 10, title: 'Apply', onPressed: () {}))
+                        borderRadius: getSize(10), title: 'Apply', onPressed: () {}))
               ],
             ),
           )
@@ -333,12 +343,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
             Text(key,
                 style: TextStyle(
                     fontWeight: keyFont,
-                    fontSize: fontSize,
+                    fontSize: getFontSize(fontSize),
                     color: textColorPrimary)),
             Text(value,
                 style: TextStyle(
                     fontWeight: ValueFont,
-                    fontSize: fontSize,
+                    fontSize: getFontSize(fontSize),
                     color: textColorPrimary))
           ],
         ),
@@ -356,7 +366,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              padding: getPadding(right: 8.0),
               child: Icon(
                 paymentCard.isPrimary == '1'
                     ? Icons.radio_button_checked_outlined
@@ -375,7 +385,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     text: TextSpan(
                       text: "Ending in: ",
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: getFontSize(16),
                         fontWeight: FontWeight.w400,
                         color: textColorPrimary,
                       ),
@@ -385,26 +395,26 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               "...${paymentCard.number!.substring(paymentCard.number!.length - 4)}",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 16,
+                            fontSize: getFontSize(16),
                           ),
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
+                    padding: getPadding(top: 8.0),
                     child: Row(
                       children: [
                         Icon(
                           Icons.event,
                           color: borderColor,
-                          size: 16,
+                          size: getSize(16),
                         ),
                         if (paymentCard.lastUsed == null)
                           Text(
                             ' Never used',
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: getFontSize(12),
                                 fontWeight: FontWeight.w400,
                                 color: borderColor),
                           )
@@ -412,7 +422,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           Text(
                             ' Last time used: ${DateFormat(defaultDateFormat).format(paymentCard.lastUsed!)}',
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: getFontSize(12),
                                 fontWeight: FontWeight.w400,
                                 color: borderColor),
                           ),
@@ -423,13 +433,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 16.0),
+              padding: getPadding(left: 16.0),
               child: Image.asset(
                 context
                     .read<BookSesstionProvider>()
                     .getCreditCardIcon(paymentCard),
-                height: 34,
-                width: 22,
+                height: getSize(34),
+                width: getSize(22),
                 fit: BoxFit.contain,
               ),
             )

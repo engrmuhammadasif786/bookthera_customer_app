@@ -1,16 +1,31 @@
 import 'package:bookthera_customer/components/custom_appbar.dart';
 import 'package:bookthera_customer/models/ConversationModel.dart';
 import 'package:bookthera_customer/models/HomeConversationModel.dart';
+import 'package:bookthera_customer/screens/inbox/chat_provider.dart';
 import 'package:bookthera_customer/screens/inbox/chat_screen_view.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
 import '../../utils/datamanager.dart';
 import '../../utils/resources/Colors.dart';
 
-class FeedbackInbox extends StatelessWidget {
+class FeedbackInbox extends StatefulWidget {
   const FeedbackInbox({super.key});
+
+  @override
+  State<FeedbackInbox> createState() => _FeedbackInboxState();
+}
+
+class _FeedbackInboxState extends State<FeedbackInbox> {
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<ChatProvider>().messagesByIdList.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,24 +59,25 @@ class FeedbackInbox extends StatelessWidget {
                         // setState(() {
                         //   value = tabController.index;
                         // });
+                        context.read<ChatProvider>().messagesByIdList.clear();
                       },
                       indicatorColor: colorPrimary,
                       indicatorWeight: 5,
                       labelColor: colorPrimary,
                       unselectedLabelColor: Color(0xff9394a1),
                       labelStyle: TextStyle(
-                          fontSize: 15,
+                          fontSize: getFontSize(15),
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Poppinsr'),
                       unselectedLabelStyle: TextStyle(
-                          fontSize: 15,
+                          fontSize: getFontSize(15),
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Poppinsr'),
-                      labelPadding: EdgeInsets.only(right: 20, left: 20),
+                      labelPadding: getPadding(right: 20, left: 20),
                       tabs: [
                         Tab(
                           child: Text(
-                            'Repot Bug',
+                            'Report Bug',
                           ),
                         ),
                         Tab(

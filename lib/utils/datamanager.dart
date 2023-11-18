@@ -39,4 +39,7 @@ class Datamanager {
   int filter2Index = -1;
   int filter3Index = -1;
   int filter4Index = -1;
+
+  bool isDashboardFirstLoad=false;
+  bool isSessionsFirstLoad=false;
 }

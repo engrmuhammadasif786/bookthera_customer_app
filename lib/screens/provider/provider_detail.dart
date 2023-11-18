@@ -7,6 +7,7 @@ import 'package:bookthera_customer/screens/provider/sessions_tab.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:bookthera_customer/utils/resources/Images.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -20,7 +21,7 @@ import 'review_tab.dart';
 import 'about_me.dart';
 
 class ProviderDetail extends StatefulWidget {
-   ProviderDetail({super.key,required this.provider});
+  ProviderDetail({super.key,required this.provider});
   ProviderModel provider;
 
   @override
@@ -32,66 +33,90 @@ class _ProviderDetailState extends State<ProviderDetail> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {context.read<ProviderProvider>().doCallGetProviderById(widget.provider.sId!).then((value) {
-      widget.provider=value;
-    });});
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      context
+          .read<ProviderProvider>()
+          .doCallGetProviderById(widget.provider.sId!).then((value) {
+            setState(() {
+              widget.provider=value;
+            });
+          });    });
   }
 
   @override
   Widget build(BuildContext context) {
     var _height = MediaQuery.of(context).size.height;
     var _width = MediaQuery.of(context).size.width;
-    dynamic videoTag;
+    ProviderProvider provider=context.watch<ProviderProvider>();
     dynamic imageProvider;
-    bool isVideo=false;
+    bool isVideo = false;
+    String videoTag = '';
+    dynamic profileImage;
+    String videoUrl = '';
     if (widget.provider.mediaFiles.isNotEmpty) {
-      if (widget.provider.mediaFiles.first.thumbnail!=null) {
-        imageProvider=widget.provider.mediaFiles.first.thumbnail!.url;
-        isVideo=true;
+      if (widget.provider.mediaFiles.first.thumbnail != null) {
+        imageProvider = widget.provider.mediaFiles.first.thumbnail!.url;
+        isVideo = true;
         videoTag = widget.provider.mediaFiles.first.publicId!;
-      }else{
-        imageProvider=widget.provider.mediaFiles.first.url;
+        videoUrl = widget.provider.venderProfile!.url!;
+      } else {
+        imageProvider = widget.provider.mediaFiles.first.url;
       }
     }
-    dynamic profileImage = widget.provider.venderProfile!.url!.isNotEmpty?NetworkImage(widget.provider.venderProfile!.url!) :AssetImage(
-                                            "assets/images/placeholder.jpg");
-    String videoUrl = widget.provider.venderProfile!.url!;
+    if (widget.provider.venderProfile != null) {
+      profileImage = NetworkImage(widget.provider.venderProfile!.url!);
+    } else {
+      profileImage = AssetImage("assets/images/placeholder.jpg");
+    }
     return DefaultTabController(
         initialIndex: 0,
         length: 3,
         child: Scaffold(
           body: Stack(children: [
-            GestureDetector(
-              onTap: () {
-                if (widget.provider.mediaFiles.isNotEmpty) {
-                  push(context, FullScreenVideoViewer(videoUrl: widget.provider.mediaFiles.first.url!, heroTag: videoTag));  
-                }
-              },
-              child: Container(
-                  height: _height * 0.3,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(image: NetworkImage(imageProvider??sampleImage),fit: BoxFit.cover),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: Colors.white38,
-                          blurRadius: 25.0,
-                          offset: Offset(0.0, 0.75))
-                    ],
-                  ),
-                  width: _width * 1,
-                  alignment: Alignment.center,
-                  child: isVideo? Container(
-                        height: 32,
-                        width: 32,
-                        margin: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white.withOpacity(0.4)),
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.play_arrow,
-                          color: colorPrimary,
-                        ),
-                      ):null),
+            Hero(
+              tag: videoTag,
+              child: GestureDetector(
+                onTap: () {
+                  if (videoUrl.isNotEmpty) {
+                    push(
+                        context,
+                        FullScreenVideoViewer(
+                            videoUrl: widget.provider.mediaFiles.first.url!,
+                            heroTag: videoTag));
+                  }
+                },
+                child: Container(
+                    height: _height * 0.3,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(imageProvider??sampleImage),
+                          fit: BoxFit.cover),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Colors.white38,
+                            blurRadius: 25.0,
+                            offset: Offset(0.0, 0.75))
+                      ],
+                    ),
+                    width: _width * 1,
+                    alignment: Alignment.center,
+                    child: isVideo
+                        ? Container(
+                            height: getSize(64),
+                            width: getSize(64),
+                            margin: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white.withOpacity(0.4)),
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.play_arrow,
+                              color: colorPrimary,
+                              size: getSize(44),
+                            ),
+                          )
+                        : null),
+              ),
             ),
             Positioned(
                 top: _height * 0.033,
@@ -104,27 +129,10 @@ class _ProviderDetailState extends State<ProviderDetail> {
                       padding: const EdgeInsets.all(8.0),
                       child: Image.asset(
                         'assets/images/arrow_back.png',
-                        height: 33,
-                        width: 33,
+                        height: getSize(33),
+                        width: getSize(33),
                       ),
                     ))),
-            Positioned(
-              top: _height * 0.033,
-              right: _width * 0.03,
-              child: IconButton(
-                onPressed: () {
-                  context.read<ProviderProvider>().doCallProviderLikeUnlike(widget.provider.sId!,isShowLoader: widget.provider.isFavourite!);
-                  setState(() {
-                    widget.provider.isFavourite=!widget.provider.isFavourite!;
-                  });
-                },
-                icon: Icon(
-                  Icons.favorite,
-                  color:widget.provider.isFavourite!?colorPrimary:  Colors.white,
-                  size: 32,
-                ),
-              ),
-            ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -137,8 +145,8 @@ class _ProviderDetailState extends State<ProviderDetail> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(30))),
+                          borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(30))),
                       padding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: Column(
@@ -150,8 +158,8 @@ class _ProviderDetailState extends State<ProviderDetail> {
                                 width: 41,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image:profileImage )),
+                                    image:
+                                        DecorationImage(image: profileImage)),
                               ),
                               SizedBox(
                                 width: 16,
@@ -171,10 +179,14 @@ class _ProviderDetailState extends State<ProviderDetail> {
                                                 color: isDarkMode(context)
                                                     ? Color(0xffFFFFFF)
                                                     : Color(0xff2A2A2A))),
-                                        SizedBox(width: 8,),
+                                        SizedBox(
+                                          width: 8,
+                                        ),
                                         Icon(
                                           Icons.circle,
-                                          color:widget.provider.onlineStatus!? Color(0XFF3dae7d):Colors.grey,
+                                          color: widget.provider.onlineStatus!
+                                              ? Color(0XFF3dae7d)
+                                              : Colors.grey,
                                           size: 13,
                                         ),
                                         Spacer(),
@@ -188,9 +200,7 @@ class _ProviderDetailState extends State<ProviderDetail> {
                                             ),
                                             SizedBox(width: 3),
                                             Text(
-                                                widget.provider
-                                                            .reviewsCount !=
-                                                        0
+                                                widget.provider.reviewsCount != 0
                                                     ? '${(widget.provider.reviewsSum! / widget.provider.reviewsCount!).toStringAsFixed(1)}'
                                                     : 0.toString(),
                                                 style: TextStyle(
@@ -222,32 +232,32 @@ class _ProviderDetailState extends State<ProviderDetail> {
                                           style: TextStyle(
                                               fontFamily: "Poppinsr",
                                               letterSpacing: 0.5,
-                                              color: Color(0xFF9091A4)),
+                                              color: Color(0xff313131)),
                                         )),
                                   ],
                                 ),
                               ),
                             ],
                           ),
-                          if(widget.provider.introSession!)
-                          Container(
-                            margin: EdgeInsets.only(top: 25),
-                            width: MediaQuery.of(context).size.width * 0.5,
-                            height: 32,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/icons/intro_bar.png'),
-                                    fit: BoxFit.contain)),
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Offers \$${widget.provider.introPrice} Intro Session',
-                              style: TextStyle(
-                                  fontFamily: "Poppinssr",
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          )
+                          if (widget.provider.introSession!)
+                            Container(
+                              margin: EdgeInsets.only(top: 25),
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              height: 32,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/icons/intro_bar.png'),
+                                      fit: BoxFit.contain)),
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Offers \$${widget.provider.introPrice} Intro Session',
+                                style: TextStyle(
+                                    fontFamily: "Poppinssr",
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            )
                         ],
                       ),
                     ),
@@ -258,7 +268,7 @@ class _ProviderDetailState extends State<ProviderDetail> {
                           decoration: BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
-                                  color: Color(0xff9394a1).withOpacity(0.4),
+                                  color: Color(0xFFADB3BC).withOpacity(0.4),
                                   width: 5.0),
                             ),
                           ),
@@ -267,16 +277,17 @@ class _ProviderDetailState extends State<ProviderDetail> {
                             indicatorColor: colorPrimary,
                             indicatorWeight: 5,
                             labelColor: colorPrimary,
-                            unselectedLabelColor: Color(0xff9394a1),
+                            unselectedLabelColor: Color(0xFFADB3BC),
                             labelStyle: TextStyle(
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w800,
                                 fontFamily: 'Poppinsr'),
                             unselectedLabelStyle: TextStyle(
-                                fontSize: 18,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 fontFamily: 'Poppinsr'),
-                            labelPadding: EdgeInsets.only(right: 20, left: 20),
+                            labelPadding:
+                                EdgeInsets.only(right: 20, left: 20),
                             tabs: [
                               Tab(
                                 child: Text(
@@ -296,15 +307,17 @@ class _ProviderDetailState extends State<ProviderDetail> {
                             ]),
                       ],
                     ),
+                    if(context.watch<ProviderProvider>().isLoading) LinearProgressIndicator(color: colorPrimary,minHeight: 2,),
                     Expanded(
-                      child: CustomLoader(
-                        isLoading: context.watch<ProviderProvider>().isLoading,
-                        child: TabBarView(children: [
-                          SessionsTab(providerModel: widget.provider),
-                          AboutMeTab(providerModel: widget.provider,),
-                          ReviewsTab(providerModel: widget.provider,)
-                        ]),
-                      ),
+                      child: TabBarView(children: [
+                        SessionsTab(providerModel: widget.provider),
+                        AboutMeTab(
+                          providerModel: widget.provider,
+                        ),
+                        ReviewsTab(
+                          providerModel: widget.provider,
+                        )
+                      ]),
                     )
                   ],
                 ),

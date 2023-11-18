@@ -1,4 +1,5 @@
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -30,9 +31,9 @@ class SessionButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         primary: isOutlined?Colors.white: color??colorAccent,
         onPrimary: isOutlined?Colors.white: color??colorAccent,
-        padding: EdgeInsets.only(top: 12, bottom: 12),
+        padding: getPadding(top: 12, bottom: 12),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(getSize(8)),
           side: BorderSide(
             width: 1,
             color:  isOutlined?outlinedBorderColor: Colors.transparent,
@@ -42,7 +43,7 @@ class SessionButton extends StatelessWidget {
       child: Text(
         title,
         style: TextStyle(
-            fontSize: 13, fontWeight: FontWeight.w600, color:isOutlined?outlinedBorderColor: titletxtColor),
+            fontSize: getFontSize(13), fontWeight: FontWeight.w600, color:isOutlined?outlinedBorderColor: titletxtColor),
       ),
       onPressed: onPressed,
     );

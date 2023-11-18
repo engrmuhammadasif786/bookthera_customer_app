@@ -5,6 +5,7 @@ import 'package:bookthera_customer/screens/home/dashboard.dart';
 import 'package:bookthera_customer/screens/sessions/session_provider.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/helper.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -63,32 +64,32 @@ class Report extends StatelessWidget {
               },
               child: Image.asset(
                           'assets/images/arrow_back.png',
-                          height: 33,
-                          width: 33,
+                          height: getSize(33),
+                          width: getSize(33),
                           color: colorPrimary,
                         )),
         ),
         Padding(
-          padding: const EdgeInsets.all(32.0),
+          padding: getPadding(all: 32.0),
           child: Image.asset('assets/icons/ic_report.png'),
         ),
         Text(
           'Report No Show',
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18.0),
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: getFontSize(18)),
         ),
         Text(
           waitingtime,
           style: TextStyle(
               color: colorPrimary,
               fontWeight: FontWeight.w600,
-              fontSize: 20.0),
+              fontSize: getFontSize(20)),
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: size.height * 0.03),
           child: SizedBox(
               width: size.width * 0.5,
               child: CustomButton(
-                  borderRadius: 10,
+                  borderRadius: getSize(10),
                   title: context.watch<SessionProvider>().isLoading?"Reporting...": 'Report',
                   onPressed: () {
                     context.read<SessionProvider>().doCallReportNoShow({
@@ -131,11 +132,11 @@ class ReportSuccess extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: const EdgeInsets.all(32.0),
+              padding: getPadding(all: 32.0),
               child: Image.asset(
                 'assets/icons/ic_check.png',
-                height: 124,
-                width: 124,
+                height: getSize(124),
+                width: getSize(124),
                 color: colorPrimary,
               ),
             ),
@@ -146,7 +147,7 @@ class ReportSuccess extends StatelessWidget {
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
-                      fontSize: 18.0),
+                      fontSize:getFontSize(18)),
                 )),
             Text(
               'Provider has been reported as No Show.\nPayment has been refunded and should appear\nin 5-7 business days.',
@@ -154,7 +155,7 @@ class ReportSuccess extends StatelessWidget {
               style: TextStyle(
                   color: Colors.black.withOpacity(0.5),
                   fontWeight: FontWeight.w400,
-                  fontSize: 15.0),
+                  fontSize: getFontSize(15)),
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: size.height * 0.03),
@@ -162,7 +163,7 @@ class ReportSuccess extends StatelessWidget {
                   width: size.width * 0.5,
                   child: CustomButton(
                       color: colorAccent,
-                      borderRadius: 10,
+                      borderRadius: getSize(10),
                       title: 'Got It',
                       onPressed: () {
                         pushAndRemoveUntil(context, Dashboard(), false);

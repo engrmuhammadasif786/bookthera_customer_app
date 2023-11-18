@@ -6,6 +6,8 @@ import 'package:bookthera_customer/screens/provider/widgets/build_tile.dart';
 import 'package:bookthera_customer/screens/provider/widgets/provider_cell.dart';
 import 'package:bookthera_customer/screens/provider/widgets/search_field.dart';
 import 'package:bookthera_customer/utils/datamanager.dart';
+import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -25,31 +27,47 @@ class ProviderHome extends StatefulWidget {
 }
 
 class _ProviderHomeState extends State<ProviderHome> {
+  TextEditingController searchController=TextEditingController();
+
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<ProviderProvider>().getChatProvider(context);
-      if (Datamanager().layoutChoice=='simple') {
-        context.read<ProviderProvider>().doCallGetProviders();    
-      } else {
-        context.read<ProviderProvider>().doCallGetProvidersByCategory();
+      if (!Datamanager().isDashboardFirstLoad) {
+        context.read<ProviderProvider>().getChatProvider(context);
+        callProviders();  
       }
     });
+  }
+
+  void callProviders() {
+    // if (Datamanager().layoutChoice=='simple') {
+    //   context.read<ProviderProvider>().doCallGetProviders();    
+    // } else {
+      context.read<ProviderProvider>().doCallGetProvidersByCategory();
+    // }
   }
   @override
   Widget build(BuildContext context) {
     var providerProvider = context.watch<ProviderProvider>();
     return CustomLoader(
-      isLoading: providerProvider.isLoading,
+      isLoading: (providerProvider.providerCategoryList.isEmpty && providerProvider.providersList.isEmpty) && providerProvider.isLoading,
       child: (providerProvider.providersList.isEmpty)
           ? SingleChildScrollView(
               child: Column(
                 children: [
+                  if((providerProvider.providerCategoryList.isNotEmpty || providerProvider.providersList.isNotEmpty) && providerProvider.isLoading) LinearProgressIndicator(color: colorPrimary,minHeight: 2,),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 16),
+                    padding: getPadding(all: 16),
                     child: CustomSearchField(
+                      searchController: searchController,
+                      isClose: searchController.text.isNotEmpty,
+                      onClose: () {
+                        setState(() {
+                          searchController.clear();
+                          callProviders();
+                        });
+                      },
                       onFavouriteTap: () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(
@@ -71,7 +89,11 @@ class _ProviderHomeState extends State<ProviderHome> {
                         showCustomDialog(context, ProviderFilter());
                       },
                       onTap: () {
-                        showCustomDialog(context, ProviderSearch());
+                        showCustomDialog(context, ProviderSearch(),onthen: (query) {
+                          if (query!=null) {
+                            searchController.text=query;  
+                          }
+                        },);
                       },
                     ),
                   ),
@@ -101,7 +123,7 @@ class _ProviderHomeState extends State<ProviderHome> {
                                 ),
                                 Container(
                                     width: MediaQuery.of(context).size.width,
-                                    height: 300,
+                                    height: getSize(309),
                                     child: ListView.builder(
                                         shrinkWrap: true,
                                         scrollDirection: Axis.horizontal,
@@ -125,10 +147,19 @@ class _ProviderHomeState extends State<ProviderHome> {
           : Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              if((providerProvider.providerCategoryList.isNotEmpty || providerProvider.providersList.isNotEmpty) && providerProvider.isLoading) LinearProgressIndicator(color: colorPrimary,minHeight: 2,),
               Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 16),
                     child: CustomSearchField(
+                      searchController: searchController,
+                      isClose: searchController.text.isNotEmpty,
+                      onClose: () {
+                        setState(() {
+                          searchController.clear();
+                          callProviders();
+                        });
+                      },
                       onFavouriteTap: () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(
@@ -146,12 +177,16 @@ class _ProviderHomeState extends State<ProviderHome> {
                         });
                       },
                       onFilter: () {
-                        showCustomDialog(context, ProviderFilter(),onthen: (){
+                        showCustomDialog(context, ProviderFilter(),onthen: (value){
                           context.read<ProviderProvider>().resetProducsList();
                         });
                       },
                       onTap: () {
-                        showCustomDialog(context, ProviderSearch());
+                        showCustomDialog(context, ProviderSearch(),onthen: (query) {
+                          if (query!=null) {
+                            searchController.text=query;
+                          }
+                        },);
                       },
                     ),
                   ),

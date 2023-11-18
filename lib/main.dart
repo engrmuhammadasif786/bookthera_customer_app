@@ -1,4 +1,5 @@
 import 'package:bookthera_customer/firebase_options.dart';
+import 'package:bookthera_customer/screens/auth/splash_screen.dart';
 import 'package:bookthera_customer/screens/sessions/audioVideosCalls/call.dart';
 import 'package:bookthera_customer/screens/auth/LoginScreen.dart';
 import 'package:bookthera_customer/screens/auth/SignUpScreen.dart';
@@ -54,14 +55,19 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: AppTheme.darkTheme,
           darkTheme: AppTheme.darkTheme,
-          home: LoginScreen(),
+          home: SplashScreen(),
           routes: <String, WidgetBuilder>{
             // HomeScreen.tag: (BuildContext context) => HomeScreen(),
           },
           builder: scrollBehaviour(),
           supportedLocales: LanguageDataModel.languageLocales(),
+          navigatorKey: AppKeys.navigatorKey,
         ),
       ),
     );
   }
+}
+
+class AppKeys {
+  static final GlobalKey<NavigatorState> navigatorKey=GlobalKey(); 
 }

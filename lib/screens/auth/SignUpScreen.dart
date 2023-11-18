@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:bookthera_customer/components/custom_textform_field.dart';
 import 'package:bookthera_customer/screens/auth/LoginScreen.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 import '../../components/custom_loader.dart';
 import '../../components/custom_phone_field.dart';
-import '../../components/custom_textfields.dart';
+import '../../components/custom_textform_field_signup.dart';
 import '../../utils/helper.dart';
 import 'auth_provider.dart';
 
@@ -61,6 +61,7 @@ class _SignUpState extends State<SignUpScreen> {
     }
 
     return Scaffold(
+      backgroundColor: Color(0xffFAFAFA),
       appBar: AppBar(
         elevation: 1.0,
         toolbarHeight: 0,
@@ -73,7 +74,7 @@ class _SignUpState extends State<SignUpScreen> {
         isLoading: context.watch<AuthProvider>().isLoading,
         child: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.only(left: 16.0, right: 16, bottom: 16,top: 32),
+            margin: getMargin(left: 16.0, right: 16, bottom: 16,top: 32),
             child: Form(
               key: _key,
               autovalidateMode: _validate,
@@ -104,30 +105,30 @@ class _SignUpState extends State<SignUpScreen> {
       children: <Widget>[
         Image.asset(
           'assets/images/app_logo_signup.png',
-          width: 42,
-          height: 42,
+          width: getSize(42),
+          height: getSize(42),
         ),
         Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: getPadding(top: 8.0),
             child: Text(
               'Create Account',
               style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w600,
-                  fontSize: 25.0),
+                  fontSize: getFontSize(25)),
             )),
         Padding(
-          padding: const EdgeInsets.only(top: 8.0, bottom: 21),
+          padding: getPadding(top: 8.0, bottom: 21),
           child: Text(
             'Sign up to get started!',
             style: TextStyle(
                 color: Colors.black.withOpacity(0.5),
                 fontWeight: FontWeight.w500,
-                fontSize: 15.0),
+                fontSize: getFontSize(15)),
           ),
         ),
         // Padding(
-        //   padding: const EdgeInsets.only(left: 8.0, top: 32, right: 8, bottom: 8),
+        //   padding: getPadding(left: 8.0, top: 32, right: 8, bottom: 8),
         //   child: Stack(
         //     alignment: Alignment.bottomCenter,
         //     children: <Widget>[
@@ -169,9 +170,9 @@ class _SignUpState extends State<SignUpScreen> {
         Row(
           children: [
             Expanded(
-                child: CustomTextFormField(
+                child: CustomTextFormFieldUp(
               controller: firstNameController,
-              hintText: "first Name",
+              hintText: "First Name",
               validator: validateName,
               onSaved: (String? val) {
                 firstName = val;
@@ -179,12 +180,13 @@ class _SignUpState extends State<SignUpScreen> {
               prefixIcon: Icon(
                 Icons.person,
                 color: Colors.grey,
+                size: getSize(18),
               ),
             )),
             Expanded(
-                child: CustomTextFormField(
+                child: CustomTextFormFieldUp(
               controller: lastNameController,
-              hintText: "last Name",
+              hintText: "Last Name",
               validator: validateName,
               onSaved: (String? val) {
                 lastName = val;
@@ -192,11 +194,13 @@ class _SignUpState extends State<SignUpScreen> {
               prefixIcon: Icon(
                 Icons.person,
                 color: Colors.grey,
+                size: getSize(18),
+                
               ),
             )),
           ],
         ),
-        CustomTextFormField(
+        CustomTextFormFieldUp(
               controller: nameController,
               hintText: "Username",
               validator: validateEmptyField,
@@ -206,8 +210,9 @@ class _SignUpState extends State<SignUpScreen> {
               prefixIcon: Icon(
                 Icons.person,
                 color: Colors.grey,
+                size: getSize(18),
               )),
-        CustomTextFormField(
+        CustomTextFormFieldUp(
           controller: emailController,
           hintText: 'Email',
           validator: validateEmail,
@@ -218,6 +223,7 @@ class _SignUpState extends State<SignUpScreen> {
           prefixIcon: Icon(
             Icons.email,
             color: Colors.grey,
+            size: getSize(18),
           ),
         ),
         PhoneTextFormField(
@@ -235,7 +241,7 @@ class _SignUpState extends State<SignUpScreen> {
         /// user mobile text field, this is hidden in case of sign up with
         /// phone number
         // Padding(
-        //   padding: EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
+        //   padding: getPadding(top: 16.0, right: 8.0, left: 8.0),
         //   child: Container(
         //     padding: EdgeInsets.symmetric(horizontal: 16),
         //     decoration: BoxDecoration(
@@ -272,9 +278,9 @@ class _SignUpState extends State<SignUpScreen> {
         //   ),
         // ),
 
-        CustomTextFormField(
+        CustomTextFormFieldUp(
           controller: passwordController,
-          hintText: 'password',
+          hintText: 'Password',
           validator: validatePassword,
           obscureText: authProviderTrue.isPasswordVisible,
           onSaved: (String? val) {
@@ -283,14 +289,15 @@ class _SignUpState extends State<SignUpScreen> {
           prefixIcon: Icon(
             Icons.lock,
             color: Colors.grey,
+            size: getSize(18),
           ),
           suffixIcon: IconButton(
             onPressed: () {
               authProviderFalse.setIsPasswordVisible();
             },
-            icon: Icon(authProviderTrue.isPasswordVisible?Icons.visibility_off_outlined:Icons.visibility_outlined)),
+            icon: Icon(authProviderTrue.isPasswordVisible?Icons.visibility_off_outlined:Icons.visibility_outlined,size: getSize(22),)),
         ),
-        CustomTextFormField(
+        CustomTextFormFieldUp(
           controller: confirmPasswordController,
           hintText: 'Confirm Password',
           obscureText: authProviderTrue.isConPasswordVisible,
@@ -298,7 +305,7 @@ class _SignUpState extends State<SignUpScreen> {
             onPressed: () {
               authProviderFalse.setIsConPasswordVisible();
             },
-            icon: Icon(authProviderTrue.isConPasswordVisible?Icons.visibility_off_outlined:Icons.visibility_outlined)),
+            icon: Icon(authProviderTrue.isConPasswordVisible?Icons.visibility_off_outlined:Icons.visibility_outlined,size: getSize(22),)),
           validator: (value){
              return validateConfirmPassword(passwordController.text,value);
           },
@@ -308,12 +315,13 @@ class _SignUpState extends State<SignUpScreen> {
           prefixIcon: Icon(
             Icons.lock,
             color: Colors.grey,
+            size: getSize(18),
           ),
         ),
         // ConstrainedBox(
         //   constraints: BoxConstraints(minWidth: double.infinity),
         //   child: Padding(
-        //     padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
+        //     padding: getPadding(top: 16.0, right: 8.0, left: 8.0),
         //     child: TextFormField(
         //       textAlignVertical: TextAlignVertical.center,
         //       textInputAction: TextInputAction.done,
@@ -348,31 +356,43 @@ class _SignUpState extends State<SignUpScreen> {
         //   ),
         // ),
         Padding(
-          padding: const EdgeInsets.only(top: 16),
+          padding: getPadding(top: 32,bottom: 16),
           child: Row(
             children: [
-              Checkbox(
-                  activeColor: colorPrimary,
-                  side: BorderSide(color: Colors.black),
-                  value: authProviderTrue.termsNConditons,
-                  onChanged: (value) {
-                    if (value != null) {
-                      authProviderFalse.setTermsNConditions();
-                    }
-                  }),
+              SizedBox(width: getSize(8),),
+              SizedBox(
+                height: getSize(24),
+                width: getSize(24),
+                child: Checkbox(
+                    activeColor: colorPrimary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(getSize(4.19))
+                    ),
+                    side: BorderSide(color: Colors.black),
+                    value: authProviderTrue.termsNConditons,
+                    onChanged: (value) {
+                      if (value != null) {
+                        authProviderFalse.setTermsNConditions();
+                      }
+                    }),
+              ),
+              SizedBox(width: getSize(5),),
               Flexible(
                 child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
                       text: "I accept the Terms & Conditions of ",
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Color(0xff989898),
+                              fontWeight: FontWeight.w500,
+                              fontSize: getFontSize(15),
+                              letterSpacing: 1,),
                       children: [
                         TextSpan(
                           text: 'Bookthera',
                           style: TextStyle(
                               color: colorPrimary,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1,
+                              fontWeight: FontWeight.w600,
+                              fontSize: getFontSize(16),
                               decoration: TextDecoration.underline),
                         ),
                       ],
@@ -382,12 +402,12 @@ class _SignUpState extends State<SignUpScreen> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 8.0),
+          padding: getPadding(top: 8.0),
           child: ConstrainedBox(
             constraints: const BoxConstraints(minWidth: double.infinity),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.only(top: 12, bottom: 12),
+                padding: getPadding(top: 12, bottom: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25.0),
                   side: BorderSide(
@@ -397,9 +417,9 @@ class _SignUpState extends State<SignUpScreen> {
                 primary: colorPrimary,
               ),
               child: Text(
-                'signUp',
+                'Sign Up',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: getFontSize(18),
                   fontWeight: FontWeight.w500,
                   color: isDarkMode(context) ? Colors.black : Colors.white,
                 ),
@@ -422,7 +442,7 @@ class _SignUpState extends State<SignUpScreen> {
         //     push(context, PhoneNumberInputScreen(login: false));
         //   },
         //   child: Padding(
-        //     padding: EdgeInsets.only(top: 10, right: 40, left: 40),
+        //     padding: getPadding(top: 10, right: 40, left: 40),
         //     child: Container(
         //         alignment: Alignment.bottomCenter,
         //         padding: EdgeInsets.all(10),
@@ -441,7 +461,7 @@ class _SignUpState extends State<SignUpScreen> {
         //   ),
         // )
         Padding(
-          padding: EdgeInsets.only(top: 16),
+          padding: getPadding(top: 16),
           child: ConstrainedBox(
             constraints: const BoxConstraints(minWidth: double.infinity),
             child: ElevatedButton.icon(
@@ -451,23 +471,23 @@ class _SignUpState extends State<SignUpScreen> {
                       'Continue with Google',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: getFontSize(18),
                           fontWeight: FontWeight.normal,
                           color: Colors.black),
                     )),
                 icon: Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+                      getPadding(top: 8.0,bottom: 8, right: 20,left: 20),
                   child: Image.asset(
                     'assets/images/google_logo.png',
-                    height: 30,
-                    width: 30,
+                    height: getSize(25),
+                    width: getSize(25),
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
+                    borderRadius: BorderRadius.circular(getSize(25)),
                     side: BorderSide(
                       color: Colors.white,
                     ),
@@ -479,21 +499,21 @@ class _SignUpState extends State<SignUpScreen> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: 45),
+          padding: getPadding(top: 45),
           child: GestureDetector(
             onTap: () => pushReplacement(context, LoginScreen()),
             child: RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
                 text: "Already have an account? ",
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500,
+                fontSize: getFontSize(16),
+                        letterSpacing: 1,),
                 children: [
                   TextSpan(
                     text: "Login",
                     style: TextStyle(
                         color: colorPrimary,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
                         decoration: TextDecoration.underline),
                   ),
                 ],

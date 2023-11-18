@@ -1,3 +1,4 @@
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -47,7 +48,7 @@ class _SlotCellState extends State<SlotCell> {
                   child: Text('Available Slots',
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          fontSize: 15,
+                          fontSize: getFontSize(15),
                           color: textColorPrimary)),
                 ),
                 GridView.builder(

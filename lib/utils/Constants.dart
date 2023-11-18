@@ -13,6 +13,8 @@ const wentWrongMsg='Something went wrong, please try again later';
 const isLoggedIn = 'isLoggedIn';
 const TOKEN = 'TOKEN';
 const EXPIRATION_TOKEN_TIME = 'EXPIRATION_TOKEN_TIME';
+const NOTIFICATION_JSON = 'NOTIFICATION_JSON';
+const PHONE = 'PHONE';
 const USERNAME = 'USERNAME';
 const FIRST_NAME = 'FIRST_NAME';
 const LAST_NAME = 'LAST_NAME';
@@ -35,6 +37,6 @@ const stripeSecretKey = 'sk_test_51KByHxHQNZGr8l6UwkEWaWzccMac6JZaDF8YVc2oZ2jkyX
  
 const agoraAppId = '9c3053c586514d319f2ce2519f252960';
 
-const playstoreUrl = "https://play.google.com/store/apps/details?id=com.asiayeshit.bookthera_customer";
+const playstoreUrl = "https://play.google.com/store/apps/details?id=com.asiayeshit.bookthera";
 const appstoreUrl = "https://apps.apple.com/app/bookthera/id1667152149 ";
 const placehorder='https://w7.pngwing.com/pngs/754/2/png-transparent-samsung-galaxy-a8-a8-user-login-telephone-avatar-pawn-blue-angle-sphere-thumbnail.png';

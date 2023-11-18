@@ -13,6 +13,7 @@ import 'widgets/report_no_show.dart';
 
 class SessionProvider with ChangeNotifier {
   bool isLoading = false;
+  bool isFirstLoad = false;
   List<BookSession> sessionList = [];
   List<BookSession> upcomming = [];
   List<BookSession> completed = [];
@@ -23,36 +24,41 @@ class SessionProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  setIsFirstLoad(bool stauts) {
+    isFirstLoad = stauts;
+  }
+
   void updateReviewBy(String id) {
     int index=sessionList.indexWhere((element) => element.sId==id);
     if (index!=-1) {
-      sessionList[index].reviewByProvider='1';
+      sessionList[index].reviewByUser='1';
     }
     notifyListeners();
   }
 
   doCallGetSessoins() {
-    sessionList.clear();
-    upcomming.clear();
-    completed.clear();
-    rejectedList.clear();
     setLoader(true);
     callGetSessions().then((value) {
       if (value is String) {
         toast(value);
       } else if (value is List<BookSession>) {
-        sessionList = value;
-        for (var i = 0; i < sessionList.length; i++) {
-          switch (sessionList[i].status) {
-            case 'completed':
-              completed.add(sessionList[i]);
-              break;
-            case 'cancelled':
-              rejectedList.add(sessionList[i]);
-              break;
-            default:
-              upcomming.add(sessionList[i]);
-              break;
+        if (value.isNotEmpty) {
+          upcomming.clear();
+          completed.clear();
+          rejectedList.clear();
+          sessionList = value;
+          for (var i = 0; i < sessionList.length; i++) {
+            switch (sessionList[i].status) {
+              case 'completed':
+                completed.add(sessionList[i]);
+                break;
+              case 'cancelled':
+                rejectedList.add(sessionList[i]);
+                break;
+              default:
+                upcomming.add(sessionList[i]);
+                break;
+            }
           }
         }
       }
@@ -60,7 +66,7 @@ class SessionProvider with ChangeNotifier {
     });
   }
 
-  doCallUpdateBookSession(Map body, String id, {bool isCancel = false}) {
+  doCallUpdateBookSession(Map body, String id, {bool isCancel = false,bool isComplete = false}) {
     setLoader(true);
     callUpdateBookSession(body, id).then((value) {
       if (value is String) {
@@ -70,7 +76,10 @@ class SessionProvider with ChangeNotifier {
         if (isCancel) {
           upcomming.removeWhere((element) => element.sId == id);
           rejectedList.add(value);
-        } else {
+        } else if(isComplete){
+          upcomming.removeWhere((element) => element.sId == id);
+          completed.add(value);
+        }else {
           int index = upcomming.indexWhere((element) => element.sId == id);
           upcomming[index] = value;
         }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bookthera_customer/screens/settings/chage_password.dart';
 import 'package:bookthera_customer/screens/settings/setting_provider.dart';
 import 'package:bookthera_customer/utils/datamanager.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart' as ip;
 import 'package:nb_utils/nb_utils.dart' as nb;
@@ -59,7 +60,7 @@ class _AccountSettingState extends State<AccountSetting> {
           child: Column(
             children: [
               Padding(
-              padding: const EdgeInsets.only(top: 32.0, left: 32, right: 32),
+              padding: getPadding(top: 32.0, left: 32, right: 32),
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: <Widget>[
@@ -96,14 +97,15 @@ class _AccountSettingState extends State<AccountSetting> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(getSize(15)),
                     boxShadow: [
                       BoxShadow(
                           offset: Offset(1, 1),
                           blurRadius: 5,
                           spreadRadius: 2,
                           color: Colors.black.withOpacity(0.1))
-                    ]),
+                    ]
+                    ),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -119,6 +121,8 @@ class _AccountSettingState extends State<AccountSetting> {
                           },
                           prefixIcon: Icon(
                             Icons.person,
+                            size: getSize(18),
+                            color: colorPrimary,
                           ),
                         ),
                         CustomTextFormField(
@@ -130,6 +134,8 @@ class _AccountSettingState extends State<AccountSetting> {
                           },
                           prefixIcon: Icon(
                             Icons.person,
+                            size: getSize(18),
+                            color: colorPrimary,
                           ),
                         ),
                         CustomTextFormField(
@@ -142,6 +148,8 @@ class _AccountSettingState extends State<AccountSetting> {
                               },
                               prefixIcon: Icon(
                                 Icons.person,
+                                size: getSize(18),
+                                color: colorPrimary,
                               ),
                             ),
                         CustomTextFormField(
@@ -154,6 +162,8 @@ class _AccountSettingState extends State<AccountSetting> {
                               },
                               prefixIcon: Icon(
                                 Icons.phone,
+                                size: getSize(18),
+                                color: colorPrimary,
                               ),
                             ),
                         CustomTextFormField(
@@ -168,6 +178,8 @@ class _AccountSettingState extends State<AccountSetting> {
                               },
                               prefixIcon: Icon(
                                 Icons.email,
+                                size: getSize(18),
+                                color: colorPrimary,
                               ),
                             ),
                             CustomTextFormField(
@@ -178,15 +190,17 @@ class _AccountSettingState extends State<AccountSetting> {
                               obscureText: true,
                               prefixIcon: Icon(
                                 Icons.lock,
+                                size: getSize(18),
+                                color: colorPrimary,
                               ),
                               suffixIcon: TextButton(onPressed: (){
                                 push(context, ChangePasswordScreen() );
-                              }, child: Text('Change',style: TextStyle(decoration: TextDecoration.underline,color: colorPrimary),)),
+                              }, child: Text('Change',style: TextStyle(decoration: TextDecoration.underline,color: colorPrimary,fontSize: getFontSize(12),fontWeight: FontWeight.w500),)),
                             )
                       ],
                     )),
                     Padding(
-                      padding: const EdgeInsets.only(top: 46.0),
+                      padding: getPadding(top: 46.0),
                       child: SizedBox(
                         width: double.infinity,
                         child: CustomButton(

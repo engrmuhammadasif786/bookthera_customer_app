@@ -1,4 +1,5 @@
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,12 +12,14 @@ class CustomButton extends StatelessWidget {
   double width;
   void Function()? onPressed;
   double borderRadius;
+  bool isOutlined;
   CustomButton({
     Key? key,
     required this.title,
     required this.onPressed,
     this.color,
     this.width = double.infinity,
+    this.isOutlined=false,
     this.titletxtColor = Colors.white,
     this.borderRadius=25.0,
   }) : super(key: key);
@@ -24,12 +27,32 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return ElevatedButton(
+    return isOutlined?OutlinedButton(
+  style: OutlinedButton.styleFrom(
+    padding: EdgeInsets.symmetric(vertical: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(getSize(borderRadius)),
+      side: BorderSide(
+        color: color ?? colorPrimary,
+      ),
+    ),
+  ),
+  onPressed: onPressed,
+  child: Text(
+    title,
+    style: TextStyle(
+      fontSize: getFontSize(15),
+      fontWeight: FontWeight.w500,
+      color: color,
+    ),
+  ),
+)
+: ElevatedButton(
       style: ElevatedButton.styleFrom(
         primary: color?? colorPrimary,
-        padding: EdgeInsets.only(top: 12, bottom: 12),
+        padding: getPadding(top: 12, bottom: 12),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
+          borderRadius: BorderRadius.circular(getSize(borderRadius)),
           side: BorderSide(
             color: color??colorPrimary,
           ),
@@ -38,7 +61,7 @@ class CustomButton extends StatelessWidget {
       child: Text(
         title,
         style: TextStyle(
-            fontSize: 18, fontWeight: FontWeight.normal, color:titletxtColor),
+            fontSize: getFontSize(15), fontWeight: FontWeight.w500, color:titletxtColor),
       ),
       onPressed: onPressed,
     );

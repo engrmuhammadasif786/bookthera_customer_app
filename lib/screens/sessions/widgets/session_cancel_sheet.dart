@@ -1,3 +1,4 @@
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -7,9 +8,11 @@ import '../../../components/custom_textfields.dart';
 import '../../../utils/resources/Colors.dart';
 import '../../provider/widgets/sessions_button.dart';
 
+TextEditingController cancelController = TextEditingController();
+
 class SessionCancelSheet extends StatelessWidget {
   // const SessionCancelSheet({super.key});
-  TextEditingController cancelController = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -42,15 +45,15 @@ class SessionCancelSheet extends StatelessWidget {
               },
               child: Image.asset(
                           'assets/images/arrow_back.png',
-                          height: 33,
-                          width: 33,
+                          height: getSize(33),
+                          width: getSize(33),
                           color: colorPrimary,
                         )),
                   Spacer(flex: 1,),
                   Text('Cancellation Reason',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 18,
+                          fontSize: getFontSize(18),
                           color: textColorPrimary)),
                 Spacer(flex: 2,),
                 ],

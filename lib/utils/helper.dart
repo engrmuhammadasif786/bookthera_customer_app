@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -246,8 +247,8 @@ Widget _getPlaceholderOrErrorImage(double size, hasBorder) => ClipOval(
 Widget getCircularImageProvider(ImageProvider provider, double size, bool hasBorder, {bool isCamera=true}) {
   return ClipOval(
       child: Container(
-    width: isCamera? size+16:size,
-    height:isCamera? size+16:size,
+    width: isCamera? size+getSize(16):size,
+    height:isCamera? size+getSize(16):size,
     margin: isCamera? EdgeInsets.only(bottom: 16):null,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(500)),
@@ -311,23 +312,23 @@ Widget showEmptyState(String title, String description, {String? buttonTitle, bo
   return Center(
     child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       SizedBox(height: 30),
-      Text(title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+      Text(title, style: TextStyle(fontSize: getFontSize(24), fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
       SizedBox(height: 15),
       Text(
         description,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 17),
+        style: TextStyle(fontSize: getFontSize(17)),
       ),
       SizedBox(height: 25),
       if (action != null)
         Padding(
-          padding: const EdgeInsets.only(left: 24.0, right: 24),
+          padding: getPadding(left: 24.0, right: 24),
           child: ConstrainedBox(
             constraints: BoxConstraints(minWidth: double.infinity),
             child: ElevatedButton(
                 child: Text(
                   buttonTitle!,
-                  style: TextStyle(color: isDarkMode! ? Colors.black : Colors.white, fontSize: 18),
+                  style: TextStyle(color: isDarkMode! ? Colors.black : Colors.white, fontSize: getFontSize(18)),
                 ),
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

@@ -1,6 +1,7 @@
 import 'package:bookthera_customer/components/custom_appbar.dart';
 import 'package:bookthera_customer/screens/settings/setting_provider.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -37,10 +38,9 @@ class _NotificationsSettingState extends State<NotificationsSetting> {
             TextButton(onPressed: (){
               context.read<SettingProvider>().doCallUpdateNotification(context);
             }, child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: getPadding(all: 8.0),
               child: Text('Save',
-          style: primaryTextStyle(
-                color: colorPrimary, size: 20, weight: FontWeight.w500)),
+          style: TextStyle(color: colorPrimary, fontSize: getFontSize(20), fontWeight: FontWeight.w500)),
             ))
           ],
         ),
@@ -50,12 +50,12 @@ class _NotificationsSettingState extends State<NotificationsSetting> {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.all(14),
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  padding: getPadding(all: 14),
+                  margin: getMargin(all: 16),
                   width: double.infinity,
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(getSize(15)),
                       boxShadow: [
                         BoxShadow(
                             offset: Offset(1, 1),
@@ -68,27 +68,27 @@ class _NotificationsSettingState extends State<NotificationsSetting> {
                       Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(right: 9.0),
+                            padding: getPadding(right: 9.0),
                             child: Icon(
                               Icons.notifications,
                               color: colorPrimary,
-                              size: 18,
+                              size: getSize(18),
                             ),
                           ),
                           Text(
                             'Push Notifications',
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w500),
+                                fontSize: getFontSize(16), fontWeight: FontWeight.w500),
                           )
                         ],
                       ),
                       ListView.separated(
                           separatorBuilder: (context, index) => Divider(
                                 color: Color(0xffD9D9D9),
-                                thickness: 1,
-                                height: 16,
+                                thickness: getSize(1),
+                                height: getSize(16),
                               ),
-                          padding: EdgeInsets.symmetric(vertical: 16),
+                          // padding: EdgeInsets.symmetric(vertical: 16),
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: settingProvider.pushNotifications.length,
@@ -98,12 +98,12 @@ class _NotificationsSettingState extends State<NotificationsSetting> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(14),
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  padding: getPadding(all: 14),
+                  margin: getMargin(all: 16),
                   width: double.infinity,
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(getSize(15)),
                       boxShadow: [
                         BoxShadow(
                             offset: Offset(1, 1),
@@ -116,27 +116,27 @@ class _NotificationsSettingState extends State<NotificationsSetting> {
                       Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(right: 9.0),
+                            padding: getPadding(right: 9.0),
                             child: Icon(
                               Icons.email,
                               color: colorPrimary,
-                              size: 18,
+                              size: getSize(18),
                             ),
                           ),
                           Text(
                             'Email Notifications',
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w500),
+                                fontSize: getFontSize(16), fontWeight: FontWeight.w500),
                           )
                         ],
                       ),
                       ListView.separated(
                           separatorBuilder: (context, index) => Divider(
                                 color: Color(0xffD9D9D9),
-                                thickness: 1,
-                                height: 16,
+                                thickness: getSize(1),
+                                height: getSize(16),
                               ),
-                          padding: EdgeInsets.symmetric(vertical: 16),
+                          // padding: getPadding(top: 16,bottom: 16),
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: settingProvider.emailNotifications.length,
@@ -160,7 +160,7 @@ class _NotificationsSettingState extends State<NotificationsSetting> {
         Text(
           notificationsObj.title,
           style: TextStyle(
-              fontSize: 15,
+              fontSize: getFontSize(15),
               fontWeight: FontWeight.w500,
               color: textColorPrimary),
         ),

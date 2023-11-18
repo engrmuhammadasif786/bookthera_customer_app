@@ -3,6 +3,7 @@ import 'package:bookthera_customer/screens/provider/provider_provider.dart';
 import 'package:bookthera_customer/screens/provider/widgets/search_field.dart';
 import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -54,11 +55,11 @@ class _ProviderFilterState extends State<ProviderFilter> {
     return Dialog(
       alignment: Alignment.topCenter,
       insetPadding:
-          EdgeInsets.symmetric(horizontal: 16, vertical: 64 + kToolbarHeight),
+          EdgeInsets.symmetric(horizontal: 16, vertical: getSize(64 + kToolbarHeight)),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+        padding: EdgeInsets.symmetric(horizontal: getSize(16), vertical: getSize(24)),
         // clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
             color: appBackground,
@@ -83,15 +84,15 @@ class _ProviderFilterState extends State<ProviderFilter> {
                     Text(
                       'Filters',
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: getFontSize(20),
                           fontWeight: FontWeight.w500,
                           color: textColorPrimary),
                     ),
                     GestureDetector(onTap: (){
                       Navigator.of(context).pop();
                     }, child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.close),
+                      padding: getPadding(all: 8.0),
+                      child: Icon(Icons.close,size: getSize(24),),
                     ))
                   ],
                 ),
@@ -99,7 +100,7 @@ class _ProviderFilterState extends State<ProviderFilter> {
                Text(
                 'Sorting By',
                 style: TextStyle(
-                    fontSize: 15,
+                    fontSize: getFontSize(15),
                     fontWeight: FontWeight.w500,
                     color: textColorPrimary),
               ),
@@ -130,7 +131,7 @@ class _ProviderFilterState extends State<ProviderFilter> {
               Text(
                 'Session Type',
                 style: TextStyle(
-                    fontSize: 15,
+                    fontSize: getFontSize(15),
                     fontWeight: FontWeight.w500,
                     color: textColorPrimary),
               ),
@@ -161,7 +162,7 @@ class _ProviderFilterState extends State<ProviderFilter> {
               Text(
                 'Availability',
                 style: TextStyle(
-                    fontSize: 15,
+                    fontSize: getFontSize(15),
                     fontWeight: FontWeight.w500,
                     color: textColorPrimary),
               ),
@@ -193,7 +194,7 @@ class _ProviderFilterState extends State<ProviderFilter> {
               Text(
                 'Promotion',
                 style: TextStyle(
-                    fontSize: 15,
+                    fontSize: getFontSize(15),
                     fontWeight: FontWeight.w500,
                     color: textColorPrimary),
               ),
@@ -291,7 +292,7 @@ class _ProviderFilterState extends State<ProviderFilter> {
       child: Text(title,
           style: TextStyle(
               fontWeight: FontWeight.w500,
-              fontSize: 13,
+              fontSize: getFontSize(13),
               color: isSelected ? colorPrimary : Color(0xff858585))),
     );
   }
@@ -306,7 +307,7 @@ class _ProviderFilterState extends State<ProviderFilter> {
         maxLines: 1,
         textAlign: TextAlign.center,
         style: TextStyle(
-            fontWeight: FontWeight.w500, fontSize: 15, color: colorPrimary),
+            fontWeight: FontWeight.w500, fontSize: getFontSize(15), color: colorPrimary),
       ),
     );
   }

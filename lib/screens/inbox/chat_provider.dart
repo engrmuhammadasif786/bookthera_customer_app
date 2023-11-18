@@ -13,6 +13,7 @@ import '../../utils/Constants.dart';
 
 class ChatProvider with ChangeNotifier {
   bool isLoading = false;
+  bool isSubLoading = false;
   List<MessageModel> messagesList = [];
   List<MessageModel> messagesByIdList = [];
   late WebSocketChannel channel;
@@ -27,8 +28,18 @@ class ChatProvider with ChangeNotifier {
   String lastSeen = '';
   Timer? timer;
   double persent=0.0;
+  int filter1Index=0;
   setLoader(bool status) {
     isLoading = status;
+    notifyListeners();
+  }
+
+  updateFilterIndex(value){
+    filter1Index=value;
+  }
+
+  setSubLoader(bool status) {
+    isSubLoading = status;
     notifyListeners();
   }
 
@@ -122,6 +133,7 @@ class ChatProvider with ChangeNotifier {
             break;
           case 'error':
             // toast(body['message']);
+            log(body['message']);
             break;
           default:
         }
@@ -199,14 +211,24 @@ class ChatProvider with ChangeNotifier {
     }
   }
 
-  doCallGetMessages() {
-    messagesList.clear();
+  void sortMessage({String date = "-1"}) {
+  bool ascending = date == "-1";
 
-    // connectSocket();
+  messagesList.sort((a, b) {
+    if (ascending) {
+      return a.createdAt!.isAfter(b.createdAt!) ? -1 : 1;
+    } else {
+      return b.createdAt!.isAfter(a.createdAt!) ? -1 : 1;
+    }
+  });
+  notifyListeners();
+}
+
+  doCallGetMessages() {
     setLoader(true);
     callGetMessages().then((value) {
       if (value is String) {
-        // toast(value);
+        toast(value);
       } else if (value is List<MessageModel>) {
         messagesList = value;
       }
@@ -263,7 +285,7 @@ class ChatProvider with ChangeNotifier {
   }
 
   Future<dynamic> doCallMediaUpload(File file) async {
-    setLoader(true);
+    setSubLoader(true);
     await callUploadMedia(file,(value){
       print(value);
       persent=value;
@@ -271,7 +293,7 @@ class ChatProvider with ChangeNotifier {
     }).then((value) async {
       mediaFile.clear();
       mediaFile.add(value);
-      setLoader(false);
+      setSubLoader(false);
     });
   }
 

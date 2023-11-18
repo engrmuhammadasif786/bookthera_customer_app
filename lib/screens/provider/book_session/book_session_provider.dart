@@ -290,9 +290,10 @@ class BookSesstionProvider extends ChangeNotifier {
      selectedImage = (isIOS ?await compressImage(image!) : image) as File;
     callGetCreateBookSession(body, selectedImage).then((value) {
       setLoader(false);
-      if (value is String) {
+      if (value is BookSession) {
         // return string id if true
-        bookSessionId = value;
+        bookSessionId = value.sId;
+        paymentCards=value.billings;
         intensionsController.clear();
         image=null;
         hp.push(context, PaymentScreen());
@@ -418,7 +419,7 @@ class BookSesstionProvider extends ChangeNotifier {
         // });
 
         PaymentService paymentService =PaymentService();
-        dynamic paymentNoun = await paymentService.tokenizeCreditCard(BraintreeCreditCardRequest(cardNumber: paymentCards[paymentCardIndex].number!, expirationMonth: paymentCards[paymentCardIndex].expiryMonth!, expirationYear: paymentCards[paymentCardIndex].expiryYear!, cvv: paymentCards[paymentCardIndex].cvv!,cardholderName: paymentCards[paymentCardIndex].name));
+        dynamic paymentNoun = await paymentService.tokenizeCreditCard(BraintreeCreditCardRequest(cardNumber: paymentCards[paymentCardIndex].number!, expirationMonth: paymentCards[paymentCardIndex].expiryMonth!, expirationYear: paymentCards[paymentCardIndex].expiryYear!, cvv: paymentCards[paymentCardIndex].cvv!));
         if (paymentNoun==null) {
           setLoader(false);
           toast(errorSomethingWentWrong);

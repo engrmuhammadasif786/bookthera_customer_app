@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -59,17 +60,16 @@ class CustomAppbar extends StatelessWidget with PreferredSizeWidget {
       leading: IconButton(
         icon: Image.asset(
                         'assets/images/arrow_back.png',
-                        height: 33,
-                        width: 33,
+                        height: getSize(33),
+                        width: getSize(33),
                         color: colorPrimary,
                       ),
         onPressed: () => Navigator.of(context).pop(),
       ), 
       backgroundColor: Colors.white,
       title: titleWidget?? Text(title,
-          style: primaryTextStyle(
-              color: textColorPrimary, size: 20, weight: FontWeight.w500)),
-      elevation: elevation?? 2,
+          style: TextStyle(color: textColorPrimary, fontSize: getFontSize(20), fontWeight: FontWeight.w500)),
+      elevation: elevation?? getSize(2),
       centerTitle: true,
       actions: actions,
       // actions: isActionButtons ? actionbar(size) : null,

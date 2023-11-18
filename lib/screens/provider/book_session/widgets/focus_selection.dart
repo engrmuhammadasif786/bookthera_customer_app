@@ -1,3 +1,4 @@
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -27,7 +28,7 @@ class _FocusSelectionState extends State<FocusSelection> {
         Text('Topic',
       style: TextStyle(
           fontWeight: FontWeight.w600,
-          fontSize: 18,
+          fontSize: getFontSize(18),
           color: textColorPrimary)),
         SizedBox(height: 19,),
         Wrap(
@@ -59,7 +60,7 @@ class _FocusSelectionState extends State<FocusSelection> {
             maxLines: 1,
             textAlign: TextAlign.center,
             style: TextStyle(fontWeight: FontWeight.w500,
-          fontSize: 15,
+          fontSize: getFontSize(15),
           color: !isSelected?colorPrimary: Colors.white),
           ),
     );

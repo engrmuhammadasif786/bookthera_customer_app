@@ -45,8 +45,8 @@ class SettingProvider with ChangeNotifier {
     NotificationsObj(key: 'new_messages', title: 'New messages')
   ];
 
-  List<PaymentCard> paymentCards = Datamanager().userCards;
-  List<BookSession> bookSessions = Datamanager().bookSessions;
+  List<PaymentCard> paymentCards = [];
+  List<BookSession> bookSessions = [];
   String? username, cardNum, expiry, cvv;
 
   List<ReviewModel> reviewsList=[];
@@ -150,6 +150,18 @@ class SettingProvider with ChangeNotifier {
         break;
     }
     return card;
+  }
+
+  doCallGetBillingsSession(){
+    isShowCardFrom=false;
+    setLoader(true);
+    callGetBillings((billings) {
+      paymentCards=billings;
+    }, (sessions) {
+      bookSessions=sessions;
+    }).then((value) {
+      setLoader(false);
+    });
   }
 
   doCallUpdateProfile(Map body, File? image, BuildContext context) {

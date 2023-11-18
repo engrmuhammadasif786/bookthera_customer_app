@@ -11,6 +11,7 @@ import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:bookthera_customer/utils/dots_indicator/DotsIndicator.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:bookthera_customer/utils/resources/Images.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/cupertino.dart';
@@ -65,42 +66,40 @@ class _ChatScreenViewState extends State<ChatScreenView> {
         Provider.of<ChatProvider>(context, listen: true);
     var size = MediaQuery.of(context).size;
     return Builder(builder: (BuildContext innerContext) {
-      return CustomLoader(
-        isLoading: chatProvider.isLoading,
-        child: GestureDetector(
-          onTap: () {
-            hideKeyboard(context);
-            if (emojiShowing) {
-              setState(() {
-                emojiShowing = false;
-              });
-            }
-          },
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              chatProvider.messagesByIdList.isEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                          child: hp.showEmptyState(
-                              'No Messages Yet',
-                              'Send a new message and it will show '
-                                  'up here')),
-                    )
-                  : ListView.builder(
-                      controller: context.read<ChatProvider>().scrollController,
-                      itemCount: chatProvider.messagesByIdList.length,
-                      physics: ClampingScrollPhysics(),
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).size.height * 0.12),
-                      itemBuilder: (BuildContext context, int index) {
-                        return buildMessage(
-                            chatProvider.messagesByIdList[index], chatProvider.isTyping&& index==chatProvider.messagesByIdList.length-1);
-                      }),
-              bottomTextfield(context),
-            ],
-          ),
+      return GestureDetector(
+        onTap: () {
+          hideKeyboard(context);
+          if (emojiShowing) {
+            setState(() {
+              emojiShowing = false;
+            });
+          }
+        },
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            if(chatProvider.isSubLoading || chatProvider.isLoading) Align(alignment: Alignment.topCenter, child: LinearProgressIndicator(color: colorPrimary,minHeight: 2,)),
+            chatProvider.messagesByIdList.isEmpty
+                ? Padding(
+                    padding: getPadding(all: 8.0),
+                    child: Center(
+                        child: hp.showEmptyState(
+                            'No Messages Yet',
+                            'Send a new message and it will show '
+                                'up here')),
+                  )
+                : ListView.builder(
+                    controller: context.read<ChatProvider>().scrollController,
+                    itemCount: chatProvider.messagesByIdList.length,
+                    physics: ClampingScrollPhysics(),
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).size.height * 0.12),
+                    itemBuilder: (BuildContext context, int index) {
+                      return buildMessage(
+                          chatProvider.messagesByIdList[index], chatProvider.isTyping&& index==chatProvider.messagesByIdList.length-1);
+                    }),
+            bottomTextfield(context),
+          ],
         ),
       );
     });
@@ -190,10 +189,9 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                                 decoration: InputDecoration(
                                   filled: true,
                                   fillColor: textFieldFillColor,
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 14, horizontal: 18),
+                                  contentPadding: getPadding(top: 14,bottom: 14,left: 18,right: 18),
                                   hintText: 'Type a message',
-                                  hintStyle: TextStyle(color: borderColor),
+                                  hintStyle: TextStyle(color: borderColor,fontSize: getFontSize(18),fontWeight: FontWeight.w400),
                                   suffixIcon: IconButton(
                                       onPressed: () {
                                         keyboardHandling(context);
@@ -290,7 +288,6 @@ class _ChatScreenViewState extends State<ChatScreenView> {
               skinToneDialogBgColor: Colors.white,
               skinToneIndicatorColor: Colors.grey,
               enableSkinTones: true,
-              
               // showRecentsTab: true,
               recentsLimit: 28,
               replaceEmojiOnLimitExceed: false,
@@ -314,18 +311,18 @@ class _ChatScreenViewState extends State<ChatScreenView> {
     final action = CupertinoActionSheet(
       message: Text(
         'Send media',
-        style: TextStyle(fontSize: 15.0),
+        style: TextStyle(fontSize: getFontSize(18)),
       ),
       actions: <Widget>[
         CupertinoActionSheetAction(
-          child: Text('Choose image from gallery'),
+          child: Text('Choose image from gallery',style: TextStyle(fontSize: getFontSize(18),fontWeight: FontWeight.w500),),
           isDefaultAction: false,
           onPressed: () {
             onUploadImage();
           },
         ),
         CupertinoActionSheetAction(
-          child: Text('Choose video from gallery'),
+          child: Text('Choose video from gallery',style: TextStyle(fontSize: getFontSize(18),fontWeight: FontWeight.w500),),
           isDefaultAction: false,
           onPressed: () {
             onUploadVideo();
@@ -361,6 +358,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
       cancelButton: CupertinoActionSheetAction(
         child: Text(
           'Cancel',
+          style: TextStyle(fontSize: getFontSize(18),fontWeight: FontWeight.w500),
         ),
         onPressed: () {
           Navigator.pop(context);
@@ -401,6 +399,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
       if (messageData.mediaFile!.mediaType == 'image') {
         mediaUrl = messageData.mediaFile!.url!;
       } else if (messageData.mediaFile!.mediaType == 'video') {
+        mediaUrl = messageData.mediaFile!.url!;
         if (messageData.mediaFile!.thumbnail != null) {
           mediaUrl = messageData.mediaFile!.thumbnail!.url!;
         }
@@ -409,18 +408,18 @@ class _ChatScreenViewState extends State<ChatScreenView> {
     if (messageData.seen!) {
       doneStatus = Icon(
         Icons.done_all,
-        size: 16,
+        size: getSize(16),
         color: colorPrimary,
       );
     } else if (messageData.delivered!) {
       doneStatus = Icon(
         Icons.done_all,
-        size: 16,
+        size: getSize(16),
       );
     } else {
       doneStatus = Icon(
         Icons.done,
-        size: 16,
+        size: getSize(16),
       );
     }
     if (mediaUrl.isNotEmpty) {
@@ -499,7 +498,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                           messageData.sentAt!.millisecondsSinceEpoch),
                       style: TextStyle(
                           color: borderColor,
-                          fontSize: 13,
+                          fontSize: getFontSize(13),
                           fontWeight: FontWeight.w400),
                     ),
                     SizedBox(
@@ -545,7 +544,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                   textDirection: TextDirection.rtl,
                   style: TextStyle(
                       color: textColorPrimary,
-                      fontSize: 16,
+                      fontSize: getFontSize(16),
                       fontWeight: FontWeight.w400),
                 ),
               ),
@@ -556,7 +555,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                     hp.setLastSeen(messageData.sentAt!.millisecondsSinceEpoch),
                     style: TextStyle(
                         color: borderColor,
-                        fontSize: 13,
+                        fontSize: getFontSize(13),
                         fontWeight: FontWeight.w400),
                   ),
                   SizedBox(
@@ -593,8 +592,8 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                   : Alignment.bottomLeft,
               children: <Widget>[
                 Container(
-                  height: 35,
-                  width: 35,
+                  height: getSize(35),
+                  width: getSize(35),
                   margin: EdgeInsets.only(right: 8),
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -605,8 +604,8 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                     end: 1,
                     bottom: 1,
                     child: Container(
-                      width: 8,
-                      height: 8,
+                      width: getSize(8),
+                      height: getSize(8),
                       decoration: BoxDecoration(
                           // color: homeConversationModel.members.firstWhere((element) => element.userID == messageData.senderID).active
                           //     ? Colors.green
@@ -650,7 +649,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                 topLeft: Radius.circular(16),
                 bottomRight: Radius.circular(16))),
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: getPadding(all: 12.0),
           child: JumpingDots(),
         ),
       );
@@ -676,7 +675,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                     },
                     child: Hero(
                       tag: mediaUrl,
-                      child:CachedNetworkImage(
+                      child: CachedNetworkImage(
                               memCacheHeight: 200,
                               // memCacheWidth: 50,
                               imageUrl: mediaUrl,
@@ -722,7 +721,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                 hp.setLastSeen(messageData.sentAt!.millisecondsSinceEpoch),
                 style: TextStyle(
                     color: borderColor,
-                    fontSize: 13,
+                    fontSize: getFontSize(13),
                     fontWeight: FontWeight.w400),
               ),
             ],
@@ -745,7 +744,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                       topLeft: Radius.circular(16),
                       bottomRight: Radius.circular(16))),
               child: Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: getPadding(all: 12.0),
                 child: Text(
                   mediaUrl.isEmpty ? messageData.message! : '',
                   textAlign: TextAlign.start,
@@ -764,7 +763,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
               hp.setLastSeen(messageData.sentAt!.millisecondsSinceEpoch),
               style: TextStyle(
                   color: borderColor,
-                  fontSize: 13,
+                  fontSize: getFontSize(13),
                   fontWeight: FontWeight.w400),
             ),
           ],
@@ -801,7 +800,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
     final action = CupertinoActionSheet(
       message: Text(
         'Chat settings',
-        style: TextStyle(fontSize: 15.0),
+        style: TextStyle(fontSize: getFontSize(15)),
       ),
       actions: <Widget>[
         // CupertinoActionSheetAction(
@@ -871,9 +870,9 @@ class _ChatScreenViewState extends State<ChatScreenView> {
       await context
           .read<ChatProvider>()
           .doCallMediaUpload(File(galleryVideo.path));
-      dynamic url = context.read<ChatProvider>().mediaFile;
-      if (url is Map) {
-        _sendMessage('', url);
+      List url = context.read<ChatProvider>().mediaFile;
+      if (url.isNotEmpty) {
+        _sendMessage('', url.first);
       }
     }
   }
@@ -883,9 +882,9 @@ class _ChatScreenViewState extends State<ChatScreenView> {
     XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       await context.read<ChatProvider>().doCallMediaUpload(File(image.path));
-      dynamic url = context.read<ChatProvider>().mediaFile;
-      if (url is Map) {
-        _sendMessage('', url);
+      List url = context.read<ChatProvider>().mediaFile;
+      if (url.isNotEmpty) {
+        _sendMessage('', url.first);
       }
     }
   }

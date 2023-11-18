@@ -8,6 +8,7 @@ import 'package:bookthera_customer/models/payment_card.dart';
 import 'package:bookthera_customer/screens/settings/setting_provider.dart';
 import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -20,6 +21,7 @@ import 'package:provider/provider.dart';
 import '../../components/custom_textform_field.dart';
 import '../../utils/Common.dart';
 import '../../utils/Constants.dart';
+import '../../utils/helper.dart';
 
 class BillingSetting extends StatefulWidget {
   @override
@@ -36,7 +38,7 @@ class _BillingSettingState extends State<BillingSetting> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {context.read<SettingProvider>().setIsShowCardFrom(false);});
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {context.read<SettingProvider>().doCallGetBillingsSession();});
   }
 
   @override
@@ -48,10 +50,11 @@ class _BillingSettingState extends State<BillingSetting> {
         title: 'Billing',
       ),
       body: CustomLoader(
-        isLoading: settingProvider.isLoading,
+        isLoading: settingProvider.bookSessions.isEmpty && settingProvider.isLoading,
         child: SingleChildScrollView(
           child: Column(
             children: [
+              if(settingProvider.bookSessions.isNotEmpty && settingProvider.isLoading) LinearProgressIndicator(color: colorPrimary,minHeight: 2,),
               Container(
                 padding: EdgeInsets.all(14),
                 margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -70,11 +73,11 @@ class _BillingSettingState extends State<BillingSetting> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 13),
+                      padding: getPadding(bottom: 13),
                       child: Text('Payment Methods',
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
-                              fontSize: 15,
+                              fontSize: getFontSize(15),
                               color: Colors.black)),
                     ),
                     if (settingProvider.isShowCardFrom)
@@ -170,11 +173,11 @@ class _BillingSettingState extends State<BillingSetting> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 13),
+                      padding: getPadding(bottom: 13),
                       child: Text('Sessions',
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
-                              fontSize: 15,
+                              fontSize: getFontSize(15),
                               color: Colors.black)),
                     ),
                     ListView.separated(
@@ -228,13 +231,13 @@ class _BillingSettingState extends State<BillingSetting> {
     return Row(
       children: [
         Container(
-          height: 49,
-          width: 49,
+          height: getSize(49),
+          width: getSize(49),
           margin: EdgeInsets.only(right: 8),
           decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                  image: profile)),
+                  image: profile,fit: BoxFit.cover)),
         ),
         Expanded(
           child: Column(
@@ -248,7 +251,7 @@ class _BillingSettingState extends State<BillingSetting> {
                     text: TextSpan(
                       text: lname,
                       style: TextStyle(
-                          fontSize: 14,
+                          fontSize: getFontSize(14),
                           fontWeight: FontWeight.w600,
                           color: Colors.black),
                       children: [
@@ -256,7 +259,7 @@ class _BillingSettingState extends State<BillingSetting> {
                           text: " ($uname)",
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
-                              fontSize: 14,
+                              fontSize: getFontSize(14),
                               color: textColorPrimary),
                         ),
                       ],
@@ -268,17 +271,17 @@ class _BillingSettingState extends State<BillingSetting> {
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: colorPrimary,
-                        fontSize: 16),
+                        fontSize: getFontSize(16)),
                   ),
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 12.0),
+                padding: getPadding(top: 12.0),
                 child: Row(
                   children: [
                     Icon(
                       Icons.event,
-                      size: 16,
+                      size: getSize(16),
                       color: borderColor,
                     ),
                     SizedBox(
@@ -286,7 +289,7 @@ class _BillingSettingState extends State<BillingSetting> {
                     ),
                     Text(bookSession.date!,
                         style: TextStyle(
-                            fontSize: 12,
+                            fontSize: getFontSize(12),
                             fontWeight: FontWeight.w500,
                             color: borderColor)),
                     SizedBox(
@@ -294,7 +297,7 @@ class _BillingSettingState extends State<BillingSetting> {
                     ),
                     Icon(
                       Icons.schedule,
-                      size: 16,
+                      size: getSize(16),
                       color: borderColor,
                     ),
                     SizedBox(
@@ -302,7 +305,7 @@ class _BillingSettingState extends State<BillingSetting> {
                     ),
                     Text(sessionDuration+' Minutes',
                         style: TextStyle(
-                            fontSize: 12,
+                            fontSize: getFontSize(12),
                             fontWeight: FontWeight.w500,
                             color: borderColor)),
                   ],
@@ -325,12 +328,13 @@ class _BillingSettingState extends State<BillingSetting> {
           CustomTextFormField(
             controller: userController,
             hintText: "Cardholder Name",
-            // validator: validateName,
+            validator: validateCardNumber,
             onSaved: (String? val) {
               settingProviderFalse.username = val;
             },
             prefixIcon: Icon(
               Icons.person,
+              size: getSize(18),
             ),
           ),
           CustomTextFormField(
@@ -348,6 +352,7 @@ class _BillingSettingState extends State<BillingSetting> {
             },
             prefixIcon: Icon(
               Icons.credit_card,
+              size: getSize(18),
             ),
           ),
           Row(
@@ -358,9 +363,9 @@ class _BillingSettingState extends State<BillingSetting> {
                 label: "Exp Date",
                 hintText: 'MM/YY',
                 keyboardType: TextInputType.datetime,
-                // validator: validateName,
+                validator: validateExpiryDate,
                 inputFormatters: [
-                  new LengthLimitingTextInputFormatter(4),
+                  new LengthLimitingTextInputFormatter(5),
                   new CardMonthInputFormatter()
                 ],
                 onSaved: (String? val) {
@@ -368,6 +373,7 @@ class _BillingSettingState extends State<BillingSetting> {
                 },
                 prefixIcon: Icon(
                   Icons.event,
+                  size: getSize(18),
                 ),
               )),
               Expanded(
@@ -378,14 +384,15 @@ class _BillingSettingState extends State<BillingSetting> {
                 keyboardType: TextInputType.number,
                 obscureText: true,
                 inputFormatters: [
-                  new LengthLimitingTextInputFormatter(3),
+                  new LengthLimitingTextInputFormatter(4),
                 ],
-                // validator: validateName,
+                validator: validateCVV,
                 onSaved: (String? val) {
                   settingProviderFalse.cvv = val;
                 },
                 prefixIcon: Icon(
                   Icons.lock,
+                  size: getSize(18),
                 ),
               )),
             ],
@@ -405,7 +412,7 @@ class _BillingSettingState extends State<BillingSetting> {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              padding: getPadding(right: 8.0),
               child: Icon(
                 paymentCard.isPrimary == '1'
                     ? Icons.radio_button_checked_outlined
@@ -424,7 +431,7 @@ class _BillingSettingState extends State<BillingSetting> {
                     text: TextSpan(
                       text: "Ending in: ",
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: getFontSize(16),
                         fontWeight: FontWeight.w400,
                         color: textColorPrimary,
                       ),
@@ -434,26 +441,26 @@ class _BillingSettingState extends State<BillingSetting> {
                               "...${paymentCard.number!.substring(paymentCard.number!.length - 4)}",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 16,
+                            fontSize: getFontSize(16),
                           ),
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
+                    padding: getPadding(top: 8.0),
                     child: Row(
                       children: [
                         Icon(
                           Icons.event,
                           color: borderColor,
-                          size: 16,
+                          size: getSize(16),
                         ),
                         if (paymentCard.lastUsed == null)
                           Text(
                             ' Never used',
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: getFontSize(12),
                                 fontWeight: FontWeight.w400,
                                 color: borderColor),
                           )
@@ -461,7 +468,7 @@ class _BillingSettingState extends State<BillingSetting> {
                           Text(
                             ' Last time used: ${DateFormat(defaultDateFormat).format(paymentCard.lastUsed!)}',
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: getFontSize(12),
                                 fontWeight: FontWeight.w400,
                                 color: borderColor),
                           ),
@@ -486,17 +493,17 @@ class _BillingSettingState extends State<BillingSetting> {
                   child: Icon(
                     Icons.delete,
                     color: colorPrimary,
-                    size: 23,
+                    size: getSize(23),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
+                  padding: getPadding(left: 16.0),
                   child: Image.asset(
                     context
                         .read<SettingProvider>()
                         .getCreditCardIcon(paymentCard),
-                    height: 34,
-                    width: 22,
+                    height: getSize(34),
+                    width: getSize(22),
                     fit: BoxFit.contain,
                   ),
                 )

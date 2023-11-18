@@ -1,8 +1,10 @@
 import 'package:bookthera_customer/models/MessageModel.dart';
+import 'package:bookthera_customer/screens/inbox/chat_filter.dart';
 import 'package:bookthera_customer/screens/inbox/chat_provider.dart';
 import 'package:bookthera_customer/screens/provider/widgets/search_field.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/helper.dart' as hp;
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -37,14 +39,16 @@ class _InboxMainState extends State<InboxMain> {
         Provider.of<ChatProvider>(context, listen: true);
     onSearch(q);
     return CustomLoader(
-      isLoading: chatProvider.isLoading,
+      isLoading: messageList.isEmpty && chatProvider.isLoading,
       child: chatProvider.messagesList.isEmpty?Center(child: Text('No recent messages to show'),): Column(
         children: [
+          if(messageList.isNotEmpty && chatProvider.isLoading) LinearProgressIndicator(minHeight: 2,color: colorPrimary,),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
             child: CustomSearchField(
+              onTap: () => showDialog(context: context, builder: (context)=>ChatFilter()),
               isShowFavourite: false,
-              isFilter: false,
+              // isFilter: false,
               onChanged: (value){
                 setState(() {
                   q=value;
@@ -83,18 +87,18 @@ class _InboxMainState extends State<InboxMain> {
       if (messageModel.seen!) {
         doneStatus = Icon(
           Icons.done_all,
-          size: 16,
+          size: getSize(16),
           color: colorPrimary,
         );
       } else if (messageModel.delivered!) {
         doneStatus = Icon(
           Icons.done_all,
-          size: 16,
+          size: getSize(16),
         );
       } else {
         doneStatus = Icon(
           Icons.done,
-          size: 16,
+          size: getSize(16),
         );
       }
     } else {
@@ -136,16 +140,16 @@ class _InboxMainState extends State<InboxMain> {
                 alignment: Alignment.topRight,
                 children: <Widget>[
                   Container(
-                    height: 65,
-                    width: 65,
+                    height: getSize(65),
+                    width: getSize(65),
                     margin: EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        image: DecorationImage(image: senderProfile)),
+                        image: DecorationImage(image: senderProfile,fit: BoxFit.cover)),
                     alignment: Alignment.topRight,
                     child: Container(
-                      height: 15,
-                      width: 15,
+                      height: getSize(15),
+                      width: getSize(15),
                       decoration: BoxDecoration(
                         border: Border.all(width: 2, color: Colors.white),
                         color: messageModel.isUserOnline
@@ -168,7 +172,7 @@ class _InboxMainState extends State<InboxMain> {
                         child: Text(
                           senderUname,
                           style: TextStyle(
-                            fontSize: 15,
+                            fontSize: getFontSize(15),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -176,7 +180,7 @@ class _InboxMainState extends State<InboxMain> {
                       Text(
                         sentTime,
                         style: TextStyle(
-                            fontSize: 11,
+                            fontSize: getFontSize(11),
                             fontWeight: FontWeight.w400,
                             color: borderColor),
                       ),
@@ -194,7 +198,7 @@ class _InboxMainState extends State<InboxMain> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                              fontSize: 13,
+                              fontSize: getFontSize(13),
                               fontWeight: !messageModel.seen!
                                   ? FontWeight.w500
                                   : FontWeight.w400,

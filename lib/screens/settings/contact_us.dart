@@ -2,6 +2,7 @@ import 'package:bookthera_customer/components/custom_loader.dart';
 import 'package:bookthera_customer/components/custom_textfields.dart';
 import 'package:bookthera_customer/screens/settings/setting_provider.dart';
 import 'package:bookthera_customer/utils/datamanager.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
@@ -67,20 +68,24 @@ class _ContactUsState extends State<ContactUs> {
                     CustomTextFormField(
                       controller: firstNameController,
                       hintText: "First Name",
-                      isEditable: false,
-                      focusNode: AlwaysDisabledFocusNode(),
-                      prefixIcon: Icon(
+                      // isEditable: false,
+                      // focusNode: AlwaysDisabledFocusNode(),
+                      prefixWidget: Icon(
                         Icons.person,
+                        color: colorPrimary,
+                        size: getSize(18),
                       ),
                     ),
                     SizedBox(height: 16,),
                     CustomTextFormField(
                       controller: lastNameController,
                       hintText: "Last Name",
-                       isEditable: false,
-                      focusNode: AlwaysDisabledFocusNode(),
-                      prefixIcon: Icon(
+                      //  isEditable: false,
+                      // focusNode: AlwaysDisabledFocusNode(),
+                      prefixWidget: Icon(
                         Icons.person,
+                        color: colorPrimary,
+                        size: getSize(18),
                       ),
                     ),
                     SizedBox(height: 16,),
@@ -88,22 +93,32 @@ class _ContactUsState extends State<ContactUs> {
                           controller: emailController,
                           hintText: "Email",
                           keyboardType: TextInputType.emailAddress,
-                          isEditable: false,
-                      focusNode: AlwaysDisabledFocusNode(),
-                          prefixIcon: Icon(
+                          // isEditable: false,
+                      // focusNode: AlwaysDisabledFocusNode(),
+                          prefixWidget: Icon(
                             Icons.email,
+                            color: colorPrimary,
+                            size: getSize(18),
                           ),
                         ),
                         SizedBox(height: 16,),
                     Padding(
                       padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
                       child: CustomTextField(
+                        autofocus: true,
+                          prefixWidget: Icon(
+                              Icons.email,
+                              color: colorPrimary,
+                              size: getSize(18),
+                            ),
+                          textInputType: TextInputType.multiline,
                             textEditingController: messageController,
+                            label: "Message",
                             hint: "Message",
                             onSubmitted: (String? val) {
                               message = val;
                             },
-                            maxLines: 6,
+                            maxLines: 8,
                           ),
                     ),
                   ],

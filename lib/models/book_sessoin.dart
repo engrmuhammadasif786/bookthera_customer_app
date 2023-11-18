@@ -1,3 +1,4 @@
+import 'package:bookthera_customer/models/payment_card.dart';
 import 'package:intl/intl.dart';
 
 class BookSession {
@@ -19,10 +20,11 @@ class BookSession {
   int? iV;
   ProviderData? providerData;
   SessionData? sessionData;
+  List<PaymentCard> billings=[];
   String? channelName;
   String? cancellationReasion;
   String? noShowReportBy;
-  String? reviewByProvider;
+  String? reviewByUser;
 
   BookSession(
       {this.providerId,
@@ -38,13 +40,14 @@ class BookSession {
       this.type,
       this.status,
       this.sId,
+      this.billings=const [],
       this.createdAt,
       this.updatedAt,
       this.iV,
       this.providerData,
       this.cancellationReasion,
       this.noShowReportBy,
-      this.reviewByProvider,
+      this.reviewByUser,
       this.sessionData,this.channelName=''});
 
   BookSession.fromJson(Map<String, dynamic> json) {
@@ -72,8 +75,9 @@ class BookSession {
     sessionData = json['sessionData'] != null
         ? new SessionData.fromJson(json['sessionData'])
         : null;
+    billings = (json['sessionData']!=null && json['sessionData']['billings']!=null)? (json['sessionData']['billings'] as List).map((e) => PaymentCard.fromJson(e)).toList():[];
     channelName=json['agoraChannel']??'test';
-    reviewByProvider=json['reviewByProvider']??'0';
+    reviewByUser=json['reviewByUser']??'0';
     cancellationReasion=json['cancellationReasion']??'';
     noShowReportBy=json['noShowReportBy'];
   }
@@ -124,7 +128,7 @@ class ProviderData {
   ProviderData.fromJson(Map<String, dynamic> json) {
     avatar =
         json['avatar'] != null ? new ProfilePic.fromJson(json['avatar']) : null;
-    sId = json['_id'];
+    sId = json['_id'] ?? json['id'];
     fname = json['fname']??'';
     lname = json['lname']??'';
     uname = json['uname']??'';

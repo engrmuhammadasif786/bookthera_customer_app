@@ -103,11 +103,13 @@ class CardNumberInputFormatter extends TextInputFormatter {
     // }
 
     // var string = buffer.toString();
-    var string =text;
-    if(text.removeAllWhiteSpace().length % 4 == 0) string += " ";
+    if (newValue.text.length > oldValue.text.length){
+      if(text.removeAllWhiteSpace().length % 4 == 0) text += " ";
+    }
+    
     return newValue.copyWith(
-        text: string,
-        selection: new TextSelection.collapsed(offset: string.length));
+        text: text,
+        selection: new TextSelection.collapsed(offset: text.length));
   }
 }
 
@@ -121,23 +123,20 @@ class CardMonthInputFormatter extends TextInputFormatter {
       return newValue;
     }
 
-    // var buffer = new StringBuffer();
-    // for (int i = 0; i < text.length; i++) {
-    //   buffer.write(text[i]);
-    //   var nonZeroIndex = i + 1;
-    //   if (nonZeroIndex % 2 == 0 && nonZeroIndex != text.length) {
-    //     buffer.write('/'); 
-    //   }
-    // }
+    // Check if a new character is being added.
+    if (newValue.text.length > oldValue.text.length) {
+      // If the length without slashes is 2, add a slash.
+      if (text.replaceAll('/', '').length == 2) {
+        text += "/";
+      }
+    }
 
-    // var string = buffer.toString();
-    var string =text;
-    if(text.replaceAll('/', '').length==2) string += "/";
     return newValue.copyWith(
-        text: string,
-        selection: new TextSelection.collapsed(offset: string.length));
+        text: text,
+        selection: TextSelection.collapsed(offset: text.length));
   }
 }
+
 
 // String getPostType(PostType postType) {
 //   if (postType == PostType.MOVIE) {
@@ -228,7 +227,7 @@ Future<File> getFilePath(String fileName) async {
   return srcFilepath;
 }
 
-void showCustomDialog(BuildContext context, Widget child,{Function? onthen}) {
+void showCustomDialog(BuildContext context, Widget child,{Function(dynamic)? onthen}) {
     showGeneralDialog(
       context: context,
       pageBuilder: (BuildContext buildContext, Animation<double> animation,
@@ -247,11 +246,8 @@ void showCustomDialog(BuildContext context, Widget child,{Function? onthen}) {
               animation: animation,
               child: child),
     ).then((value) {
-      if (value!=null && (value as bool)==true) {
-        print('on then call');
-        if (onthen!=null) {
-          onthen();
+      if (onthen!=null) {
+          onthen(value);
         }
-      }
     });
   }

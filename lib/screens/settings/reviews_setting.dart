@@ -4,6 +4,7 @@ import 'package:bookthera_customer/components/custom_readmore.dart';
 import 'package:bookthera_customer/screens/provider/widgets/search_field.dart';
 import 'package:bookthera_customer/screens/settings/setting_provider.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -37,19 +38,20 @@ class _ReviewsSettingState extends State<ReviewsSetting> {
         title: 'Reviews',
       ),
       body:CustomLoader(
-        isLoading: settingProvider.isLoading,
+        isLoading: settingProvider.reviewsList.isEmpty && settingProvider.isLoading,
         child: Column(children: [
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 16),
-          //   child: CustomSearchField(isShowFavourite: false,isFilter: false,
-          //   onSearchTap: () {
+          if(settingProvider.reviewsList.isNotEmpty && settingProvider.isLoading) LinearProgressIndicator(color: colorPrimary,minHeight: 2,),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 16),
+            child: CustomSearchField(isShowFavourite: false,isFilter: true,
+            onSearchTap: () {
               
-          //   },
-          //   ),
-          // ),
+            },
+            ),
+          ),
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.only(top: 16),
+              // padding: EdgeInsets.only(top: 16),
                         itemCount: settingProvider.reviewsList.length,
                         itemBuilder: (context, index) {
                           return ReviewsSettingCell(reviewModel: settingProvider.reviewsList[index],);
@@ -75,11 +77,11 @@ class ReviewsSettingCell extends StatelessWidget {
     dynamic profile = AssetImage("assets/images/placeholder.jpg");
 
     if (reviewModel.reviewToData != null) {
-      uname = reviewModel.reviewToData!.venderName!;
-      fname = reviewModel.reviewToData!.venderFirstName!;
-      lname = reviewModel.reviewToData!.venderLastName!;
-      if (reviewModel.reviewToData!.venderProfile!=null) {
-        profile = NetworkImage(reviewModel.reviewToData!.venderProfile!);  
+      uname = reviewModel.reviewToData!.uname!;
+      fname = reviewModel.reviewToData!.fname!;
+      lname = reviewModel.reviewToData!.lname!;
+      if (reviewModel.reviewToData!.avatar!=null) {
+        profile = NetworkImage(reviewModel.reviewToData!.avatar!.url!);  
       }
     }
     return Padding(
@@ -125,7 +127,7 @@ class ReviewsSettingCell extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize: getFontSize(15),
                                 fontWeight: FontWeight.w600,
                               )),
                           Spacer(),
@@ -134,7 +136,7 @@ class ReviewsSettingCell extends StatelessWidget {
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: borderColor,
-                                fontSize: 12),
+                                fontSize: getFontSize(12)),
                           ),
                           ],
                       ),
@@ -142,7 +144,7 @@ class ReviewsSettingCell extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Text(uname,
                                 style: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: getFontSize(12),
                                     fontWeight: FontWeight.w400,
                                     color: textColorPrimary)),
                       ),
@@ -164,10 +166,10 @@ class ReviewsSettingCell extends StatelessWidget {
                               },
                             ),
                             Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: getPadding(left: 8.0),
                         child: Text(reviewModel.stars!,
                                 style: TextStyle(
-                                    fontSize: 13,
+                                    fontSize: getFontSize(13),
                                     fontWeight: FontWeight.w600,
                                     )),
                       )
@@ -179,15 +181,15 @@ class ReviewsSettingCell extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 10,
+              height: getSize(10),
             ),
             Text('Public',
                 style: TextStyle(
-                    fontSize: 14,
+                    fontSize: getFontSize(14),
                     fontWeight: FontWeight.w500,
                     color: textColorPrimary)),
             SizedBox(
-              height: 10,
+              height: getSize(10),
             ),
             CustomReadmore(text: reviewModel.publicReview!),
             SizedBox(
@@ -195,12 +197,12 @@ class ReviewsSettingCell extends StatelessWidget {
             ),
             Text('Private',
                     style: TextStyle(
-                        fontSize: 14,
+                        fontSize: getFontSize(14),
                         fontWeight: FontWeight.w500,
                         color: textColorPrimary)),
                 
             SizedBox(
-              height: 10,
+              height: getSize(10),
             ),
             CustomReadmore(text: reviewModel.privateReview!),
             ],

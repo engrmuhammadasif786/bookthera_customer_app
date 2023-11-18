@@ -2,6 +2,7 @@ import 'package:bookthera_customer/screens/provider/provider_provider.dart';
 import 'package:bookthera_customer/screens/provider/widgets/search_field.dart';
 import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -21,7 +22,7 @@ class _ProviderSearchState extends State<ProviderSearch> {
     return Dialog(
       alignment: Alignment.topCenter,
       insetPadding:
-          EdgeInsets.symmetric(horizontal: 16, vertical: 64 + kToolbarHeight),
+          EdgeInsets.symmetric(horizontal: 16, vertical: getSize(64+kToolbarHeight)),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       child: Container(
         width: double.infinity,
@@ -47,13 +48,13 @@ class _ProviderSearchState extends State<ProviderSearch> {
                 isFilter: false,
                 showCursor: true,
                 onSearchTap: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(searchControlelr.text.trim());
                   if (searchControlelr.text.trim().isNotEmpty) {
                     context.read<ProviderProvider>().doCallGetProvidersSearch(searchControlelr.text);  
                   }
                 },
                 onSubmitted: (q) {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(q);
                   if (q.trim().isNotEmpty) {
                     context.read<ProviderProvider>().doCallGetProvidersSearch(q);  
                   }
@@ -65,7 +66,7 @@ class _ProviderSearchState extends State<ProviderSearch> {
                   minVerticalPadding: 0,
                   leading: Text(
                     'Recents',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: getFontSize(15), fontWeight: FontWeight.w500),
                   ),
                   trailing: TextButton(
                     onPressed: () {
@@ -77,7 +78,7 @@ class _ProviderSearchState extends State<ProviderSearch> {
                     child: Text(
                       'Clear all',
                       style: TextStyle(
-                          fontSize: 15,
+                          fontSize: getFontSize(15),
                           fontWeight: FontWeight.w500,
                           color: colorPrimary),
                     ),
@@ -102,7 +103,7 @@ class _ProviderSearchState extends State<ProviderSearch> {
                         leading: Text(
                           Datamanager().recentSearch[index],
                           style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w400),
+                              fontSize: getFontSize(15), fontWeight: FontWeight.w400),
                         ),
                         trailing: GestureDetector(
                             onTap: () {
@@ -114,7 +115,7 @@ class _ProviderSearchState extends State<ProviderSearch> {
                             },
                             child: Icon(
                               Icons.close,
-                              size: 16,
+                              size: getSize(20),
                             )),
                       )),
               if(Datamanager().popularSearch.isNotEmpty)
@@ -122,7 +123,7 @@ class _ProviderSearchState extends State<ProviderSearch> {
                 padding: EdgeInsets.only(left: 16,right: 16,top: 8),
                 child: Text(
                   'Popular Search',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+                  style: TextStyle(fontSize: getFontSize(15), fontWeight: FontWeight.w700),
                 ),
               ),
               Padding(
@@ -147,7 +148,7 @@ class _ProviderSearchState extends State<ProviderSearch> {
         searchControlelr.text=category;
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: getSize(24), vertical: getSize(10)),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50), color: colorPrimaryLight),
         child: Text(
@@ -155,7 +156,7 @@ class _ProviderSearchState extends State<ProviderSearch> {
           maxLines: 1,
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontWeight: FontWeight.w500, fontSize: 15, color: colorPrimary),
+              fontWeight: FontWeight.w500, fontSize: getFontSize(15), color: colorPrimary),
         ),
       ),
     );

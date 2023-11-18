@@ -1,4 +1,5 @@
 import 'package:bookthera_customer/network/RestApis.dart';
+import 'package:bookthera_customer/screens/auth/LoginScreen.dart';
 import 'package:bookthera_customer/screens/home/dashboard.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/helper.dart';
@@ -95,7 +96,7 @@ class AuthProvider extends ChangeNotifier{
       }else if(value is bool) {
         if (value) {
           doCallProfile(context).then((value) {
-            hp.pushReplacement(context, Dashboard());
+            // hp.pushReplacement(context, Dashboard());
           });
         }else{
           toast(wentWrongMsg);
@@ -116,7 +117,7 @@ class AuthProvider extends ChangeNotifier{
       }else if(value is bool) {
         if (value) {
           doCallProfile(context).then((value) {
-            hp.pushReplacement(context, Dashboard());
+            // hp.pushReplacement(context, Dashboard());
           });
         }else{
           toast(wentWrongMsg);
@@ -127,22 +128,38 @@ class AuthProvider extends ChangeNotifier{
   }
 
   Future<dynamic> doCallProfile(BuildContext context) async {
-    setLoader(true);
-    await callProfile().then((value) {
-      setLoader(false);
-      if (value is String) {
-        toast(value);
-      }else{
-        if (value) {
-          FirebaseMessaging.instance.getToken().then((fcmToken) {
-              print({"fcmToken": fcmToken});
-              callSaveFcmToken({"fcmToken": fcmToken ?? ''});
-          });
-          context.read<ChatProvider>().connectSocket();
-          hp.pushAndRemoveUntil(context, Dashboard(),false);
-        }
-      }
-    });
+    // setLoader(true);
+    // await callProfile().then((value) {
+    //   setLoader(false);
+    //   if (value is String) {
+    //     toast(value);
+    //   }else{
+    //     if (value) {
+          
+    //       context.read<ChatProvider>().connectSocket();
+    //       hp.pushAndRemoveUntil(context, Dashboard(),false);
+    //     }
+    //   }
+    // });
+   getUserData();
+    String userToken=getStringAsync(TOKEN);
+    int expiresAtTimestamp = getIntAsync(EXPIRATION_TOKEN_TIME);
+    // int expiresAtTimestamp =int.parse(tokenExpStr);
+    DateTime expiresAt = DateTime.fromMillisecondsSinceEpoch(expiresAtTimestamp * 1000);
+    DateTime now = DateTime.now();
+
+    // Compare 'expiresAt' with the current time to check if it has expired
+    if (expiresAt.isBefore(now) || userToken.isEmpty) {
+      hp.pushAndRemoveUntil(context, LoginScreen(),false);
+      print('Token has expired');
+    } else{
+      context.read<ChatProvider>().connectSocket();
+      FirebaseMessaging.instance.getToken().then((fcmToken) {
+          print({"fcmToken": fcmToken});
+          callSaveFcmToken({"fcmToken": fcmToken ?? ''});
+      });
+      hp.pushAndRemoveUntil(context, Dashboard(),false);
+    }   
   }
 
   doForgotPassword(Map request,BuildContext context){
@@ -169,7 +186,7 @@ class AuthProvider extends ChangeNotifier{
         if (value) {
           isEnterOtp=false;
           doCallProfile(context).then((value) {
-            hp.pushAndRemoveUntil(context, Dashboard(),false);
+            // hp.pushAndRemoveUntil(context, Dashboard(),false);
           });
         }else{
           toast(wentWrongMsg);

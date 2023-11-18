@@ -6,6 +6,7 @@ import 'package:bookthera_customer/screens/settings/reviews_setting.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -78,13 +79,13 @@ class _SettingsMainState extends State<SettingsMain> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 32.0, left: 32, right: 32),
+            padding: getPadding(top: 32.0, left: 32, right: 32),
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: <Widget>[
                 Center(
                     child:
-                        displayCircleImage(Datamanager().profile, 130, true)),
+                        getCircularImageProvider(NetworkImage(Datamanager().profile), getSize(130), true)),
                 Positioned.directional(
                   textDirection: Directionality.of(context),
                   start: 0,
@@ -109,71 +110,67 @@ class _SettingsMainState extends State<SettingsMain> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: getPadding(top: 8.0),
             child: Text(
               Datamanager().firstName + ' ' + Datamanager().lastName,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: getFontSize(16), fontWeight: FontWeight.w600),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 4.0),
+            padding: getPadding(top: 4.0),
             child: Text(
               Datamanager().userName,
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: getFontSize(13), fontWeight: FontWeight.w500),
             ),
           ),
           ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.only(top: 16),
+              padding: getPadding(top: 16),
               itemCount: settingsList.length,
               itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.only(right: 16, left: 16, bottom: 12),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                            offset: Offset(1, 1),
-                            blurRadius: 5,
-                            spreadRadius: 2,
-                            color: Colors.black.withOpacity(0.1))
-                      ]),
-                  child: ListTile(
-                    minLeadingWidth: 0,
-                    onTap: settingsList[index].onTap,
-                    title: Text(
-                      settingsList[index].title,
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    leading: Icon(
+                return GestureDetector(
+                  onTap: settingsList[index].onTap,
+                  child: Container(
+                    margin: getPadding(right: 16, left: 16, bottom: 12),
+                    width: double.infinity,
+                    padding: getPadding(all: 16),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(getSize(15)),
+                        boxShadow: [
+                          BoxShadow(
+                              offset: Offset(1, 1),
+                              blurRadius: 5,
+                              spreadRadius: 2,
+                              color: Colors.black.withOpacity(0.1))
+                        ]),
+                    child: Row(
+                      children: [
+                        Icon(
                       settingsList[index].iconData,
                       color: colorPrimary,
+                      size: getSize(22),
                     ),
-                    trailing: Icon(
+                        Padding(
+                          padding: getPadding(left: 16),
+                          child: Text(
+                            settingsList[index].title,
+                            style: TextStyle(fontSize: getFontSize(16)),
+                          ),
+                        ),
+                        Spacer(),
+                        Icon(
                       Icons.chevron_right,
                       color: textColorPrimary,
+                    )
+                      ],
                     ),
                   ),
                 );
               }),
-          Container(
-            margin: EdgeInsets.only(right: 16, left: 16, bottom: 16, top: 32),
-            width: double.infinity,
-            decoration: BoxDecoration(
-                color: colorPrimary,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                      offset: Offset(1, 1),
-                      blurRadius: 5,
-                      spreadRadius: 2,
-                      color: Colors.black.withOpacity(0.1))
-                ]),
-            child: ListTile(
-                onTap: () async {
+          GestureDetector(
+            onTap: () async {
                   if (nb.getBoolAsync(isGoogleSignin)) {
                     await GoogleSignIn().signOut();
                   }
@@ -183,19 +180,39 @@ class _SettingsMainState extends State<SettingsMain> {
                     }
                   });
                 },
-                title: Text(
-                  'Logout',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
-                leading: Icon(
-                  Icons.logout,
-                  color: Colors.white,
-                )),
+            child: Container(
+              margin: EdgeInsets.only(right: 16, left: 16, bottom: 16, top: 32),
+              width: double.infinity,
+              padding: getPadding(all: 16),
+              decoration: BoxDecoration(
+                  color: colorPrimary,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                        offset: Offset(1, 1),
+                        blurRadius: 5,
+                        spreadRadius: 2,
+                        color: Colors.black.withOpacity(0.1))
+                  ]),
+              child: Row(
+                children: [
+                  Image.asset('assets/images/img_logout.png',height: getSize(22),width: getSize(22),),
+                  Padding(
+                    padding: getPadding(left: 16),
+                    child: Text(
+                      'Logout',
+                      style: TextStyle(fontSize: getFontSize(16), color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
           Text(
             '$app_name app $appVersion',
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: getFontSize(13), fontWeight: FontWeight.w500),
           ),
+          SizedBox(height: 50,)
         ],
       ),
     );

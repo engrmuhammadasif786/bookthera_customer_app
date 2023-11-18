@@ -2,20 +2,16 @@ import 'package:bookthera_customer/components/custom_readmore.dart';
 import 'package:bookthera_customer/models/Provider.dart';
 import 'package:bookthera_customer/models/book_sessoin.dart';
 import 'package:bookthera_customer/screens/sessions/audioVideosCalls/call.dart';
-import 'package:bookthera_customer/screens/provider/book_session/book_session_main.dart';
-import 'package:bookthera_customer/screens/provider/provider_detail.dart';
 import 'package:bookthera_customer/screens/provider/widgets/sessions_button.dart';
 import 'package:bookthera_customer/screens/sessions/session_provider.dart';
 import 'package:bookthera_customer/screens/sessions/widgets/edit_session.dart';
+import 'package:bookthera_customer/screens/sessions/widgets/feedback_dialog.dart';
 import 'package:bookthera_customer/screens/sessions/widgets/rate_sheet.dart';
-import 'package:bookthera_customer/screens/sessions/widgets/report_no_show.dart';
 import 'package:bookthera_customer/screens/sessions/widgets/session_cancel_sheet.dart';
 import 'package:bookthera_customer/utils/Common.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/helper.dart';
@@ -43,6 +39,7 @@ class SessionCell extends StatelessWidget {
     var uname = '';
     var fname = '';
     var lname = '';
+    String? providerUserId;
     bool isVideo = false;
     bool isAudio = false;
     var sessionName = '';
@@ -52,6 +49,8 @@ class SessionCell extends StatelessWidget {
     dynamic profile = AssetImage("assets/images/placeholder.jpg");
 
     if (bookSession.providerData != null) {
+      print('------------------ provider id: ${bookSession.providerData!.sId}');
+      providerUserId = bookSession.providerData!.sId;
       uname = bookSession.providerData!.uname!;
       fname = bookSession.providerData!.fname!.characters.first + '.';
       lname = bookSession.providerData!.lname!;
@@ -96,21 +95,21 @@ class SessionCell extends StatelessWidget {
               children: [
                 if (sessionTabConst != SessionTabConst.Completed && bookSession.noShowReportBy!=null)
                   SizedBox(
-                    height: 46,
+                    height: getSize(46),
                   )
                 else
                   SizedBox(
-                    height: 8,
+                    height: getSize(8),
                   ),
                 Row(
                   children: [
                     Container(
-                      height: 65,
-                      width: 65,
-                      margin: EdgeInsets.only(right: 8),
+                      height: getSize(65),
+                      width: getSize(65),
+                      margin: getPadding(right: 8),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          image: DecorationImage(image: profile)),
+                          image: DecorationImage(image: profile,fit: BoxFit.cover)),
                     ),
                     Expanded(
                       child: Column(
@@ -124,13 +123,13 @@ class SessionCell extends StatelessWidget {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: getFontSize(15),
                                       fontWeight: FontWeight.w600,
                                     )),
                               ),
                               Icon(
                                 isAudio ? Icons.mic : Icons.videocam,
-                                size: 20,
+                                size: getSize(20),
                                 color: colorPrimary,
                               ),
                               SizedBox(
@@ -141,7 +140,7 @@ class SessionCell extends StatelessWidget {
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     color: colorPrimary,
-                                    fontSize: 13),
+                                    fontSize: getFontSize(13)),
                               ),
                               SizedBox(
                                 width: 5,
@@ -153,7 +152,7 @@ class SessionCell extends StatelessWidget {
                                   },
                                   child: Icon(
                                     Icons.edit,
-                                    size: 18,
+                                    size: getSize(18),
                                     color: colorPrimary,
                                   ),
                                 ),
@@ -165,7 +164,7 @@ class SessionCell extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.person,
-                                  size: 18,
+                                  size: getSize(18),
                                   color: borderColor,
                                 ),
                                 SizedBox(
@@ -173,7 +172,7 @@ class SessionCell extends StatelessWidget {
                                 ),
                                 Text('$lname ${fname}',
                                     style: TextStyle(
-                                        fontSize: 12,
+                                        fontSize: getFontSize(12),
                                         fontWeight: FontWeight.w500,
                                         color: textColorPrimary)),
                               ],
@@ -183,7 +182,7 @@ class SessionCell extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.event,
-                                size: 18,
+                                size: getSize(18),
                                 color: borderColor,
                               ),
                               SizedBox(
@@ -191,7 +190,7 @@ class SessionCell extends StatelessWidget {
                               ),
                               Text(bookSession.date!,
                                   style: TextStyle(
-                                      fontSize: 12,
+                                      fontSize: getFontSize(12),
                                       fontWeight: FontWeight.w500,
                                       color: textColorPrimary)),
                               SizedBox(
@@ -199,7 +198,7 @@ class SessionCell extends StatelessWidget {
                               ),
                               Icon(
                                 Icons.schedule,
-                                size: 18,
+                                size: getSize(18),
                                 color: borderColor,
                               ),
                               SizedBox(
@@ -207,7 +206,7 @@ class SessionCell extends StatelessWidget {
                               ),
                               Text(bookSession.time!.time24To12Format('0')+"-"+bookSession.time!.time24To12Format(sessionLength),
                                   style: TextStyle(
-                                      fontSize: 12,
+                                      fontSize: getFontSize(12),
                                       fontWeight: FontWeight.w500,
                                       color: textColorPrimary)),
                             ],
@@ -218,19 +217,19 @@ class SessionCell extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: 10,
+                  height: getSize(10),
                 ),
                 Text(sessionName,
                     style: TextStyle(
-                        fontSize: 14,
+                        fontSize: getFontSize(14),
                         fontWeight: FontWeight.w500,
                         color: textColorPrimary)),
                 SizedBox(
-                  height: 10,
+                  height: getSize(10),
                 ),
                 CustomReadmore(
                   text: sessionDes,
-                  fontsize: 13,
+                  fontsize: getFontSize(14),
                   fontWeight: FontWeight.w400,
                   color: borderColor,
                 ),
@@ -241,7 +240,7 @@ class SessionCell extends StatelessWidget {
                   children: [
                     Text('Intentions',
                         style: TextStyle(
-                            fontSize: 14,
+                            fontSize: getFontSize(14),
                             fontWeight: FontWeight.w500,
                             color: textColorPrimary)),
                     SizedBox(
@@ -254,23 +253,23 @@ class SessionCell extends StatelessWidget {
                         },
                         child: Icon(
                           Icons.edit,
-                          size: 18,
+                          size: getSize(18),
                           color: colorPrimary,
                         ),
                       )
                   ],
                 ),
                 SizedBox(
-                  height: 10,
+                  height: getSize(10),
                 ),
                 Text(bookSession.intensions!,
                     style: TextStyle(
-                        fontSize: 13,
+                        fontSize: getFontSize(14),
                         fontWeight: FontWeight.w400,
                         color: borderColor)),
                 if (sessionTabConst == SessionTabConst.Upcoming)
                   Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
+                    padding: getPadding(top: 16.0),
                     child: Row(
                       children: [
                         Expanded(
@@ -296,22 +295,32 @@ class SessionCell extends StatelessWidget {
                                         type: bookSession.type!,
                                         channelName: bookSession.channelName!,
                                         sessionId: bookSession.sId!,
-                                      ));
+                                      )).then((value) {
+                                        if (value==true) {
+                                          if(providerUserId!=null)
+                                            showDialog(context: context, builder: (context)=>FeedbackDialog(userId: providerUserId!,sessionId: bookSession.sId!,));
+                                          context.read<SessionProvider>().doCallUpdateBookSession({
+                                            "status":"completed"
+                                          }, bookSession.sId!,isComplete: true);  
+                                        }
+                                      });
                                 })),
                       ],
                     ),
                   )
-                else if (sessionTabConst == SessionTabConst.Completed && bookSession.reviewByProvider=='0')
+                else if (sessionTabConst == SessionTabConst.Completed && bookSession.reviewByUser=='0')
                   Align(
                     alignment: Alignment.center,
                     child: TextButton(
                       onPressed: () {
-                          push(
+                        if(bookSession.providerData!=null){
+                           push(
                               context,
                               RateSheet(
-                                userId: bookSession.customerId!,
+                                userId: bookSession.providerData!.sId!,
                                 sessionId: bookSession.sId!,
                               ));
+                        }
                       },
                       child: Text(
                         'Leave a Review!',
@@ -319,7 +328,7 @@ class SessionCell extends StatelessWidget {
                             decoration: TextDecoration.underline,
                             fontWeight: FontWeight.w600,
                             color: colorPrimary,
-                            fontSize: 15),
+                            fontSize: getFontSize(15)),
                       ),
                     ),
                   ),
@@ -328,15 +337,15 @@ class SessionCell extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: 10,
+                        height: getSize(10),
                       ),
                       Text('Cancellation Reason',
                           style: TextStyle(
-                              fontSize: 14,
+                              fontSize: getFontSize(14),
                               fontWeight: FontWeight.w500,
                               color: textColorPrimary)),
                       SizedBox(
-                        height: 10,
+                        height: getSize(10),
                       ),
                       CustomReadmore(text: bookSession.cancellationReasion!),
                     ],
@@ -349,15 +358,15 @@ class SessionCell extends StatelessWidget {
               children: [
                 Container(
                   width: size.width * 0.55,
-                  height: 30,
-                  margin: EdgeInsets.only(top: 16),
+                  height: getSize(30),
+                  margin: getPadding(top: 16),
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage('assets/images/session_bar.png'))),
                   alignment: Alignment.center,
                   child: Text('No Show reported by ${bookSession.noShowReportBy=='user'?'Customer':'Provider'}!',
                       style: TextStyle(
-                        fontSize: 13,
+                        fontSize: getFontSize(13),
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
                       )),
@@ -365,7 +374,7 @@ class SessionCell extends StatelessWidget {
                 if (sessionTabConst == SessionTabConst.Cancelled)
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 16.0, top: 16),
+                      padding: getPadding(right: 16.0, top: 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -374,14 +383,14 @@ class SessionCell extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.block,
-                                size: 14,
+                                size: getSize(14),
                               ),
                               SizedBox(
                                 width: 5,
                               ),
                               Text('Cancelled by',
                                   style: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: getFontSize(12),
                                     color: borderColor,
                                     fontWeight: FontWeight.w500,
                                   )),
@@ -389,7 +398,7 @@ class SessionCell extends StatelessWidget {
                           ),
                           Text('Provider',
                               style: TextStyle(
-                                fontSize: 13,
+                                fontSize: getFontSize(13),
                                 color: colorPrimary,
                                 fontWeight: FontWeight.w600,
                               ))

@@ -10,6 +10,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/custom_loader.dart';
@@ -46,9 +48,10 @@ class _ListProvidersState extends State<ListProviders> {
     return Scaffold(
       appBar: CustomAppbar(title: widget.appBarTitle??"",),
       body: CustomLoader(
-        isLoading: isLoading,
+        isLoading: providerList.isEmpty && isLoading,
         child: Column(
           children: [
+            if(providerList.isNotEmpty && isLoading) LinearProgressIndicator(color: colorPrimary,minHeight: 2,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 16),
               child: CustomSearchField(

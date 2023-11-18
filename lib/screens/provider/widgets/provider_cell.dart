@@ -7,6 +7,7 @@ import 'package:bookthera_customer/utils/AppWidgets.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
 import 'package:bookthera_customer/utils/resources/Images.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -39,15 +40,15 @@ class _ProviderCellState extends State<ProviderCell> {
       }   
     }
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: getPadding(left: 16,right: 16,top: 8,bottom: 8),
       child: GestureDetector(
         onTap: () {
           push(context, ProviderDetail(provider: widget.provider,));
         },
         child: Container(
-          width: widget.width ?? MediaQuery.of(context).size.width * 0.75,
+          width: widget.width ?? getSize(307),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(getSize(15)),
               boxShadow: [
                 isDarkMode(context)
                     ? BoxShadow()
@@ -60,7 +61,7 @@ class _ProviderCellState extends State<ProviderCell> {
               ],
               color: Colors.white),
           child: Column(
-            // mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min,
             children: [
                 CachedNetworkImage(
                    width: MediaQuery.of(context).size.width,
@@ -91,15 +92,15 @@ class _ProviderCellState extends State<ProviderCell> {
                             icon: Icon(
                               Icons.favorite,
                               color:widget.provider.isFavourite!?colorPrimary:  Colors.white,
-                              size: 32,
+                              size: getSize(32),
                             ),
                           ),
                           if(isVideo)
                           Align(
                             alignment: Alignment.topLeft,
                             child: Container(
-                              height: 32,
-                              width: 32,
+                              height: getSize(32),
+                              width: getSize(32),
                               margin: EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle, color: Colors.white.withOpacity(0.4)),
@@ -116,7 +117,7 @@ class _ProviderCellState extends State<ProviderCell> {
                             child: Container(
                               margin: EdgeInsets.only(bottom: 7),
                               width: MediaQuery.of(context).size.width * 0.5,
-                              height: 32,
+                              height: getSize(32),
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                       image:
@@ -128,6 +129,7 @@ class _ProviderCellState extends State<ProviderCell> {
                                 style: TextStyle(
                                     fontFamily: "Poppinssr",
                                     color: Colors.white,
+                                    fontSize: getFontSize(15),
                                     fontWeight: FontWeight.w500),
                               ),
                             ),
@@ -154,6 +156,8 @@ class _ProviderCellState extends State<ProviderCell> {
                             style: TextStyle(
                               fontFamily: "Poppinssm",
                               letterSpacing: 0.5,
+                              fontSize: getFontSize(16.8),
+                              fontWeight: FontWeight.w600,
                               color: Color(0xff000000),
                             )),
                         SizedBox(
@@ -162,7 +166,7 @@ class _ProviderCellState extends State<ProviderCell> {
                         Icon(
                           Icons.circle,
                           color:widget.provider.onlineStatus!? Color(0XFF3dae7d):Colors.grey,
-                          size: 13,
+                          size: getSize(13),
                         ),
                         Spacer(),
                         Row(
@@ -170,7 +174,7 @@ class _ProviderCellState extends State<ProviderCell> {
                           children: [
                             Icon(
                               Icons.star,
-                              size: 20,
+                              size: getSize(20),
                               color: Color(0xffFFB206),
                             ),
                             SizedBox(width: 3),
@@ -181,6 +185,8 @@ class _ProviderCellState extends State<ProviderCell> {
                                 style: TextStyle(
                                   fontFamily: "Poppinssr",
                                   letterSpacing: 0.5,
+                                  fontSize: getFontSize(13.6),
+                                  fontWeight: FontWeight.w600,
                                   color: Color(0xff000000),
                                 )),
                             SizedBox(width: 3),
@@ -189,6 +195,8 @@ class _ProviderCellState extends State<ProviderCell> {
                                 style: TextStyle(
                                   fontFamily: "Poppinssr",
                                   letterSpacing: 0.5,
+                                  fontSize: getFontSize(13.6),
+                                  fontWeight: FontWeight.w500,
                                   color: Color(0xff666666),
                                 )),
                           ],
@@ -203,6 +211,8 @@ class _ProviderCellState extends State<ProviderCell> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontFamily: "Poppinssr",
+                              fontSize: getFontSize(14),
+                              fontWeight: FontWeight.w400,
                               color: Color(0xff555353),
                             )),
                     Padding(
@@ -213,7 +223,7 @@ class _ProviderCellState extends State<ProviderCell> {
                           if(widget.provider.isVideoSession!)
                           Icon(
                             Icons.videocam,
-                            size: 20,
+                            size: getSize(20),
                             color: colorPrimary,
                           ),
                           SizedBox(width: 3),
@@ -222,13 +232,15 @@ class _ProviderCellState extends State<ProviderCell> {
                               style: TextStyle(
                                 fontFamily: "Poppinssr",
                                 letterSpacing: 0.5,
+                                fontSize: getFontSize(10.48),
+                                fontWeight: FontWeight.w500,
                                 color: colorPrimary,
                               )),
                           SizedBox(width: 14),
                           if(widget.provider.isAudioSession!)
                           Icon(
                             Icons.mic,
-                            size: 20,
+                            size: getSize(20),
                             color: colorPrimary,
                           ),
                           SizedBox(width: 3),
@@ -237,15 +249,17 @@ class _ProviderCellState extends State<ProviderCell> {
                               style: TextStyle(
                                 fontFamily: "Poppinssr",
                                 letterSpacing: 0.5,
+                                fontSize: getFontSize(10.48),
+                                fontWeight: FontWeight.w500,
                                 color: colorPrimary,
                               )),
                           Spacer(),
                           RichText(
                             textAlign: TextAlign.center,
                             text: TextSpan(
-                              text: "Start from ",
+                              text: "Starting from ",
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: getFontSize(12),
                                 fontWeight: FontWeight.w400,
                                 color: Colors.grey,
                               ),
@@ -255,7 +269,7 @@ class _ProviderCellState extends State<ProviderCell> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black,
-                                      fontSize: 14),
+                                      fontSize: getFontSize(14)),
                                 ),
                               ],
                             ),

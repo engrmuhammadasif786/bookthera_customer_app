@@ -8,6 +8,7 @@ import 'package:bookthera_customer/screens/sessions/session_provider.dart';
 import 'package:bookthera_customer/screens/sessions/widgets/report_no_show.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/CloudRecordingManager.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -51,6 +52,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
   late final RtcEngineEx _engine;
   CloudRecordingManager cloudRecordingManager = CloudRecordingManager();
   String? filePath;
+  final Stopwatch _stopwatch = Stopwatch()..start();
   
   get remoteUid => _remoteUid;
 
@@ -164,16 +166,16 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
             Align(
               alignment: Alignment.topLeft,
               child: Container(
-                width: 135,
-                height: 177,
+                width: getSize(135),
+                height: getSize(177),
                 margin: EdgeInsets.only(left: 35),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(getSize(15)),
                     color: Colors.white),
                 child: Center(
                   child: _localUserJoined
                       ? ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(getSize(15)),
                           child: AgoraVideoView(
                             controller: VideoViewController(
                               rtcEngine: _engine,
@@ -197,7 +199,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
     // if (widget.role == ClientRole.Audience) return Container();
     return Container(
       alignment: Alignment.bottomCenter,
-      padding: const EdgeInsets.symmetric(vertical: 48),
+      padding: getPadding(top: 48,bottom: 48),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -210,7 +212,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
                   child: Icon(
                     speaker ? Icons.volume_off : Icons.volume_up,
                     color: Colors.white,
-                    size: 35,
+                    size: getSize(35),
                   ),
                 ),
               ),
@@ -220,7 +222,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
                   child: Icon(
                     video ? Icons.videocam_off : Icons.videocam,
                     color: Colors.white,
-                    size: 35,
+                    size: getSize(35),
                   ),
                 ),
               ),
@@ -230,7 +232,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
                   child: Icon(
                     Icons.call_end,
                     color: Colors.white,
-                    size: 37.0,
+                    size: getSize(37),
                   ),
                   shape: CircleBorder(),
                   elevation: 2.0,
@@ -244,7 +246,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
                   child: Icon(
                     muted ? Icons.mic_off : Icons.mic,
                     color: Colors.white,
-                    size: 35,
+                    size: getSize(35),
                   ),
                 ),
               ),
@@ -252,7 +254,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
                 child: RawMaterialButton(
                   onPressed: _onToggleReport,
                   child: Image.asset('assets/icons/report_icon.png',
-                      height: 34, width: 34, color: Colors.white),
+                      height: getSize(34), width: getSize(34), color: Colors.white),
                 ),
               )
             ],
@@ -264,7 +266,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w400,
-                  fontSize: 15),
+                  fontSize: getFontSize(15)),
             ),
           ),
           _remoteUid != null
@@ -276,7 +278,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontSize: 22),
+                        fontSize: getFontSize(22)),
                   ),
                 )
         ],
@@ -302,7 +304,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
     _engine.release();
 
     // Pop the current screen
-    Navigator.pop(context);
+    Navigator.pop(context,_remoteUid!=null);
   }
 
   void saveAudioFile() {
@@ -341,11 +343,11 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
         ),
       );
     } else {
-      return const Text(
+      return Text(
         'Waiting on Provider',
         textAlign: TextAlign.center,
         style: TextStyle(
-            color: Colors.white, fontWeight: FontWeight.w500, fontSize: 20),
+            color: Colors.white, fontWeight: FontWeight.w500, fontSize: getFontSize(20)),
       );
     }
   }
@@ -365,7 +367,12 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
   }
 
   void _onToggleReport() {
-    showDialog(context: context, builder: (context) => ReportNoShow(sessionId: widget.sessionId,providerId: widget.providerId, waitingtime: timerKey.currentState!=null? timerKey.currentState!.waitingTime:'',));
+    Duration elapsedTime = _stopwatch.elapsed;
+
+    // Format the waiting time as mm:ss
+    String formattedTime =
+        '${(elapsedTime.inMinutes % 60).toString().padLeft(2, '0')}:${(elapsedTime.inSeconds % 60).toString().padLeft(2, '0')}';
+    showDialog(context: context, builder: (context) => ReportNoShow(sessionId: widget.sessionId,providerId: widget.providerId, waitingtime: formattedTime,));
   }
 }
 

@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:246117889740:android:ffdab2851ae9132b387469",
         "android_client_info": {
-          "package_name": "com.asiayeshit.bookthera_customer"
+          "package_name": "com.asiayeshit.bookthera"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "246117889740-vgm2v3psqiljacd3h6qe7i6j6l799e6l.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.asiayeshit.bookthera_customer",
+            "package_name": "com.asiayeshit.bookthera",
             "certificate_hash": "d0253255059928689194066ea279be10c683ef80"
           }
         },

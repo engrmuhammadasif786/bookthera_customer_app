@@ -3,6 +3,7 @@ import 'package:bookthera_customer/screens/feedback/feedback_report.dart';
 import 'package:bookthera_customer/screens/feedback/feedback_suggestion.dart';
 import 'package:bookthera_customer/utils/helper.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -35,10 +36,10 @@ class FeedbackMain extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 16.0),
+            padding: getPadding(top: 16.0),
             child: Text(
               'We value your feedback!',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: getFontSize(20), fontWeight: FontWeight.w500),
             ),
           ),
           ListView.builder(
@@ -88,15 +89,15 @@ class FeedbackMain extends StatelessWidget {
                             children: [
                               Icon(
                                 feedbackList[index].iconData,
-                                size: 40,
+                                size: getSize(40),
                                 color: colorPrimary,
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
+                                padding: getPadding(top: 10.0),
                                 child: Text(
                                   feedbackList[index].title,
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: getFontSize(18),
                                       fontWeight: FontWeight.w500),
                                 ),
                               )
@@ -105,8 +106,8 @@ class FeedbackMain extends StatelessWidget {
                         ),
                         if (feedbackList[index].notificationCount != null)
                           Container(
-                            height: 29,
-                            width: 29,
+                            height: getSize(29),
+                            width: getSize(29),
                             margin: EdgeInsets.all(8),
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle, color: colorPrimary),
@@ -115,7 +116,7 @@ class FeedbackMain extends StatelessWidget {
                               feedbackList[index].notificationCount!,
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 16,
+                                  fontSize: getFontSize(16),
                                   fontWeight: FontWeight.w700),
                             ),
                           )

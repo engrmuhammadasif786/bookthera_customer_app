@@ -1,4 +1,5 @@
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 
 
@@ -19,6 +20,7 @@ class CustomTextField extends StatelessWidget {
   final Function(String)? onChanged;
   TextInputAction? textInputAction;
   void Function(String)? onSubmitted;
+  Widget? prefixWidget;
 
 
   CustomTextField(
@@ -37,6 +39,7 @@ class CustomTextField extends StatelessWidget {
       this.contentPadding,
       this.onChanged,
       this.label,
+      this.prefixWidget,
       this.textInputType = TextInputType.text,
       this.fillColor = Colors.white})
       : super(key: key);
@@ -44,43 +47,60 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return TextField(
-      controller: textEditingController,
-      obscureText: isSecure,
-      showCursor: showCurser,
-      readOnly: readOnly,
-      autofocus: autofocus,
-      textInputAction: textInputAction,
-      onSubmitted: onSubmitted,
-      textAlignVertical: TextAlignVertical.top,
-      decoration: InputDecoration(
-        prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon,
-        focusedBorder: OutlineInputBorder(
+    return Container(
+      decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(getSize(5.89)),
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: Offset(1.5, 1.5),
+                                  blurRadius: 11.77,
+                                  color: Colors.black.withOpacity(0.1))
+                            ]),
+      child: TextField(
+        controller: textEditingController,
+        obscureText: isSecure,
+        showCursor: showCurser,
+        readOnly: readOnly,
+        autofocus: autofocus,
+        textInputAction: textInputAction,
+        onSubmitted: onSubmitted,
+        // textAlignVertical: TextAlignVertical.top,
+        style: TextStyle(
+              fontSize: getFontSize(15),
+              fontWeight: FontWeight.w400,
+              color: Colors.black54),
+        decoration: InputDecoration(
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon,
+          prefix: Padding(
+            padding: getPadding(right: 8),
+            child: prefixWidget,
+          ),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(size.width * 0.025),
+              borderSide: BorderSide(color: Colors.grey)),
+          fillColor: fillColor,
+          border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(size.width * 0.025),
-            borderSide: BorderSide(color: colorPrimary)),
-        fillColor: fillColor,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(size.width * 0.025),
-          borderSide: const BorderSide(color: Colors.transparent, width: 0),
+            borderSide: const BorderSide(color: Colors.transparent, width: 0),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(size.width * 0.025),
+            borderSide: const BorderSide(color: Colors.grey, width: 0),
+          ),
+          contentPadding: contentPadding,
+          filled: true,
+          hintText: hint,
+          labelText:label?? hint,
+          hintStyle: TextStyle(
+              fontSize: getFontSize(13),
+              fontWeight: FontWeight.w400,
+              color: Colors.black54),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(size.width * 0.025),
-          borderSide: const BorderSide(color: Colors.grey, width: 0),
-        ),
-        contentPadding: contentPadding != null
-            ? contentPadding!
-            : EdgeInsets.symmetric(horizontal: size.width * 0.043,vertical: 12),
-        filled: true,
-        hintText: hint,
-        // labelText:label?? hint,
-        hintStyle: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w400,
-            color: Colors.black54),
+        maxLines: maxLines,
+        onChanged: onChanged,
       ),
-      maxLines: maxLines,
-      onChanged: onChanged,
     );
   }
 }

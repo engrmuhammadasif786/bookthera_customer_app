@@ -1,3 +1,4 @@
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -22,7 +23,7 @@ class ReViewTabCell extends StatelessWidget {
       reviewByLName=reviewModel.reviewFromData!.lname!;
       reviewByName=reviewModel.reviewFromData!.uname!;
       if (reviewModel.reviewFromData!.avatar!=null) {
-        reviewByProfile=NetworkImage(reviewModel.reviewFromData!.avatar!);  
+        reviewByProfile=NetworkImage(reviewModel.reviewFromData!.avatar!.url!);  
       }
     }
     return Padding(
@@ -31,8 +32,8 @@ class ReViewTabCell extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 41,
-            width: 41,
+            height: getSize(41),
+            width: getSize(41),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
@@ -50,13 +51,13 @@ class ReViewTabCell extends StatelessWidget {
                     Text('$reviewByFName $reviewByLName',
                         style: TextStyle(
                             fontWeight: FontWeight.w400,
-                            fontSize: 18,
+                            fontSize: getFontSize(18),
                             )),
                     Spacer(),
                     Text(setLastSeen(reviewModel.createdAt!.millisecondsSinceEpoch),
                         style: TextStyle(
                             fontWeight: FontWeight.w400,
-                            fontSize: 15,
+                            fontSize: getFontSize(15),
                             color: Color(0xFFADB3BC)
                             )),
                   ],
@@ -70,7 +71,7 @@ class ReViewTabCell extends StatelessWidget {
                       minRating: 1,
                       direction: Axis.horizontal,
                       unratedColor: Colors.grey.withOpacity(0.5),
-                      itemSize: 20,
+                      itemSize: getSize(20),
                       itemPadding: EdgeInsets.only(right: 4.0),
                       
                       itemBuilder: (context, number) => Icon(
@@ -93,7 +94,7 @@ class ReViewTabCell extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontWeight: FontWeight.w400,
-                            fontSize: 16,
+                            fontSize: getFontSize(16),
                             color: Color(0xFF50555C)),
                     )),
               ],

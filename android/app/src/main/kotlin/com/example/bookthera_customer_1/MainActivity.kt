@@ -1,4 +1,4 @@
-package com.asiayeshit.bookthera_customer
+package com.asiayeshit.bookthera
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity

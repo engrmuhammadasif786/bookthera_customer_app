@@ -10,11 +10,13 @@ import 'package:bookthera_customer/screens/home/dashboard.dart';
 import 'package:bookthera_customer/screens/inbox/chat_provider.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../utils/helper.dart' as hp;
 
@@ -29,14 +31,19 @@ class _LoginScreenState extends State<LoginScreen> {
   AutovalidateMode _validate = AutovalidateMode.disabled;
   GlobalKey<FormState> _key = GlobalKey();
   String message='';
+  late VideoPlayerController videoPlayerController;
 
   @override
   void initState() {
     super.initState();
+    videoPlayerController=VideoPlayerController.asset('assets/images/intro_video.mp4');
+    videoPlayerController.initialize().then((value) {
+      videoPlayerController.play();
+    });
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
       AuthProvider authProvider = context.read<AuthProvider>();
       if (getBoolAsync(isLoggedIn)) {
-        await authProvider.doCallProfile(context);
+        // await authProvider.doCallProfile(context);
       } else {
         bool isRemember = getBoolAsync(is_remember);
         if (isRemember) {
@@ -57,7 +64,10 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Image.asset('assets/images/auth_bg.png',fit: BoxFit.cover,width: size.width,height: size.height,),
+          // Image.asset('assets/images/auth_bg.png',fit: BoxFit.cover,width: size.width,height: size.height,),
+          AspectRatio(
+            aspectRatio: width/height,
+            child: VideoPlayer(videoPlayerController)),
           Container(
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.2),
@@ -106,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ConstrainedBox(
                       constraints: BoxConstraints(minWidth: double.infinity),
                       child: Padding(
-                        padding: const EdgeInsets.only(
+                        padding: getPadding(
                             top: 32.0, right: 24.0, left: 24.0),
                         child: TextFormField(
                             textAlignVertical: TextAlignVertical.center,
@@ -114,12 +124,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             // validator: hp.validateEmail,
                             controller: _emailController,
                             style:
-                                TextStyle(fontSize: 18.0, color: Colors.white),
+                                TextStyle(fontSize: getFontSize(18), color: Colors.white),
                             keyboardType: TextInputType.text,
                             cursorColor: colorPrimary,
                             decoration: InputDecoration(
                               contentPadding:
-                                  EdgeInsets.only(left: 16, right: 16),
+                                  getPadding(left: 16, right: 16),
                               hintText: 'username',
                               labelText: 'username',
                               labelStyle: TextStyle(color: Colors.white),
@@ -128,6 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               prefixIcon: Icon(
                                 Icons.person,
                                 color: Colors.white,
+                                size: getSize(18),
                               ),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(25.0),
@@ -157,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ConstrainedBox(
                       constraints: BoxConstraints(minWidth: double.infinity),
                       child: Padding(
-                        padding: const EdgeInsets.only(
+                        padding: getPadding(
                             top: 32.0, right: 24.0, left: 24.0),
                         child: TextFormField(
                             // validator: hp.validatePassword,
@@ -169,11 +180,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             onFieldSubmitted: (password) => _login(context),
                             textInputAction: TextInputAction.done,
                             style:
-                                TextStyle(fontSize: 18.0, color: Colors.white),
+                                TextStyle(fontSize: getFontSize(18), color: Colors.white),
                             cursorColor: colorPrimary,
                             decoration: InputDecoration(
                               contentPadding:
-                                  EdgeInsets.only(left: 16, right: 16),
+                                  getPadding(left: 16, right: 16),
                               hintText: 'password',
                               labelText: 'password',
                               labelStyle: TextStyle(color: Colors.white),
@@ -181,6 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               prefixIcon: Icon(
                                 Icons.lock,
                                 color: Colors.white,
+                                size: getSize(18),
                               ),
                               suffixIcon: IconButton(
                                   onPressed: () {
@@ -191,6 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   icon: Icon(
                                     context.watch<AuthProvider>().isPasswordVisible?Icons.visibility_off: Icons.visibility_outlined,
                                     color: Colors.white,
+                                    size: getSize(24),
                                   )),
                               errorStyle: TextStyle(color: Colors.white),
                               focusedBorder: OutlineInputBorder(
@@ -220,12 +233,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     /// and this is only visible when logging with email and password
                     Padding(
                       padding:
-                          const EdgeInsets.only(top: 16, right: 24, left: 12),
+                          getPadding(top: 16, right: 24, left: 12),
                       child: Row(
                         children: [
                           Checkbox(
                               activeColor: colorPrimary,
-                              side: BorderSide(color: Colors.white),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(getSize(4.19))
+                              ),
+                              side: BorderSide(color: Colors.white,),
                               value:
                                   context.watch<AuthProvider>().isSavePassword,
                               onChanged: (value) {
@@ -237,7 +253,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               }),
                           Text(
                             'Save password',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white,fontSize: getFontSize(15),fontWeight: FontWeight.w500),
                           ),
                           Spacer(),
                           GestureDetector(
@@ -248,7 +264,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               'Forgot password?',
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: getFontSize(15),
                                   letterSpacing: 1,
                                   decoration: TextDecoration.underline),
                             ),
@@ -265,13 +282,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     /// * logging with phone number: submits the phone number to
                     /// firebase and await for code verification
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: getPadding(
                           right: 40.0, left: 40.0, top: 40),
                       child: ConstrainedBox(
                         constraints:
                             const BoxConstraints(minWidth: double.infinity),
                         child: CustomButton(
-                            title: 'login',
+                            title: 'Login',
                             onPressed: () {
                               _login(context);
                             }),
@@ -279,7 +296,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
 
                     Padding(
-                      padding: EdgeInsets.only(top: 10, right: 40, left: 40),
+                      padding: getPadding(top: 10, right: 40, left: 40),
                       child: ConstrainedBox(
                         constraints:
                             const BoxConstraints(minWidth: double.infinity),
@@ -290,23 +307,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                   'Continue with Google',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: getFontSize(18),
                                       fontWeight: FontWeight.normal,
                                       color: Colors.black),
                                 )),
                             icon: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 20),
+                              padding: getPadding(left: 20,right: 20,top: 8,bottom: 8),
                               child: Image.asset(
                                 'assets/images/google_logo.png',
-                                height: 30,
-                                width: 30,
+                                height: getSize(26),
+                                width: getSize(26),
                               ),
                             ),
                             style: ElevatedButton.styleFrom(
                               primary: Colors.white,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.0),
+                                borderRadius: BorderRadius.circular(getSize(24)),
                                 side: BorderSide(
                                   color: Colors.white,
                                 ),
@@ -318,7 +334,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 10),
+                      padding: getPadding(top: 10),
                       child: GestureDetector(
                         onTap: () {
                           hp.pushReplacement(context, SignUpScreen());
@@ -327,13 +343,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           textAlign: TextAlign.center,
                           text: TextSpan(
                             text: "Don’t have an account? ",
+                            style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: getFontSize(17),
+                                    letterSpacing: 1),
                             children: [
                               TextSpan(
                                 text: "Sign Up",
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 1,
                                     decoration: TextDecoration.underline),
                               ),
                             ],

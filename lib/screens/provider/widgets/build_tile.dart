@@ -1,4 +1,5 @@
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils/helper.dart';
@@ -25,14 +26,14 @@ class buildTitleRow extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(titleValue,
-                style: TextStyle(color: isDarkMode(context) ? Colors.white : Color(0xFF000000), fontFamily: "Poppinsm", fontSize: 18)),
+                style: TextStyle(color: isDarkMode(context) ? Colors.white : Color(0xFF000000), fontFamily: "Poppinsm", fontSize: getFontSize(18))),
             isViewAll!
                 ? Container()
                 : GestureDetector(
                     onTap: () {
                       onClick!.call();
                     },
-                    child: Text('see all >>', style: TextStyle(color: colorPrimary, fontFamily: "Poppinsm",fontSize: 14,fontWeight: FontWeight.w600)),
+                    child: Text('see all >>', style: TextStyle(color: colorPrimary, fontFamily: "Poppinsm",fontSize: getFontSize(14),fontWeight: FontWeight.w600)),
                   ),
           ],
         ),

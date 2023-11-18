@@ -9,6 +9,7 @@ import 'package:bookthera_customer/screens/settings/settings_main.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -47,7 +48,7 @@ class _DashboardState extends State<Dashboard> {
             //   visible: selectedIndex == 0,
             //   child: IconButton(
             //       visualDensity: VisualDensity(horizontal: -4),
-            //       padding: EdgeInsets.only(right: 5),
+            //       padding: getPadding(right: 5),
             //       icon: Image(
             //         image: AssetImage("assets/icons/menu.png"),
             //         width: 20,
@@ -69,8 +70,7 @@ class _DashboardState extends State<Dashboard> {
                           : selectedIndex == 3
                               ? 'Inbox'
                               : 'Settings',
-              style: primaryTextStyle(
-                  color: textColorPrimary, size: 20, weight: FontWeight.w500),
+              style: TextStyle(color: textColorPrimary, fontSize: getFontSize(20), fontWeight: FontWeight.w500),
             ),
             actions: [
               Visibility(
@@ -78,7 +78,7 @@ class _DashboardState extends State<Dashboard> {
                     context.watch<ProviderProvider>().providersList.isNotEmpty && Datamanager().layoutChoice=='focused',
                 child: IconButton(
                     visualDensity: VisualDensity(horizontal: -4),
-                    padding: EdgeInsets.only(right: 10),
+                    padding: getPadding(right: 10),
                     icon: Icon(
                       Icons.grid_view_sharp,
                       color: colorPrimary,
@@ -105,10 +105,14 @@ class _DashboardState extends State<Dashboard> {
           type: BottomNavigationBarType.fixed,
           selectedItemColor: colorPrimary,
           unselectedItemColor: textColorSecondary,
-          selectedFontSize: 12,
-          unselectedFontSize: 12,
+          selectedFontSize: getFontSize(12),
+          unselectedFontSize: getFontSize(12),
           onTap: (i) async {
-            if (i==2) {
+            if (i==0) {
+              Datamanager().isDashboardFirstLoad=true;
+            } else if(i==1){
+              Datamanager().isSessionsFirstLoad=true;
+            } else if (i==2) {
               context.read<ChatProvider>().updateViewFeedback(false);
             }
             if (i != 3) {
@@ -136,7 +140,7 @@ class _DashboardState extends State<Dashboard> {
                 alignment: Alignment.topRight,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 4,right: 4),
+                    margin: getPadding(top: 4,right: 4),
                     child: iconWidget('assets/icons/ic_flag.png'),
                   ),
                 if (feedbackCount > 0 && context.watch<ChatProvider>().isViewFeedback)
@@ -144,7 +148,7 @@ class _DashboardState extends State<Dashboard> {
                       top: 0,
                       right: 0,
                       child: new Container(
-                        padding: EdgeInsets.all(2),
+                        padding: getPadding(all: 2),
                         decoration: new BoxDecoration(
                           color: colorPrimary,
                           borderRadius: BorderRadius.circular(8)
@@ -155,7 +159,7 @@ class _DashboardState extends State<Dashboard> {
                           count.toString(),
                           style: new TextStyle(
                             color: Colors.white,
-                            fontSize: 10,
+                            fontSize: getFontSize(10),
                           ),
                         ),
                       ),
@@ -170,7 +174,7 @@ class _DashboardState extends State<Dashboard> {
                 alignment: Alignment.center,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 4,right: 4),
+                    margin: getPadding(top: 4,right: 4),
                     child: iconWidget('assets/icons/ic_chat.png'),
                   ),
                   if (count > 0 && context.watch<ChatProvider>().isViewChat)
@@ -189,7 +193,7 @@ class _DashboardState extends State<Dashboard> {
                           count.toString(),
                           style: new TextStyle(
                             color: Colors.white,
-                            fontSize: 10,
+                            fontSize: getFontSize(10),
                           ),
                         ),
                       ),
@@ -201,13 +205,13 @@ class _DashboardState extends State<Dashboard> {
             ),
             BottomNavigationBarItem(
               icon: Padding(
-                padding: const EdgeInsets.only(bottom: 6.0,top: 15),
-                child: getCircularImageProvider(NetworkImage(Datamanager().profile), 27, false,isCamera: false),
+                padding:  getPadding(bottom: 6.0,top: 15),
+                child: getCircularImageProvider(NetworkImage(Datamanager().profile), getSize(27), false,isCamera: false),
               ),
               activeIcon:
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 6.0,top: 15),
-                    child: getCircularImageProvider(NetworkImage(Datamanager().profile), 27, false,isCamera: false),
+                    padding: getPadding(bottom: 6.0,top: 15),
+                    child: getCircularImageProvider(NetworkImage(Datamanager().profile), getSize(27), false,isCamera: false),
                   ),
               label: 'Settings',
             ),
@@ -227,12 +231,12 @@ class _DashboardState extends State<Dashboard> {
 
   Widget iconWidget(String image,{Color? color}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 6.0,top: 15),
+      padding: getPadding(bottom: 6.0,top: 15),
       child: Image.asset(image,
                   fit: BoxFit.fitHeight,
                   color: color ?? iconColor,
-                  height: 20,
-                  width: 20),
+                  height: getSize(26),
+                  width: getSize(26)),
     );
   }
 

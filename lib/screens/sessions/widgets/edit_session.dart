@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bookthera_customer/components/custom_button.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -58,11 +59,11 @@ class _EditSessionState extends State<EditSession> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 11.0, top: 32),
+                  padding: getPadding(bottom: 11.0, top: 32),
                   child: Text('Session Intentions *',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 13,
+                          fontSize: getFontSize(14),
                           color: textColorPrimary)),
                 ),
                 CustomTextField(
@@ -75,15 +76,15 @@ class _EditSessionState extends State<EditSession> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8),
+                  padding: getPadding(top: 8),
                   child: Text('Session Type',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 13,
+                          fontSize: getFontSize(14),
                           color: textColorPrimary)),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 13.0),
+                  padding: getPadding(top: 13.0),
                   child: Row(
                     children: [
                       Expanded(

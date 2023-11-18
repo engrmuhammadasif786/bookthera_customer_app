@@ -17,8 +17,7 @@ class ProviderProvider extends ChangeNotifier {
   List<ProviderModel> favouriteProvidersList = [];
   List<ProviderModel> providersList = [];
   ChatProvider chatProvider=ChatProvider();
-  bool isFirstLoad=false;
-
+  
   getChatProvider(BuildContext context){
     chatProvider=context.read<ChatProvider>();
   }
@@ -43,12 +42,7 @@ class ProviderProvider extends ChangeNotifier {
   }
 
   doCallGetProvidersByCategory() {
-    if (isFirstLoad) {
-      return;
-    }
-    isFirstLoad=true;
     setLoader(true);
-    chatProvider.getOnlineUser();
     callGetProvidersByCategory().then((value) {
       if (value is String) {
         toast(value);
@@ -128,7 +122,6 @@ class ProviderProvider extends ChangeNotifier {
       bool? promotion,
       bool? onlineOnly}) {
     setLoader(true);
-    chatProvider.getOnlineUser();
     callGetProviders(
             price: price,
             reviewsCount: reviewsCount,

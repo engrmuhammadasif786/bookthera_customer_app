@@ -5,6 +5,7 @@ import 'package:bookthera_customer/screens/provider/book_session/book_session_pr
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/datamanager.dart';
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -28,19 +29,19 @@ class UploadImage extends StatelessWidget {
           Text('Picture of Yourself*',
               style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 15,
+                  fontSize: getFontSize(15),
                   color: textColorPrimary)),
           Text('(needed for seession)',
               style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 13,
+                  fontSize: getFontSize(13),
                   color: textColorPrimary)),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: ClipOval(
                 child: Container(
-              width: 130,
-              height: 130,
+              width: getSize(130),
+              height: getSize(130),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(130 / 2)),
                   image: DecorationImage(
@@ -52,7 +53,7 @@ class UploadImage extends StatelessWidget {
           SizedBox(
             width: size.width * 0.4,
             child: CustomButton(
-                borderRadius: 15,
+                borderRadius: getSize(15),
                 title: image==null? 'Upload':'Edit',
                 onPressed: () async {
                   ImagePicker _imagePicker = ImagePicker();

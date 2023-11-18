@@ -36,7 +36,7 @@ Future<dynamic> callLogin(Map request) async {
 
     // save user info
     Map data = res['data'];
-    // await saveUserData(data);
+    await saveUserData(data);
   } else if (res['message'] != null) {
     return res['message'];
   } else {
@@ -111,7 +111,7 @@ Future<dynamic> callRegister(Map body) async {
 
     // save user info
     Map data = res['data'];
-    // await saveUserData(data);
+    await saveUserData(data);
   } else if (res['message'] != null) {
     return res['message'];
   } else {
@@ -134,7 +134,7 @@ Future<dynamic> callGoogleSignin(Map request) async {
 
     // save user info
     Map data = res['data'];
-    // await saveUserData(data);
+    await saveUserData(data);
   } else if (res['message'] != null) {
     return res['message'];
   } else {
@@ -148,6 +148,13 @@ Future<void> saveUserData(Map<dynamic, dynamic> data) async {
   await setValue(FIRST_NAME, data['fname']);
   await setValue(LAST_NAME, data['lname']??"");
   await setValue(USER_ROLE, data['role']);
+  await setValue(USERNAME, data['uname']);
+  await setValue(PHONE, data['phone']);
+  await setValue(USER_EMAIL, data['email']);
+  if(data['notificationSettings']!=null)
+    await setValue(NOTIFICATION_JSON, data['notificationSettings']);
+  if(data['avatar']!=null)
+    await setValue(USER_PROFILE,data['avatar']['url']);
   await setValue(isLoggedIn, true);
 
   Datamanager().isLoggedIn = true;
@@ -175,13 +182,6 @@ Future<void> saveUserData(Map<dynamic, dynamic> data) async {
         NotificationSetting.fromJson(data['notificationSettings']);
   }
   Datamanager().popularSearch = data['popularSearch'] != null ? data['popularSearch'] : [];
-  if (data['settings'] != null) {
-    dynamic adminCustomerCommision = data['settings']['adminCustomerCommision'];
-    double serviceFee = adminCustomerCommision is int ? adminCustomerCommision.toDouble() : adminCustomerCommision;
-    Datamanager().serviceFee=serviceFee;
-    Datamanager().isRecordVideo = data['settings']['recordVideo']=="1";
-    Datamanager().layoutChoice = data['settings']['layoutChoice']??'simple';
-  }
 }
 
 getUserData() {
@@ -190,6 +190,13 @@ getUserData() {
   Datamanager().lastName = getStringAsync(LAST_NAME);
   Datamanager().email = getStringAsync(USER_EMAIL);
   Datamanager().role = getStringAsync(USER_ROLE);
+  Datamanager().phone = getStringAsync(PHONE);
+  Datamanager().userName = getStringAsync(USERNAME);
+  Datamanager().profile = getStringAsync(USER_PROFILE);
+  dynamic notiticationSettingsJons = getJSONAsync(NOTIFICATION_JSON);
+  if (notiticationSettingsJons!=null) {
+    Datamanager().notificationSetting = NotificationSetting.fromJson(notiticationSettingsJons);  
+  } 
 }
 
 Future<dynamic> callForgotPassword(Map request) async {
@@ -216,7 +223,7 @@ Future<dynamic> callResetPassword(Map request) async {
 
     // save user info
     Map data = res['data'];
-    // await saveUserData(data);
+    await saveUserData(data);
   } else if (res['message'] != null) {
     return res['message'];
   } else {
@@ -266,6 +273,20 @@ Future<UserCredential> signInWithGoogle() async {
   return await FirebaseAuth.instance.signInWithCredential(credential);
 }
 
+Future<dynamic> callGetBillings(Function(List<PaymentCard>) paymentCards,Function(List<BookSession>) sessionsFun) async {
+  Map res = await getRequest('api/v1/billings-sessions');
+  if (res['success']) {
+    if (res['data']['billings'] != null) {
+      List<PaymentCard> billings = (res['data']['billings'] as List).map((e) => PaymentCard.fromJson(e)).toList();
+      paymentCards(billings);
+    }
+    if (res['data']['billings'] != null) {
+      List<BookSession> sessions = (res['data']['sessions'] as List).map((e) => BookSession.fromJson(e)).toList();
+      sessionsFun(sessions);
+    }
+  }
+}
+
 Future<dynamic> callPopularSearch() async {
   Map res = await getRequest('api/v1/get-popular-seach');
   if (res['success']) {
@@ -287,6 +308,14 @@ Future<dynamic> callGetProvidersByCategory() async {
       res['data'].forEach((v) {
         data.add(new ProviderCategory.fromJson(v));
       });
+      Datamanager().popularSearch = res['popularSearch'] != null ? res['popularSearch'] : [];
+      if (res['settings'] != null) {
+        dynamic adminCustomerCommision = res['settings']['adminCustomerCommision'];
+        double serviceFee = adminCustomerCommision is int ? adminCustomerCommision.toDouble() : adminCustomerCommision;
+        Datamanager().serviceFee=serviceFee;
+        Datamanager().isRecordVideo = res['settings']['recordVideo']=="1";
+        Datamanager().layoutChoice = res['settings']['layoutChoice']??'simple';
+      }
     }
     return data;
   } else {
@@ -447,7 +476,7 @@ Future<dynamic> callGetCreateBookSession(
   Response response = await Response.fromStream(await multipartRequest.send());
   Map<String, dynamic> res = jsonDecode(response.body);
   if (res['success']) {
-    return res['data']['_id'];
+    return BookSession.fromJson(res['data']);
   } else {
     toast(res['message']);
   }

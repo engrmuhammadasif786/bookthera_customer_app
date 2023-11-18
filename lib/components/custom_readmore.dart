@@ -1,4 +1,5 @@
 import 'package:bookthera_customer/utils/resources/Colors.dart';
+import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 
@@ -20,17 +21,17 @@ class CustomReadmore extends StatelessWidget {
         style: TextStyle(
           fontWeight: fontWeight?? FontWeight.w400,
           color: color?? borderColor,
-          fontSize:fontsize??  13,
+          fontSize:fontsize??  getFontSize(14),
         ),
         lessStyle: TextStyle(
           fontWeight: FontWeight.w600,
           color: colorPrimary,
-          fontSize:14,
+          fontSize:getFontSize(14),
         ),
         moreStyle: TextStyle(
          fontWeight: FontWeight.w600,
           color: colorPrimary,
-          fontSize:14,
+          fontSize:getFontSize(14),
         ));
   }
 }
