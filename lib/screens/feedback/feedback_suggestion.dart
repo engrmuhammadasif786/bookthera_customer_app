@@ -46,7 +46,7 @@ class _FeedbackSuggestionState extends State<FeedbackSuggestion> {
         title: 'Make a Suggestion',
       ),
       body: CustomLoader(
-        isLoading: chatProvider.isLoading,
+        isLoading: chatProvider.isLoading || chatProvider.isSubLoading,
         child: Container(
           padding: EdgeInsets.all(14),
           margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -178,6 +178,7 @@ class _FeedbackSuggestionState extends State<FeedbackSuggestion> {
     bugController.clear();
     isFileSelected = false;
     selectedFile = null;
+    Navigator.pop(context);
     showDialog(context: context, builder: (context) => FeedbackSuccess());
   }
 

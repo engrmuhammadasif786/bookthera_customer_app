@@ -34,6 +34,7 @@ class _AccountSettingState extends State<AccountSetting> {
   File? file;
 
   ip.ImagePicker _imagePicker=ip.ImagePicker();
+  dynamic imageProvider;
 
   @override
   void initState() {
@@ -43,13 +44,13 @@ class _AccountSettingState extends State<AccountSetting> {
     usernameController.text = Datamanager().userName;
     phoneController.text = Datamanager().phone;
     emailController.text = Datamanager().email;
+    imageProvider=NetworkImage(Datamanager().profile);
     passwordController.text = nb.getStringAsync(PASSWORD);
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    dynamic imageProvider=NetworkImage(Datamanager().profile);
     return Scaffold(
       appBar: CustomAppbar(
         title: 'Account',
@@ -119,7 +120,7 @@ class _AccountSettingState extends State<AccountSetting> {
                           onSaved: (String? val) {
                             firstName = val;
                           },
-                          prefixIcon: Icon(
+                          prefixWidget: Icon(
                             Icons.person,
                             size: getSize(18),
                             color: colorPrimary,
@@ -132,7 +133,7 @@ class _AccountSettingState extends State<AccountSetting> {
                           onSaved: (String? val) {
                             lastName = val;
                           },
-                          prefixIcon: Icon(
+                          prefixWidget: Icon(
                             Icons.person,
                             size: getSize(18),
                             color: colorPrimary,
@@ -141,12 +142,12 @@ class _AccountSettingState extends State<AccountSetting> {
                         CustomTextFormField(
                               controller: usernameController,
                               hintText: "Username",
-                              isEditable: false,
-                              focusNode: AlwaysDisabledFocusNode(),
+                              // isEditable: false,
+                              // focusNode: AlwaysDisabledFocusNode(),
                               onSaved: (String? val) {
                                 username = val;
                               },
-                              prefixIcon: Icon(
+                              prefixWidget: Icon(
                                 Icons.person,
                                 size: getSize(18),
                                 color: colorPrimary,
@@ -160,7 +161,7 @@ class _AccountSettingState extends State<AccountSetting> {
                               onSaved: (String? val) {
                                 phone = val;
                               },
-                              prefixIcon: Icon(
+                              prefixWidget: Icon(
                                 Icons.phone,
                                 size: getSize(18),
                                 color: colorPrimary,
@@ -169,14 +170,14 @@ class _AccountSettingState extends State<AccountSetting> {
                         CustomTextFormField(
                               controller: emailController,
                               hintText: "Email",
-                              isEditable: false,
-                              focusNode: AlwaysDisabledFocusNode(),
+                              // isEditable: false,
+                              // focusNode: AlwaysDisabledFocusNode(),
                               keyboardType: TextInputType.emailAddress,
                               validator: validateEmail,
                               onSaved: (String? val) {
                                 email = val;
                               },
-                              prefixIcon: Icon(
+                              prefixWidget: Icon(
                                 Icons.email,
                                 size: getSize(18),
                                 color: colorPrimary,
@@ -188,10 +189,13 @@ class _AccountSettingState extends State<AccountSetting> {
                               isEditable: false,
                               focusNode: AlwaysDisabledFocusNode(),
                               obscureText: true,
-                              prefixIcon: Icon(
-                                Icons.lock,
-                                size: getSize(18),
-                                color: colorPrimary,
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Icon(
+                                  Icons.lock,
+                                  size: getSize(18),
+                                  color: colorPrimary,
+                                ),
                               ),
                               suffixIcon: TextButton(onPressed: (){
                                 push(context, ChangePasswordScreen() );
@@ -214,15 +218,15 @@ class _AccountSettingState extends State<AccountSetting> {
                             if (lastName!=null) {
                               body['lname']=lastName;
                             }
-                            // if (username!=null) {
-                            //   body['uname']=username;
-                            // }
+                            if (username!=null) {
+                              body['uname']=username;
+                            }
                             if (phone!=null) {
                               body['phone']=phone;
                             }
-                            // if (email!=null) {
-                            //   body['email']=email;
-                            // }
+                            if (email!=null) {
+                              body['email']=email;
+                            }
                             if (body.keys.isNotEmpty || file!=null) {
                               context.read<SettingProvider>().doCallUpdateProfile(body , file, context);
                             }

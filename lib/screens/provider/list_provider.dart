@@ -20,10 +20,11 @@ import '../../utils/resources/Colors.dart';
 import 'widgets/provider_cell.dart';
 
 class ListProviders extends StatefulWidget {
-  ListProviders({super.key,this.providers=const [],this.appBarTitle,this.onInitCall});
+  ListProviders({super.key,this.isShowSearch=true, this.providers=const [],this.appBarTitle,this.onInitCall});
   List<ProviderModel> providers;
   final String? appBarTitle;
   final Function? onInitCall;
+  final bool isShowSearch;
   @override
   State<ListProviders> createState() => _ListProvidersState();
 }
@@ -52,6 +53,7 @@ class _ListProvidersState extends State<ListProviders> {
         child: Column(
           children: [
             if(providerList.isNotEmpty && isLoading) LinearProgressIndicator(color: colorPrimary,minHeight: 2,),
+            if(widget.isShowSearch)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 16),
               child: CustomSearchField(

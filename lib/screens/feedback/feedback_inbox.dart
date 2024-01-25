@@ -3,10 +3,12 @@ import 'package:bookthera_customer/models/ConversationModel.dart';
 import 'package:bookthera_customer/models/HomeConversationModel.dart';
 import 'package:bookthera_customer/screens/inbox/chat_provider.dart';
 import 'package:bookthera_customer/screens/inbox/chat_screen_view.dart';
+import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/datamanager.dart';
@@ -20,13 +22,12 @@ class FeedbackInbox extends StatefulWidget {
 }
 
 class _FeedbackInboxState extends State<FeedbackInbox> {
-
   @override
   void initState() {
     super.initState();
     context.read<ChatProvider>().messagesByIdList.clear();
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,8 +94,8 @@ class _FeedbackInboxState extends State<FeedbackInbox> {
               child: TabBarView(
                 physics: NeverScrollableScrollPhysics(),
                 children: [
-                ChatScreenView(senderId: Datamanager().adminId,bugSuggestionType: 'bug',),
-                ChatScreenView(senderId: Datamanager().adminId,bugSuggestionType: 'suggestion',)
+                ChatScreenView(bugSuggestionType: 'bug',),
+                ChatScreenView(bugSuggestionType: 'suggestion',)
               ]),
             )
           ],

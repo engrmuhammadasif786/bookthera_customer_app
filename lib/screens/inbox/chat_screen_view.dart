@@ -33,9 +33,9 @@ import 'FullScreenVideoViewer.dart';
 import 'chat_provider.dart';
 
 class ChatScreenView extends StatefulWidget {
-  final String senderId;
+  final String? senderId;
   final String bugSuggestionType;
-  const ChatScreenView({Key? key, required this.senderId,this.bugSuggestionType='normal'}) : super(key: key);
+  const ChatScreenView({Key? key, this.senderId,this.bugSuggestionType='normal'}) : super(key: key);
 
   @override
   _ChatScreenViewState createState() => _ChatScreenViewState();
@@ -393,6 +393,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
   }
 
   Widget _myMessageContentWidget(MessageModel messageData) {
+    Widget mediaCell=Container();
     var mediaUrl = '';
     Widget doneStatus = Container();
     if (messageData.mediaFile != null) {
@@ -423,7 +424,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
       );
     }
     if (mediaUrl.isNotEmpty) {
-      return ConstrainedBox(
+      mediaCell = ConstrainedBox(
           constraints: BoxConstraints(
             minWidth: 50,
             maxWidth: 200,
@@ -510,65 +511,72 @@ class _ChatScreenViewState extends State<ChatScreenView> {
               ],
             ),
           ));
-    } else {
-      return ConstrainedBox(
-        constraints: BoxConstraints(
-          minWidth: 50,
-          maxWidth: 200,
-        ),
-        child: Padding(
-          padding: EdgeInsets.only(bottom: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Container(
-                padding: EdgeInsets.all(12),
-                margin: EdgeInsets.only(bottom: 8),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15),
-                        bottomLeft: Radius.circular(15)),
-                    boxShadow: [
-                      BoxShadow(
-                          offset: Offset(1, 1),
-                          blurRadius: 5,
-                          spreadRadius: 2,
-                          color: Colors.black.withOpacity(0.1))
-                    ]),
-                child: Text(
-                  mediaUrl.isEmpty ? messageData.message! : '',
-                  textAlign: TextAlign.left,
-                  textDirection: TextDirection.rtl,
-                  style: TextStyle(
-                      color: textColorPrimary,
-                      fontSize: getFontSize(16),
-                      fontWeight: FontWeight.w400),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    hp.setLastSeen(messageData.sentAt!.millisecondsSinceEpoch),
-                    style: TextStyle(
-                        color: borderColor,
-                        fontSize: getFontSize(13),
-                        fontWeight: FontWeight.w400),
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  doneStatus
-                ],
-              )
-            ],
-          ),
-        ),
-      );
     }
+    
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        mediaCell,
+        ConstrainedBox(
+            constraints: BoxConstraints(
+              minWidth: 50,
+              maxWidth: 200,
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    margin: EdgeInsets.only(bottom: 8),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                            bottomLeft: Radius.circular(15)),
+                        boxShadow: [
+                          BoxShadow(
+                              offset: Offset(1, 1),
+                              blurRadius: 5,
+                              spreadRadius: 2,
+                              color: Colors.black.withOpacity(0.1))
+                        ]),
+                    child: Text(
+                      mediaUrl.isEmpty ? messageData.message! : '',
+                      textAlign: TextAlign.left,
+                      textDirection: TextDirection.rtl,
+                      style: TextStyle(
+                          color: textColorPrimary,
+                          fontSize: getFontSize(16),
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        hp.setLastSeen(messageData.sentAt!.millisecondsSinceEpoch),
+                        style: TextStyle(
+                            color: borderColor,
+                            fontSize: getFontSize(13),
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      doneStatus
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+      ],
+    );
+    
   }
 
   Widget remoteMessageView(MessageModel messageData, bool isTyping) {

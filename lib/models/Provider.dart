@@ -61,7 +61,7 @@ class ProviderModel {
       this.introPrice = '',
       this.startFromPrice});
 
-  ProviderModel.fromJson(Map<String, dynamic> json) {
+  ProviderModel.fromJson(Map<String, dynamic> json,{bool fromDetails=false}) {
     venderProfile = json['venderProfile'] != null
         ? new VenderProfile.fromJson(json['venderProfile'])
         : null;
@@ -80,7 +80,8 @@ class ProviderModel {
     sessionsCompleted = json['sessionsCompleted'] ?? 0;
     totalEarned = json['totalEarned'] ?? 0;
     onlineStatus = json['onlineStatus'] ?? false;
-    isFavourite = json['isFavourite'] ?? false;
+    if(!fromDetails)
+      isFavourite = json['isFavourite'] ?? false;
     isVideoSession = json['isVideoSession'] ?? true;
     isAudioSession = json['isAudioSession'] ?? true;
     introSession = json['introSession'] ?? false;

@@ -78,12 +78,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       CustomTextFormField(
                         controller: oldPasswordController,
                         hintText: 'Old Password',
-                        isEditable: false,
-                        focusNode: AlwaysDisabledFocusNode(),
+                        // isEditable: false,
+                        // focusNode: AlwaysDisabledFocusNode(),
                         obscureText: !settingProviderTrue.isOldPasswordVisible,
-                        prefixIcon: Icon(
-                          Icons.lock,
-                          color: Colors.grey,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.lock,
+                            color: Colors.grey,
+                          ),
                         ),
                         suffixIcon: IconButton(
                             onPressed: () {
@@ -99,9 +102,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         onSaved: (String? val) {
                           password = val;
                         },
-                        prefixIcon: Icon(
-                          Icons.lock,
-                          color: Colors.grey,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.lock,
+                            color: Colors.grey,
+                          ),
                         ),
                         suffixIcon: IconButton(
                             onPressed: () {
@@ -125,9 +131,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         onSaved: (String? val) {
                           confirmPassword = val;
                         },
-                        prefixIcon: Icon(
-                          Icons.lock,
-                          color: Colors.grey,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.lock,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                     ],

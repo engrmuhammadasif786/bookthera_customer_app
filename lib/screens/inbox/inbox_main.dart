@@ -104,7 +104,7 @@ class _InboxMainState extends State<InboxMain> {
     } else {
       senderId = messageModel.senderId!;
       senderUname = messageModel.sender!.uname!;
-      if (messageModel.sender!.avatar!.url!.isNotEmpty) {
+      if (messageModel.sender!.avatar!=null) {
         senderProfile = NetworkImage(messageModel.sender!.avatar!.url!);
       }
     }

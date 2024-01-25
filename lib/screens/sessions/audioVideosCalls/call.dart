@@ -46,13 +46,15 @@ class AudioVideoScreen extends StatefulWidget {
 class _AudioVideoScreenState extends State<AudioVideoScreen> {
   int? _remoteUid;
   bool _localUserJoined = false;
-  bool muted = false;
-  bool speaker = false;
-  bool video = false;
+  bool muted = true;
+  bool speaker = true;
+  bool video = true;
   late final RtcEngineEx _engine;
   CloudRecordingManager cloudRecordingManager = CloudRecordingManager();
   String? filePath;
   final Stopwatch _stopwatch = Stopwatch()..start();
+  
+  bool remoteVideo=false;
   
   get remoteUid => _remoteUid;
 
@@ -124,6 +126,9 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
           setState(() {
             _localUserJoined = true;
           });
+          if (widget.type == 'video') {
+            _engine.muteLocalVideoStream(false);
+          }
         },
         onLeaveChannel: (connection, stats) {},
         onUserJoined:
@@ -143,6 +148,12 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
         onTokenPrivilegeWillExpire: (RtcConnection connection, String token) {
           debugPrint(
               '[onTokenPrivilegeWillExpire] connection: ${connection.toJson()}, token: $token');
+        },
+       onRemoteVideoStateChanged:(connection, remoteUid, state, reason, elapsed) {
+          setState(() {
+            _remoteUid = remoteUid; 
+            remoteVideo = state != RemoteVideoState.remoteVideoStateStopped;
+          });
         },
       ),
     );
@@ -210,7 +221,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
                 child: RawMaterialButton(
                   onPressed: _onToggleSpeaker,
                   child: Icon(
-                    speaker ? Icons.volume_off : Icons.volume_up,
+                    !speaker ? Icons.volume_off : Icons.volume_up,
                     color: Colors.white,
                     size: getSize(35),
                   ),
@@ -220,7 +231,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
                 child: RawMaterialButton(
                   onPressed: _onToggleVideo,
                   child: Icon(
-                    video ? Icons.videocam_off : Icons.videocam,
+                    !video ? Icons.videocam_off : Icons.videocam,
                     color: Colors.white,
                     size: getSize(35),
                   ),
@@ -244,7 +255,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
                 child: RawMaterialButton(
                   onPressed: _onToggleMute,
                   child: Icon(
-                    muted ? Icons.mic_off : Icons.mic,
+                    !muted ? Icons.mic_off : Icons.mic,
                     color: Colors.white,
                     size: getSize(35),
                   ),
@@ -288,9 +299,11 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
 
   Future<void> _onCallEnd(BuildContext context) async {
     // save audio and video file (optional)
-    if (widget.type == 'video' && Datamanager().isRecordVideo)
-      cloudRecordingManager.stopCloudRecording(
-          widget.channelName, token, widget.sessionId);
+    if (widget.type == 'video' && Datamanager().isRecordVideo) {
+      context.read<SessionProvider>().setLoader(true);
+      await cloudRecordingManager.stopCloudRecording(widget.channelName, token, widget.sessionId);
+      context.read<SessionProvider>().setLoader(false);
+    }
     saveAudioFile();
 
     // Disable audio and video
@@ -326,7 +339,7 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
   }
 
   Future<void> _onToggleMute() async {
-    await _engine.enableLocalAudio(muted);
+    await _engine.enableLocalAudio(!muted);
     setState(() {
       muted = !muted;
     });
@@ -335,6 +348,9 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
   // Display remote user's video
   Widget _remoteVideo() {
     if (_remoteUid != null) {
+      if (!remoteVideo) {
+        return Container();
+      }
       return AgoraVideoView(
         controller: VideoViewController.remote(
           rtcEngine: _engine,
@@ -353,14 +369,21 @@ class _AudioVideoScreenState extends State<AudioVideoScreen> {
   }
 
   Future<void> _onToggleSpeaker() async {
-    await _engine.setEnableSpeakerphone(speaker);
+    await _engine.setEnableSpeakerphone(!speaker);
     setState(() {
       speaker = !speaker;
     });
   }
 
   Future<void> _onToggleVideo() async {
-    await _engine.muteLocalVideoStream(video);
+    // await _engine.muteLocalVideoStream(!video);
+     if (video) {
+      await _engine.disableVideo();
+      await _engine.stopPreview();  
+    } else {
+      await _engine.enableVideo();
+      await _engine.startPreview();
+    }
     setState(() {
       video = !video;
     });

@@ -260,12 +260,12 @@ class ChatProvider with ChangeNotifier {
     }
   }
 
-  Future<void> doCallGetMessagesById(String senderId,String bugSuggestionType)async {
-    receiverId = senderId;
+  Future<void> doCallGetMessagesById(String? senderId,String bugSuggestionType)async {
+    receiverId = senderId??getStringAsync(USER_ID);
     setLoader(true);
-    await callGetMessagesById(senderId).then((value) {
+    await callGetMessagesById(receiverId).then((value) {
       if (value is String) {
-        toast(value);
+        return toast(value);
       } else if (value is List<MessageModel>) {
         switch (bugSuggestionType) {
           case 'bug':

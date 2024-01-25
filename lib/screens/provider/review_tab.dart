@@ -9,7 +9,7 @@ class ReviewsTab extends StatelessWidget {
   ProviderModel providerModel;
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return providerModel.reviews.isEmpty?Center(child: Text('I’m new to the platform. No reviews yet! 😊')): ListView.builder(
       itemCount: providerModel.reviews.length,
       itemBuilder: (context, index) {
         return ReViewTabCell(reviewModel: providerModel.reviews[index],);

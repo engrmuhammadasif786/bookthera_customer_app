@@ -15,7 +15,7 @@ class Datamanager {
   Datamanager._internal();
 
   bool isLoggedIn = false;
-  int userId=0;
+  String userId='';
   String firstName='';
   String lastName='';
   String userName='';
@@ -23,7 +23,7 @@ class Datamanager {
   String email='';
   String role='';
   double serviceFee = 0.0; 
-  bool isRecordVideo = false;
+  bool isRecordVideo = true;
   String layoutChoice='simple'; 
   String profile=placehorder;
   List recentSearch=[];
@@ -32,6 +32,7 @@ class Datamanager {
   List<PaymentCard> userCards=[];
   List<BookSession> bookSessions=[];
   NotificationSetting? notificationSetting;
+  String appVersion='v1.0.0';
 
   //// filter data
   bool onlineOnly = false;

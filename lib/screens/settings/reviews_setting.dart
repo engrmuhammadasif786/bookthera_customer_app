@@ -151,7 +151,7 @@ class ReviewsSettingCell extends StatelessWidget {
                       Row(
                         children: [
                           RatingBar.builder(
-                              initialRating: 4,
+                              initialRating: double.tryParse(reviewModel.stars!)??0.0,
                               minRating: 1,
                               direction: Axis.horizontal,
                               unratedColor: Colors.grey.withOpacity(0.5),

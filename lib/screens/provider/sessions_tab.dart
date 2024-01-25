@@ -6,8 +6,10 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class SessionsTab extends StatelessWidget {
-  SessionsTab({super.key,required this.providerModel});
+  SessionsTab({super.key,required this.providerModel,this.onAction});
   ProviderModel providerModel;
+  Function()? onAction;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -19,7 +21,7 @@ class SessionsTab extends StatelessWidget {
             itemCount: providerModel.promotions.length,
             padding: EdgeInsets.only(top: 16),
             itemBuilder: (context, index) {
-           return SessionTabCell(sesssionModel: providerModel.promotions[index],venderName: providerModel.venderName!,providerId: providerModel.sId!,); 
+           return SessionTabCell(sesssionModel: providerModel.promotions[index],venderName: providerModel.venderName!,ownerId: providerModel.owner!,providerId: providerModel.sId!,onAction: onAction); 
           }),
           ListView.builder(
             shrinkWrap: true,
@@ -27,7 +29,7 @@ class SessionsTab extends StatelessWidget {
             itemCount: providerModel.sessions.length,
             padding: EdgeInsets.zero,
             itemBuilder: (context, index) {
-           return SessionTabCell(sesssionModel: providerModel.sessions[index],venderName: providerModel.venderName!,providerId: providerModel.sId!,); 
+           return SessionTabCell(sesssionModel: providerModel.sessions[index],venderName: providerModel.venderName!,ownerId: providerModel.owner!,providerId: providerModel.sId!,onAction: onAction); 
           }),
         ],
       ),

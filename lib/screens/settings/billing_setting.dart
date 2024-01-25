@@ -223,8 +223,9 @@ class _BillingSettingState extends State<BillingSetting> {
     if (bookSession.sessionData != null) {
       sessionDuration = bookSession.sessionData!.length!;
       sessionPrice = bookSession.sessionData!.price!;
-      if (double.tryParse(sessionPrice)!=null) {
-        sessionPrice=(double.parse(sessionPrice)+Datamanager().serviceFee).toString();  
+      double? priceDouble = double.tryParse(sessionPrice);
+      if (priceDouble!=null) {
+        sessionPrice=(priceDouble+Datamanager().serviceFee*priceDouble).toString();  
       }
     }
 

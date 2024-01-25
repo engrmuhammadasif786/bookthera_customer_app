@@ -158,6 +158,7 @@ class AuthProvider extends ChangeNotifier{
           print({"fcmToken": fcmToken});
           callSaveFcmToken({"fcmToken": fcmToken ?? ''});
       });
+      await callGetSettings();
       hp.pushAndRemoveUntil(context, Dashboard(),false);
     }   
   }

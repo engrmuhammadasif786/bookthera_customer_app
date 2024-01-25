@@ -1,3 +1,4 @@
+import 'package:bookthera_customer/utils/Common.dart';
 import 'package:bookthera_customer/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -116,7 +117,7 @@ class _SlotCellState extends State<SlotCell> {
                 color: Colors.black.withOpacity(0.1))
           ]),
       alignment: Alignment.center,
-      child: Text(timeSlot.time!,
+      child: Text(timeSlot.time!.time24To12Format(''),
           style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 13,

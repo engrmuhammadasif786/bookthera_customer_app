@@ -11,6 +11,8 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:bookthera_customer/utils/helper.dart' as hp;
 import 'package:provider/provider.dart';
 
+import '../../utils/datamanager.dart';
+
 class ProviderProvider extends ChangeNotifier {
   bool isLoading = false;
   List<ProviderCategory> providerCategoryList = [];
@@ -41,7 +43,10 @@ class ProviderProvider extends ChangeNotifier {
     }
   }
 
-  doCallGetProvidersByCategory() {
+  Future<void> doCallGetProvidersByCategory() async{
+    if (Datamanager().layoutChoice=='simple') {
+      return doCallGetProviders();
+    }
     setLoader(true);
     callGetProvidersByCategory().then((value) {
       if (value is String) {
@@ -94,19 +99,19 @@ class ProviderProvider extends ChangeNotifier {
     });
   }
 
-  Future<dynamic> doCallGetProviderById(String providerId) async {
+  Future<dynamic> doCallGetProviderById(String providerId,{bool fromDynamicLink=false}) async {
     setLoader(true);
     ProviderModel? providerModel;
-    chatProvider.getOnlineUser();
-    await callGetProviderById(providerId).then((value) {
+    // chatProvider.getOnlineUser();
+    await callGetProviderById(providerId,fromDynamicLink:fromDynamicLink).then((value) {
       setLoader(false);
       if (value is String) {
         toast(value);
       } else if (value is ProviderModel) {
         providerModel = value;
-        if (chatProvider.isUserOnline(providerId)) {
-          providerModel!.onlineStatus=true;
-        }
+        // if (chatProvider.isUserOnline(providerId)) {
+        //   providerModel!.onlineStatus=true;
+        // }
       }
     });
     return providerModel;

@@ -7,20 +7,128 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:246117889740:android:ffdab2851ae9132b387469",
+        "mobilesdk_app_id": "1:246117889740:android:e656212e1cf3c57d387469",
         "android_client_info": {
           "package_name": "com.asiayeshit.bookthera"
         }
       },
       "oauth_client": [
         {
-          "client_id": "246117889740-vgm2v3psqiljacd3h6qe7i6j6l799e6l.apps.googleusercontent.com",
+          "client_id": "246117889740-ovimt4uok4qfqi12vb2rq4uqcbav20he.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtnmQLbFIUaJW_j0bHJKP5XpcYhaMr26M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246117889740-ovimt4uok4qfqi12vb2rq4uqcbav20he.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "246117889740-18p12fuadbd3cjo2gakr97nb9d85u1u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.booktheraCustomer1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246117889740:android:f0df6d339b6eb571387469",
+        "android_client_info": {
+          "package_name": "com.asiayeshit.bookthera_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246117889740-ovimt4uok4qfqi12vb2rq4uqcbav20he.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtnmQLbFIUaJW_j0bHJKP5XpcYhaMr26M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246117889740-ovimt4uok4qfqi12vb2rq4uqcbav20he.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "246117889740-18p12fuadbd3cjo2gakr97nb9d85u1u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.booktheraCustomer1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246117889740:android:ffdab2851ae9132b387469",
+        "android_client_info": {
+          "package_name": "com.asiayeshit.bookthera_customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246117889740-ktm27gkpsjmj8lm66mi99vv0m4gagj3d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.asiayeshit.bookthera",
-            "certificate_hash": "d0253255059928689194066ea279be10c683ef80"
+            "package_name": "com.asiayeshit.bookthera_customer",
+            "certificate_hash": "002680781953393333057b26056c5527e316be7a"
           }
         },
+        {
+          "client_id": "246117889740-ovimt4uok4qfqi12vb2rq4uqcbav20he.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtnmQLbFIUaJW_j0bHJKP5XpcYhaMr26M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246117889740-ovimt4uok4qfqi12vb2rq4uqcbav20he.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "246117889740-18p12fuadbd3cjo2gakr97nb9d85u1u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.booktheraCustomer1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246117889740:android:c8a72958109cb762387469",
+        "android_client_info": {
+          "package_name": "com.asiayeshit.bookthera_provider"
+        }
+      },
+      "oauth_client": [
         {
           "client_id": "246117889740-ovimt4uok4qfqi12vb2rq4uqcbav20he.apps.googleusercontent.com",
           "client_type": 3

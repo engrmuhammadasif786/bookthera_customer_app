@@ -118,7 +118,7 @@ class _EditSessionState extends State<EditSession> {
                                   widget.sesstionType != SesstionType.Audio
                                       ? colorPrimary
                                       : borderColor,
-                              title: 'Call Only',
+                              title: 'No Camera',
                               onPressed: () {
                                 setState(() {
                                   widget.sesstionType = SesstionType.Audio;

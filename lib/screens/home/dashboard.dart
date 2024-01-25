@@ -37,7 +37,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     int selectedIndex = context.watch<HomeProvider>().selectedIndex;
-    int count = context.watch<ChatProvider>().messagesList.where((element) => !element.seen! &&  element.senderId!=getStringAsync(USER_ID)).length;
+    int count = context.watch<ChatProvider>().messagesList.where((element) => element.bugSuggestionType=='normal' && !element.seen! &&  element.senderId!=getStringAsync(USER_ID)).length;
     int feedbackCount= context.watch<ChatProvider>().messagesList.where((element) => element.bugSuggestionType!='normal' && !element.seen!).length;
    return Scaffold(
         backgroundColor: Color(0xffF5F5F5),
@@ -156,7 +156,7 @@ class _DashboardState extends State<Dashboard> {
                         constraints: BoxConstraints(minHeight: 16,minWidth: 16),
                         alignment: Alignment.center,
                         child: new Text(
-                          count.toString(),
+                          feedbackCount.toString(),
                           style: new TextStyle(
                             color: Colors.white,
                             fontSize: getFontSize(10),

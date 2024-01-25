@@ -1,3 +1,4 @@
+
 import 'package:bookthera_customer/firebase_options.dart';
 import 'package:bookthera_customer/screens/auth/splash_screen.dart';
 import 'package:bookthera_customer/screens/sessions/audioVideosCalls/call.dart';
@@ -10,6 +11,7 @@ import 'package:bookthera_customer/screens/provider/book_session/book_session_pr
 import 'package:bookthera_customer/screens/sessions/session_provider.dart';
 import 'package:bookthera_customer/screens/settings/setting_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:bookthera_customer/local/BaseLanguage.dart';
@@ -17,7 +19,9 @@ import 'package:bookthera_customer/utils/AppTheme.dart';
 import 'package:bookthera_customer/utils/AppWidgets.dart';
 import 'package:bookthera_customer/utils/Constants.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import 'screens/provider/provider_detail.dart';
 import 'screens/provider/provider_provider.dart';
 
 void main() async {
@@ -26,8 +30,30 @@ void main() async {
   await initialize(aLocaleLanguageList: languageList());
   textPrimaryColorGlobal = Colors.white;
   textSecondaryColorGlobal = Colors.grey.shade500;
-
+  initDeeplink();
   runApp(MyApp());
+}
+
+initDeeplink() {
+  FirebaseDynamicLinks.instance.getInitialLink().then((dynamicLink) {
+    onDynamicLink(dynamicLink);
+  });
+  FirebaseDynamicLinks.instance.onLink.listen((dynamicLink) {
+    onDynamicLink(dynamicLink);
+  }).onError((error) {
+    print(error);
+  });
+}
+
+void onDynamicLink(PendingDynamicLinkData? dynamicLink) {
+  if (dynamicLink != null) {
+    print(dynamicLink.link.queryParameters);
+    String? providerId = dynamicLink.link.queryParameters['providerId'];
+    if (providerId!=null) {
+      print('Go to provider profile $providerId');
+      Navigator.push(AppKeys.navigatorKey.currentState!.context, MaterialPageRoute(builder: (context)=>ProviderDetail(providerId: providerId,fromDynamicLink: true,)));
+    }
+  }
 }
 
 class MyApp extends StatelessWidget {

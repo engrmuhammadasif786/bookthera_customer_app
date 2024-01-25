@@ -18,7 +18,12 @@ class CustomSearchField extends StatelessWidget {
       this.onChanged,
       this.isClose=false,
       this.onClose,
-      this.showFilterCount = false,this.onSubmitted,this.onSearchTap,this.showCursor});
+      this.showFilterCount = false,
+      this.onSubmitted,
+      this.onSearchTap,
+      this.showCursor,
+      this.isSaveButton=false
+      });
   TextEditingController? searchController;
   bool isShowFavourite;
   void Function()? onTap;
@@ -32,6 +37,7 @@ class CustomSearchField extends StatelessWidget {
   bool isClose;
   bool showFilterCount;
   bool? showCursor;
+  bool isSaveButton;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -109,16 +115,37 @@ class CustomSearchField extends StatelessWidget {
           ),
           if(isClose)  CloseButton(onPressed: onClose,color: colorPrimary,),
           if (isShowFavourite)
-            GestureDetector(
+           GestureDetector(
                 onTap: onFavouriteTap,
-                child: Padding(
-                  padding: getPadding(left: 8),
-                  child: Icon(
-                    Icons.favorite,
-                    color: colorPrimary,
-                    size: getSize(30),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: colorPrimary
+                  ),
+                  margin: getPadding(left: 8),
+                  padding: getPadding(left: 12,right: 12,top: 8,bottom: 8),
+                  child: Row(
+                    children: [
+                      Text('Saved',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),),
+                      Icon(
+                        Icons.favorite,
+                        color: Colors.white,
+                        size: getSize(20),
+                      ),
+                    ],
                   ),
                 ))
+            // else if (isShowFavourite && !isSaveButton)
+            //   GestureDetector(
+            //       onTap: onFavouriteTap,
+            //       child: Padding(
+            //         padding: getPadding(left: 8),
+            //         child: Icon(
+            //           Icons.favorite,
+            //           color: colorPrimary,
+            //           size: getSize(30),
+            //         ),
+            //       ))
         ],
       ),
     );

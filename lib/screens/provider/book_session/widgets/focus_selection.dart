@@ -36,10 +36,10 @@ class _FocusSelectionState extends State<FocusSelection> {
           spacing: 5,
           children: bookSesstionProvider.foucsList.map((e) => GestureDetector(
             onTap: () {
+              // setState(() {
+              //   e.isSelected=!e.isSelected;
+              // });
               context.read<BookSesstionProvider>().setSelectedFocus(e.sId!);
-              setState(() {
-                e.isSelected=!e.isSelected;
-              });
             },
             child: _focus(e.title!,isSelected: e.isSelected),
           )).toList())

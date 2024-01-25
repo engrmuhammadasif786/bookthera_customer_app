@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:core';
 
 import 'package:bookthera_customer/screens/auth/LoginScreen.dart';
+import 'package:bookthera_customer/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -174,7 +175,7 @@ Future sendMultiPartRequest(MultipartRequest multiPartRequest) async {
 Future<void> refreshToken({bool? aReloadApp, BuildContext? context}) async {
   // logout();
   setValue(isLoggedIn, false);
-  LoginScreen().launch(AppKeys.navigatorKey.currentContext!);
+  pushAndRemoveUntil(AppKeys.navigatorKey.currentContext!, LoginScreen(), false);
   // log('Refreshing Token $aReloadApp');
 
   // var request = {

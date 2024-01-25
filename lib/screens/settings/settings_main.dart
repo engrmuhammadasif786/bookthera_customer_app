@@ -50,7 +50,7 @@ class _SettingsMainState extends State<SettingsMain> {
         },
       ),
       SettingModel(
-        title: 'Notification',
+        title: 'Notifications',
         iconData: Icons.notifications,
         onTap: () {
           push(context, NotificationsSetting());
@@ -174,7 +174,7 @@ class _SettingsMainState extends State<SettingsMain> {
                   if (nb.getBoolAsync(isGoogleSignin)) {
                     await GoogleSignIn().signOut();
                   }
-                  logout().then((value) {
+                  logout(context).then((value) {
                     if (value) {
                       pushAndRemoveUntil(context, LoginScreen(), false);
                     }
@@ -209,7 +209,7 @@ class _SettingsMainState extends State<SettingsMain> {
             ),
           ),
           Text(
-            '$app_name app $appVersion',
+            '$app_name app ${Datamanager().appVersion}',
             style: TextStyle(fontSize: getFontSize(13), fontWeight: FontWeight.w500),
           ),
           SizedBox(height: 50,)

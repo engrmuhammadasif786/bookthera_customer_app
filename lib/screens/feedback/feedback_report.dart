@@ -40,7 +40,7 @@ class _FeedbackReportState extends State<FeedbackReport> {
         title: 'Report a Bug',
       ),
       body: CustomLoader(
-        isLoading: chatProvider.isLoading,
+        isLoading: chatProvider.isLoading || chatProvider.isSubLoading,
         // persent: chatProvider.persent,
         child: Container(
           padding: EdgeInsets.all(14),
@@ -204,6 +204,7 @@ class _FeedbackReportState extends State<FeedbackReport> {
     bugController.clear();
     isFileSelected = false;
     selectedFile = null;
+    Navigator.pop(context);
     showDialog(context: context, builder: (context) => FeedbackSuccess());
   }
 

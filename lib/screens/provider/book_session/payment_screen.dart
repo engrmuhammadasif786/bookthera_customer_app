@@ -124,9 +124,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 onSaved: (String? val) {
                                   provider.username = val;
                                 },
-                                prefixIcon: Icon(
+                                prefixWidget: Icon(
                                   Icons.person,
                                   size: getSize(18),
+                                  color: colorPrimary,
                                 ),
                               ),
                               CustomTextFormField(
@@ -142,9 +143,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 onSaved: (String? val) {
                                   provider.cardNum = val;
                                 },
-                                prefixIcon: Icon(
+                                prefixWidget: Icon(
                                   Icons.credit_card,
                                   size: getSize(18),
+                                  color: colorPrimary,
                                 ),
                               ),
                               Row(
@@ -163,9 +165,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     onSaved: (String? val) {
                                       provider.expiry = val;
                                     },
-                                    prefixIcon: Icon(
+                                    prefixWidget: Icon(
                                       Icons.event,
                                       size: getSize(18),
+                                      color: colorPrimary,
                                     ),
                                   )),
                                   Expanded(
@@ -182,9 +185,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     onSaved: (String? val) {
                                       provider.cvv = val;
                                     },
-                                    prefixIcon: Icon(
+                                    prefixWidget: Icon(
                                       Icons.lock,
                                       size: getSize(18),
+                                      color: colorPrimary,
                                     ),
                                   )),
                                 ],
@@ -200,11 +204,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       .read<BookSesstionProvider>()
                                       .updateSaveCard();
                                 },
-                                // thumbColor:
-                                //     MaterialStateProperty.all(colorAccent),
+                                activeColor: colorAccent,
+                                inactiveThumbColor: grey,
                               ),
                               Text(
-                                'Save this card for future paument?',
+                                'Save this card for future payment?',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: getFontSize(12),
@@ -219,7 +223,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       child: CustomButton(
                           color: colorAccent,
                           borderRadius: 8,
-                          title: provider.isShowCardFrom?'Save Card': 'Purchase \$${provider.total}',
+                          title: 'Purchase \$${provider.total}',
                           onPressed: () {
                             if (provider.isShowCardFrom && _formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
@@ -276,7 +280,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
           Padding(
             padding: getPadding(bottom: 8),
-            child: Text('Session Intentions *',
+            child: Text('Intentions',
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: getFontSize(13),
@@ -291,11 +295,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     color: borderColor)),
           ),
           infoCell('Date',
-              '${DateFormat(defaultDateFormat).format(provider.selectedDate)}  ${provider.selectedTime} (${provider.selectedSesssion!.length}Mins)'),
+              '${DateFormat(defaultDateFormat).format(provider.selectedDate)}  ${provider.selectedTime.time24To12Format('')} (${provider.selectedSesssion!.length}Mins)'),
           infoCell('Session Type', provider.sesstionType.name),
           infoCell('Session Price',
               '\$${provider.selectedSesssion!.price.toStringAsFixed(2)}'),
-          infoCell('Service Fee', '\$${Datamanager().serviceFee.toStringAsFixed(2)}'),
+          infoCell('Service Fee', '\$${(Datamanager().serviceFee*provider.selectedSesssion!.price).toStringAsFixed(2)}'),
           infoCell('Total', '\$${provider.total.toStringAsFixed(2)}',
               keyFont: FontWeight.w600,
               ValueFont: FontWeight.w700,

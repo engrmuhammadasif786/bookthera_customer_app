@@ -11,6 +11,7 @@ class BookSession {
   ProfilePic? profilePic;
   String? date;
   String? time;
+  DateTime? dateTime;
   String? intensions;
   String? type;
   String? status;
@@ -35,6 +36,7 @@ class BookSession {
       this.isPayment,
       this.profilePic,
       this.date,
+      this.dateTime,
       this.time,
       this.intensions,
       this.type,
@@ -48,7 +50,8 @@ class BookSession {
       this.cancellationReasion,
       this.noShowReportBy,
       this.reviewByUser,
-      this.sessionData,this.channelName=''});
+      this.sessionData,
+      this.channelName=''});
 
   BookSession.fromJson(Map<String, dynamic> json) {
     providerId = json['providerId'];
@@ -61,6 +64,7 @@ class BookSession {
         ? new ProfilePic.fromJson(json['profilePic'])
         : null;
     date = json['date']!=null?DateFormat('dd MMM').format(DateTime.parse(json['date'])) :'';
+    dateTime = DateTime.parse(json['date']);
     time = json['time']??"";
     intensions = json['intensions']??"";
     type = json['type']??"";

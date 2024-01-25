@@ -48,7 +48,7 @@ class ReViewTabCell extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text('$reviewByFName $reviewByLName',
+                    Text('$reviewByName',
                         style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: getFontSize(18),

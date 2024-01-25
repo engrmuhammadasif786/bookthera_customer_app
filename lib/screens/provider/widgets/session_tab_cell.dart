@@ -17,10 +17,12 @@ import 'package:provider/provider.dart';
 import '../../../utils/helper.dart';
 
 class SessionTabCell extends StatelessWidget {
-  const SessionTabCell({super.key,required this.sesssionModel,this.venderName='',this.providerId=''});
+  const SessionTabCell({super.key,required this.sesssionModel,this.venderName='',this.providerId='',this.ownerId='', this.onAction});
   final SesssionModel sesssionModel;
   final String venderName;
   final String providerId;
+  final String ownerId;
+  final Function()? onAction;
   @override
   Widget build(BuildContext context) {
     var size=MediaQuery.of(context).size;
@@ -129,13 +131,18 @@ class SessionTabCell extends StatelessWidget {
                   Expanded(child: SessionButton(
                     isOutlined: isPromotion?false: true,
                     title: 'Chat Now', onPressed: (){
-                      push(context, ChatScreen(senderId: providerId, senderName: venderName));
+                      if(onAction!=null){
+                        return onAction!();
+                      }
+                      push(context, ChatScreen(senderId: ownerId, senderName: venderName));
                     })),
                     if(isChat=='true')
                   SizedBox(width: 11,),
                   if(isBook=='true')
                   Expanded(child: SessionButton(title: 'Book Appointment', onPressed: (){
-                    
+                    if(onAction!=null){
+                        return onAction!();
+                      }
                     context.read<BookSesstionProvider>().selectedSesssion=sesssionModel;
                     context.read<BookSesstionProvider>().providerId=providerId;
                     push(context, BookSessionMain(providerId:providerId ,));

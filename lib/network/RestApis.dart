@@ -11,10 +11,13 @@ import 'package:bookthera_customer/models/notification_setting.dart';
 import 'package:bookthera_customer/models/payment_card.dart';
 import 'package:bookthera_customer/models/time_slot.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:provider/provider.dart';
 
 import '../models/reviewModel.dart';
+import '../screens/home/home_provider.dart';
 import '../utils/Constants.dart';
 import '../utils/datamanager.dart';
 import 'NetworkUtils.dart';
@@ -147,9 +150,9 @@ Future<void> saveUserData(Map<dynamic, dynamic> data) async {
   await setValue(USER_ID, data['_id']);
   await setValue(FIRST_NAME, data['fname']);
   await setValue(LAST_NAME, data['lname']??"");
-  await setValue(USER_ROLE, data['role']);
+  await setValue(USER_ROLE, data['role']??"");
   await setValue(USERNAME, data['uname']);
-  await setValue(PHONE, data['phone']);
+  await setValue(PHONE, data['phone']??"");
   await setValue(USER_EMAIL, data['email']);
   if(data['notificationSettings']!=null)
     await setValue(NOTIFICATION_JSON, data['notificationSettings']);
@@ -158,6 +161,7 @@ Future<void> saveUserData(Map<dynamic, dynamic> data) async {
   await setValue(isLoggedIn, true);
 
   Datamanager().isLoggedIn = true;
+  Datamanager().userId = data['_id'] ?? "";
   Datamanager().firstName = data['fname'] ?? "";
   Datamanager().lastName = data['lname'] ?? "";
   Datamanager().userName = data['uname'] ?? "";
@@ -185,6 +189,7 @@ Future<void> saveUserData(Map<dynamic, dynamic> data) async {
 }
 
 getUserData() {
+  Datamanager().userId = getStringAsync(USER_ID);
   Datamanager().isLoggedIn = getBoolAsync(isLoggedIn);
   Datamanager().firstName = getStringAsync(FIRST_NAME);
   Datamanager().lastName = getStringAsync(LAST_NAME);
@@ -192,11 +197,25 @@ getUserData() {
   Datamanager().role = getStringAsync(USER_ROLE);
   Datamanager().phone = getStringAsync(PHONE);
   Datamanager().userName = getStringAsync(USERNAME);
-  Datamanager().profile = getStringAsync(USER_PROFILE);
+  Datamanager().profile = getStringAsync(USER_PROFILE,defaultValue: placehorder);
   dynamic notiticationSettingsJons = getJSONAsync(NOTIFICATION_JSON);
   if (notiticationSettingsJons!=null) {
     Datamanager().notificationSetting = NotificationSetting.fromJson(notiticationSettingsJons);  
   } 
+}
+
+Future<dynamic> callGetSettings() async {
+  Map res = await getRequest('api/v1/settings/get-settings');
+  print("here at get setting ${res}");
+  if (res['success']) {
+   dynamic adminCustomerCommision = res['data']['adminCustomerCommision'];
+    double serviceFee = adminCustomerCommision is int ? adminCustomerCommision.toDouble() : adminCustomerCommision;
+    Datamanager().serviceFee=serviceFee;
+    Datamanager().isRecordVideo = res['data']['recordVideo']=="1";
+    Datamanager().layoutChoice = res['data']['layoutChoice']??'simple';
+
+    print("recordVideo: " + res['data']['recordVideo']);
+  }
 }
 
 Future<dynamic> callForgotPassword(Map request) async {
@@ -232,7 +251,7 @@ Future<dynamic> callResetPassword(Map request) async {
   return true;
 }
 
-Future<dynamic> logout() async {
+Future<dynamic> logout(BuildContext context) async {
   // await clearSharedPref();
   if (await isNetworkAvailable()) {
     Datamanager().isLoggedIn = false;
@@ -240,6 +259,7 @@ Future<dynamic> logout() async {
     Datamanager().lastName = '';
     Datamanager().email = '';
     Datamanager().role = '';
+    Datamanager().userId = '';
 
     await removeKey(TOKEN);
     await removeKey(USER_ID);
@@ -247,6 +267,8 @@ Future<dynamic> logout() async {
     await removeKey(LAST_NAME);
     await removeKey(USER_PROFILE);
     await setValue(isLoggedIn, false);
+
+    context.read<HomeProvider>().selectedIndex=0;
   } else {
     toast(errorInternetNotAvailable);
     return false;
@@ -347,11 +369,11 @@ Future<dynamic> callProviderLikeUnlike(String providerId) async {
   }
 }
 
-Future<dynamic> callGetProviderById(String providerId) async {
-  Map res = await getRequest('api/v1/provider?id=$providerId');
+Future<dynamic> callGetProviderById(String providerId,{bool fromDynamicLink=false}) async {
+  Map res = await getRequest('api/v1/provider?id=$providerId',aAuthRequired: false);
   if (res['success']) {
     if (res['data'] != null) {
-      return ProviderModel.fromJson(res['data']);
+      return ProviderModel.fromJson(res['data'],fromDetails: fromDynamicLink?false:true);
     }
   } else {
     return res['message'];

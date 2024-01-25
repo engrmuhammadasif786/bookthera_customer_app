@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bookthera_customer/models/Provider.dart';
+import 'package:bookthera_customer/screens/auth/LoginScreen.dart';
 import 'package:bookthera_customer/screens/inbox/FullScreenVideoViewer.dart';
 import 'package:bookthera_customer/screens/provider/provider_provider.dart';
 import 'package:bookthera_customer/screens/provider/sessions_tab.dart';
@@ -13,38 +14,56 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:nb_utils/nb_utils.dart' as nb;
 import 'package:provider/provider.dart';
 
 import '../../components/custom_loader.dart';
 import '../../utils/helper.dart';
+import '../inbox/chat_screen.dart';
 import 'review_tab.dart';
 import 'about_me.dart';
 
 class ProviderDetail extends StatefulWidget {
-  ProviderDetail({super.key,required this.provider});
-  ProviderModel provider;
+  ProviderDetail({super.key,this.providerId,this.fromDynamicLink=false, this.provider,this.onBack});
+  ProviderModel? provider;
+  String? providerId;
+  bool fromDynamicLink;
+  Function(bool)? onBack;
 
   @override
   State<ProviderDetail> createState() => _ProviderDetailState();
 }
 
 class _ProviderDetailState extends State<ProviderDetail> {
+  bool fav = false;
 
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      if(widget.provider!=null){
+        fav=widget.provider!.isFavourite!;
+      }
       context
           .read<ProviderProvider>()
-          .doCallGetProviderById(widget.provider.sId!).then((value) {
+          .doCallGetProviderById(widget.providerId ?? widget.provider!.sId!,fromDynamicLink: widget.fromDynamicLink).then((value) {
             setState(() {
               widget.provider=value;
+              fav=widget.provider!.isFavourite??false;
             });
           });    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if(widget.provider==null){
+      return Material(
+        child: Center(child: CircularProgressIndicator(
+          strokeWidth: 2,
+          color: colorPrimary,
+        ),),
+      );
+    }
     var _height = MediaQuery.of(context).size.height;
     var _width = MediaQuery.of(context).size.width;
     ProviderProvider provider=context.watch<ProviderProvider>();
@@ -53,21 +72,30 @@ class _ProviderDetailState extends State<ProviderDetail> {
     String videoTag = '';
     dynamic profileImage;
     String videoUrl = '';
-    if (widget.provider.mediaFiles.isNotEmpty) {
-      if (widget.provider.mediaFiles.first.thumbnail != null) {
-        imageProvider = widget.provider.mediaFiles.first.thumbnail!.url;
+    if (widget.provider!.mediaFiles.isNotEmpty) {
+      if (widget.provider!.mediaFiles.first.thumbnail != null) {
+        imageProvider = widget.provider!.mediaFiles.first.thumbnail!.url;
         isVideo = true;
-        videoTag = widget.provider.mediaFiles.first.publicId!;
-        videoUrl = widget.provider.venderProfile!.url!;
+        videoTag = widget.provider!.mediaFiles.first.publicId!;
+        videoUrl = widget.provider!.venderProfile!.url!;
       } else {
-        imageProvider = widget.provider.mediaFiles.first.url;
+        imageProvider = widget.provider!.mediaFiles.first.url;
       }
     }
-    if (widget.provider.venderProfile != null) {
-      profileImage = NetworkImage(widget.provider.venderProfile!.url!);
+    if (widget.provider!.venderProfile != null) {
+      if (imageProvider==null) {
+        imageProvider=widget.provider!.venderProfile!.url!;
+      }
+      profileImage = NetworkImage(widget.provider!.venderProfile!.url!);
     } else {
+      if (imageProvider==null) {
+        imageProvider=providerMediaPlaceholder;
+      }
       profileImage = AssetImage("assets/images/placeholder.jpg");
     }
+    var onDynamicLink = nb.getStringAsync(TOKEN)==''? (){
+      return push(context, LoginScreen(isBackButton: true,));  
+    }:null;
     return DefaultTabController(
         initialIndex: 0,
         length: 3,
@@ -81,12 +109,12 @@ class _ProviderDetailState extends State<ProviderDetail> {
                     push(
                         context,
                         FullScreenVideoViewer(
-                            videoUrl: widget.provider.mediaFiles.first.url!,
+                            videoUrl: widget.provider!.mediaFiles.first.url!,
                             heroTag: videoTag));
                   }
                 },
                 child: Container(
-                    height: _height * 0.3,
+                    height: getSize(338),
                     decoration: BoxDecoration(
                       image: DecorationImage(
                           image: NetworkImage(imageProvider??sampleImage),
@@ -118,21 +146,24 @@ class _ProviderDetailState extends State<ProviderDetail> {
                         : null),
               ),
             ),
-            Positioned(
-                top: _height * 0.033,
-                left: _width * 0.03,
-                child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        'assets/images/arrow_back.png',
-                        height: getSize(33),
-                        width: getSize(33),
-                      ),
-                    ))),
+            Align(
+                alignment: Alignment.topLeft,
+                  // top: _height * 0.033,
+                  // left: _width * 0.03,
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        margin: getMargin(top: kToolbarHeight/1.3,left: 16),
+                        padding: getPadding(all: 8),
+                        child: Image.asset(
+                          'assets/images/arrow_back.png',
+                          height: 33,
+                          width: 33,
+                          // color: imageProvider==null?colorPrimary:null,
+                        ),
+                      ))),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -140,7 +171,7 @@ class _ProviderDetailState extends State<ProviderDetail> {
                     color: Colors.white,
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(30))),
-                height: _height * 0.74,
+                height: _height * 0.69,
                 child: Column(
                   children: [
                     Container(
@@ -159,7 +190,7 @@ class _ProviderDetailState extends State<ProviderDetail> {
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image:
-                                        DecorationImage(image: profileImage)),
+                                        DecorationImage(image: profileImage,fit: BoxFit.cover)),
                               ),
                               SizedBox(
                                 width: 16,
@@ -171,7 +202,7 @@ class _ProviderDetailState extends State<ProviderDetail> {
                                   children: [
                                     Row(
                                       children: [
-                                        Text(widget.provider.venderName!,
+                                        Text(widget.provider!.venderName!,
                                             maxLines: 2,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -184,7 +215,7 @@ class _ProviderDetailState extends State<ProviderDetail> {
                                         ),
                                         Icon(
                                           Icons.circle,
-                                          color: widget.provider.onlineStatus!
+                                          color: widget.provider!.onlineStatus!
                                               ? Color(0XFF3dae7d)
                                               : Colors.grey,
                                           size: 13,
@@ -200,8 +231,8 @@ class _ProviderDetailState extends State<ProviderDetail> {
                                             ),
                                             SizedBox(width: 3),
                                             Text(
-                                                widget.provider.reviewsCount != 0
-                                                    ? '${(widget.provider.reviewsSum! / widget.provider.reviewsCount!).toStringAsFixed(1)}'
+                                                widget.provider!.reviewsCount != 0
+                                                    ? '${(widget.provider!.reviewsSum! / widget.provider!.reviewsCount!).toStringAsFixed(1)}'
                                                     : 0.toString(),
                                                 style: TextStyle(
                                                   fontFamily: "Poppinssr",
@@ -210,7 +241,7 @@ class _ProviderDetailState extends State<ProviderDetail> {
                                                 )),
                                             SizedBox(width: 3),
                                             Text(
-                                                '(${widget.provider.reviewsCount!.toStringAsFixed(1)})',
+                                                '(${widget.provider!.reviewsCount!.toStringAsFixed(1)})',
                                                 style: TextStyle(
                                                   fontFamily: "Poppinssr",
                                                   letterSpacing: 0.5,
@@ -227,7 +258,7 @@ class _ProviderDetailState extends State<ProviderDetail> {
                                         constraints:
                                             BoxConstraints(maxWidth: 230),
                                         child: Text(
-                                          widget.provider.tagLine!,
+                                          widget.provider!.tagLine!,
                                           maxLines: 4,
                                           style: TextStyle(
                                               fontFamily: "Poppinsr",
@@ -239,28 +270,52 @@ class _ProviderDetailState extends State<ProviderDetail> {
                               ),
                             ],
                           ),
-                          if (widget.provider.introSession!)
-                            Container(
-                              margin: EdgeInsets.only(top: 25),
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              height: 32,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/icons/intro_bar.png'),
-                                      fit: BoxFit.contain)),
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Offers \$${widget.provider.introPrice} Intro Session',
-                                style: TextStyle(
-                                    fontFamily: "Poppinssr",
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500),
-                              ),
+                            Row(
+                              children: [
+                                  IconButton(
+                                  splashColor: Colors.transparent,
+                                  splashRadius: 1,
+                                  onPressed: () {
+                                    if(onDynamicLink!=null) onDynamicLink(); else 
+                                    {
+                                      context.read<ProviderProvider>().doCallProviderLikeUnlike(widget.provider!.sId!);
+                                      setState(() {
+                                        fav=!fav;
+                                      });
+                                      if(widget.onBack!=null) widget.onBack!(fav);
+                                    }
+                                  },
+                                  icon: Icon(
+                                    fav? Icons.favorite:Icons.favorite_outline,
+                                    color:colorPrimary,
+                                    size: getSize(32),
+                                  ),
+                                ),
+                                if (widget.provider!.introSession!)
+                                Container(
+                                  margin: EdgeInsets.only(top: 25),
+                                  width: MediaQuery.of(context).size.width * 0.5,
+                                  height: 32,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/icons/intro_bar.png'),
+                                          fit: BoxFit.contain)),
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Offers \$${widget.provider!.introPrice} Intro Session',
+                                    style: TextStyle(
+                                        fontFamily: "Poppinssr",
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
                             )
                         ],
                       ),
                     ),
+                    
                     Stack(
                       alignment: Alignment.bottomCenter,
                       children: [
@@ -291,7 +346,7 @@ class _ProviderDetailState extends State<ProviderDetail> {
                             tabs: [
                               Tab(
                                 child: Text(
-                                  'Sessions',
+                                  'Services',
                                 ),
                               ),
                               Tab(
@@ -310,12 +365,12 @@ class _ProviderDetailState extends State<ProviderDetail> {
                     if(context.watch<ProviderProvider>().isLoading) LinearProgressIndicator(color: colorPrimary,minHeight: 2,),
                     Expanded(
                       child: TabBarView(children: [
-                        SessionsTab(providerModel: widget.provider),
+                        SessionsTab(providerModel: widget.provider!,onAction: onDynamicLink),
                         AboutMeTab(
-                          providerModel: widget.provider,
+                          providerModel: widget.provider!,
                         ),
                         ReviewsTab(
-                          providerModel: widget.provider,
+                          providerModel: widget.provider!,
                         )
                       ]),
                     )
@@ -324,6 +379,33 @@ class _ProviderDetailState extends State<ProviderDetail> {
               ),
             )
           ]),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+          floatingActionButton: FloatingActionButton.extended(
+            backgroundColor: Colors.white,
+            extendedPadding: getPadding(left: 10,right: 12),
+            onPressed: (){
+              if(onDynamicLink!=null) onDynamicLink(); else push(context, ChatScreen(senderId: widget.provider!.owner!, senderName: widget.provider!.venderName!));
+              
+          }, label: Text('Chat'),icon: Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              Container(
+                      height: getSize(30),
+                      width: getSize(30),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image:
+                              DecorationImage(image: profileImage,fit: BoxFit.cover)),
+                    ),
+              Icon(
+                  Icons.circle,
+                  color: widget.provider!.onlineStatus!
+                      ? Color(0XFF3dae7d)
+                      : Colors.grey,
+                  size: 13,
+                )
+            ],
+          ),),
         ));
   }
 }

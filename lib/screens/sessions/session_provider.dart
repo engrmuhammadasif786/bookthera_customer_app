@@ -56,6 +56,24 @@ class SessionProvider with ChangeNotifier {
                 rejectedList.add(sessionList[i]);
                 break;
               default:
+                // if (sessionList[i].dateTime != null && sessionList[i].time!=null) {
+                //   // Assuming sessionList[i].dateTime is a DateTime object and sessionList[i].time is a String in "HH:mm" format
+                //   DateTime combinedDateTime = DateTime(
+                //     sessionList[i].dateTime!.year,
+                //     sessionList[i].dateTime!.month,
+                //     sessionList[i].dateTime!.day,
+                //     int.parse(sessionList[i].time!.split(":")[0]),
+                //     int.parse(sessionList[i].time!.split(":")[1]),
+                //   );
+
+                //   if (combinedDateTime.isBefore(DateTime.now())) {
+                //     rejectedList.add(sessionList[i]);
+                //   } else {
+                //     upcomming.add(sessionList[i]);
+                //   }
+                // } else{
+                //   upcomming.add(sessionList[i]);
+                // }
                 upcomming.add(sessionList[i]);
                 break;
             }

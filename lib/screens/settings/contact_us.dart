@@ -31,7 +31,7 @@ class _ContactUsState extends State<ContactUs> {
   void initState() {
     super.initState();
     firstNameController.text=Datamanager().firstName;
-    lastNameController.text=Datamanager().lastName;
+    lastNameController.text=Datamanager().lastName.isEmpty? Datamanager().firstName.split(' ').last: Datamanager().lastName;
     emailController.text=Datamanager().email;
   }
 

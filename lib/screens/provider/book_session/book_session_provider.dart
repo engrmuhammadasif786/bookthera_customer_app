@@ -29,6 +29,7 @@ enum SesstionType { Video, Audio }
 
 class BookSesstionProvider extends ChangeNotifier {
   bool isLoading = false;
+  bool isSubLoading = false;
   List<TimeSlot> timeslots = [];
   List<int> weekendDays = [DateTime.saturday];
   List<TimeSlot> customDates = [];
@@ -78,7 +79,7 @@ class BookSesstionProvider extends ChangeNotifier {
   getTotal() {
     isShowCardFrom = paymentCards.isEmpty ? true : false;
     if (selectedSesssion != null) {
-      total = selectedSesssion!.price + Datamanager().serviceFee;
+      total = selectedSesssion!.price + Datamanager().serviceFee*selectedSesssion!.price;
     }
     notifyListeners();
   }
@@ -132,16 +133,31 @@ class BookSesstionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  setSubLoader(bool status) {
+    isSubLoading = status;
+    notifyListeners();
+  }
+
   setTime(String time) {
     selectedTime = time;
     notifyListeners();
   }
 
   setSelectedFocus(String id) {
-    foucsList.forEach((element) {
-      element.isSelected = false;
-    });
-    selectedFocus = id;
+    for (var element in foucsList) {
+      if (element.isSelected && element.sId==id) {
+        element.isSelected=false;
+      }else{
+        element.isSelected = element.sId==id;
+      }
+    }
+    if (selectedFocus==id) {
+      selectedFocus = null;
+    } else{
+      selectedFocus = id;
+    }
+    print(selectedFocus);
+    
     notifyListeners();
   }
 
@@ -245,6 +261,7 @@ class BookSesstionProvider extends ChangeNotifier {
               customDates.add(element);
           }
         });
+        getDateSlots(DateTime.now());
       }
     });
   }
@@ -263,9 +280,11 @@ class BookSesstionProvider extends ChangeNotifier {
   }
 
   doCallGetFocus() {
-    setLoader(true);
+    bookSessionId=null;
+    intensionsController.clear();
+    setSubLoader(true);
     callGetFocus().then((value) {
-      setLoader(false);
+      setSubLoader(false);
       if (value is String) {
         toast(value);
       } else if (value is List<FocusModel>) {
@@ -275,7 +294,9 @@ class BookSesstionProvider extends ChangeNotifier {
   }
 
   doCallBookSession(BuildContext context) async{
-    setLoader(true);
+    if (bookSessionId!=null) {
+      return hp.push(context, PaymentScreen());
+    }
     Map body = {};
     body['providerId'] = providerId;
     body['sessionId'] = selectedSesssion!.sId;
@@ -286,15 +307,19 @@ class BookSesstionProvider extends ChangeNotifier {
     body['intensions'] = intensionsController.text;
     body['type'] = sesstionType == SesstionType.Video ? 'video' : 'audio';
     File? selectedImage;
-    if(image!=null)
+    String profileImage = getStringAsync(USER_PROFILE);
+    if(image==null && profileImage.isEmpty)
+      return toast('Please provide your profile Image.');
+    else if(image!=null)
      selectedImage = (isIOS ?await compressImage(image!) : image) as File;
+    setLoader(true);
     callGetCreateBookSession(body, selectedImage).then((value) {
       setLoader(false);
       if (value is BookSession) {
         // return string id if true
         bookSessionId = value.sId;
         paymentCards=value.billings;
-        intensionsController.clear();
+        // intensionsController.clear();
         image=null;
         hp.push(context, PaymentScreen());
       }

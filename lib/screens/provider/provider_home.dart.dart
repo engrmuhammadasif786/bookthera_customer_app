@@ -41,25 +41,92 @@ class _ProviderHomeState extends State<ProviderHome> {
   }
 
   void callProviders() {
-    // if (Datamanager().layoutChoice=='simple') {
-    //   context.read<ProviderProvider>().doCallGetProviders();    
-    // } else {
-      context.read<ProviderProvider>().doCallGetProvidersByCategory();
-    // }
+    context.read<ProviderProvider>().doCallGetProvidersByCategory();
   }
   @override
   Widget build(BuildContext context) {
     var providerProvider = context.watch<ProviderProvider>();
-    return CustomLoader(
-      isLoading: (providerProvider.providerCategoryList.isEmpty && providerProvider.providersList.isEmpty) && providerProvider.isLoading,
-      child: (providerProvider.providersList.isEmpty)
-          ? SingleChildScrollView(
-              child: Column(
-                children: [
-                  if((providerProvider.providerCategoryList.isNotEmpty || providerProvider.providersList.isNotEmpty) && providerProvider.isLoading) LinearProgressIndicator(color: colorPrimary,minHeight: 2,),
-                  Padding(
+    return RefreshIndicator(
+      onRefresh: () => onRefresh(context),
+      child: CustomLoader(
+        isLoading: (providerProvider.providerCategoryList.isEmpty && providerProvider.providersList.isEmpty) && providerProvider.isLoading,
+        child: (providerProvider.providersList.isEmpty)
+            ? SingleChildScrollView(
+                child: Column(
+                  children: [
+                    if((providerProvider.providerCategoryList.isNotEmpty || providerProvider.providersList.isNotEmpty) && providerProvider.isLoading) LinearProgressIndicator(color: colorPrimary,minHeight: 2,),
+                    seachField(context),
+                    ListView(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: List.generate(
+                          providerProvider.providerCategoryList.length,
+                          (index) => Column(
+                                children: [
+                                  buildTitleRow(
+                                    titleValue: providerProvider
+                                        .providerCategoryList[index].title!,
+                                    onClick: () {
+                                      push(
+                                        context,
+                                        ListProviders(
+                                          providers: providerProvider
+                                              .providerCategoryList[index].data,
+                                          appBarTitle: providerProvider
+                                                  .providerCategoryList[index]
+                                                  .title! +
+                                              " Providers",
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: getSize(309),
+                                      child: ListView.builder(
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          physics: BouncingScrollPhysics(),
+                                          itemCount: providerProvider
+                                              .providerCategoryList[index]
+                                              .data
+                                              .length,
+                                          itemBuilder: (context, i) =>
+                                              ProviderCell(
+                                                provider: providerProvider
+                                                    .providerCategoryList[index]
+                                                    .data[i],
+                                              ))),
+                                ],
+                              )),
+                    )
+                  ],
+                ),
+              )
+            : Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if((providerProvider.providerCategoryList.isNotEmpty || providerProvider.providersList.isNotEmpty) && providerProvider.isLoading) LinearProgressIndicator(color: colorPrimary,minHeight: 2,),
+                seachField(context),
+                Expanded(
+                    child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: providerProvider.providersList.length,
+                        itemBuilder: (context, index) => ProviderCell(
+                              provider: providerProvider.providersList[index],
+                            )),
+                  ),
+              ],
+            ),
+      ),
+    );
+  }
+
+  Padding seachField(BuildContext context) {
+    return Padding(
                     padding: getPadding(all: 16),
                     child: CustomSearchField(
+                      isSaveButton: true,
                       searchController: searchController,
                       isClose: searchController.text.isNotEmpty,
                       onClose: () {
@@ -72,6 +139,7 @@ class _ProviderHomeState extends State<ProviderHome> {
                         Navigator.of(context)
                             .push(MaterialPageRoute(
                                 builder: (context) => ListProviders(
+                                  isShowSearch: false,
                                   appBarTitle: 'Saved',
                                       onInitCall: () {
                                         context
@@ -96,111 +164,12 @@ class _ProviderHomeState extends State<ProviderHome> {
                         },);
                       },
                     ),
-                  ),
-                  ListView(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    children: List.generate(
-                        providerProvider.providerCategoryList.length,
-                        (index) => Column(
-                              children: [
-                                buildTitleRow(
-                                  titleValue: providerProvider
-                                      .providerCategoryList[index].title!,
-                                  onClick: () {
-                                    push(
-                                      context,
-                                      ListProviders(
-                                        providers: providerProvider
-                                            .providerCategoryList[index].data,
-                                        appBarTitle: providerProvider
-                                                .providerCategoryList[index]
-                                                .title! +
-                                            " Providers",
-                                      ),
-                                    );
-                                  },
-                                ),
-                                Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: getSize(309),
-                                    child: ListView.builder(
-                                        shrinkWrap: true,
-                                        scrollDirection: Axis.horizontal,
-                                        physics: BouncingScrollPhysics(),
-                                        itemCount: providerProvider
-                                            .providerCategoryList[index]
-                                            .data
-                                            .length,
-                                        itemBuilder: (context, i) =>
-                                            ProviderCell(
-                                              provider: providerProvider
-                                                  .providerCategoryList[index]
-                                                  .data[i],
-                                            ))),
-                              ],
-                            )),
-                  )
-                ],
-              ),
-            )
-          : Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if((providerProvider.providerCategoryList.isNotEmpty || providerProvider.providersList.isNotEmpty) && providerProvider.isLoading) LinearProgressIndicator(color: colorPrimary,minHeight: 2,),
-              Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 16),
-                    child: CustomSearchField(
-                      searchController: searchController,
-                      isClose: searchController.text.isNotEmpty,
-                      onClose: () {
-                        setState(() {
-                          searchController.clear();
-                          callProviders();
-                        });
-                      },
-                      onFavouriteTap: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(
-                                builder: (context) => ListProviders(
-                                      onInitCall: () {
-                                        context
-                                            .read<ProviderProvider>()
-                                            .doCallGetProvidersByFavourite();
-                                      },
-                                    )))
-                            .then((value) {
-                          context
-                              .read<ProviderProvider>()
-                              .doCallGetProvidersByCategory();
-                        });
-                      },
-                      onFilter: () {
-                        showCustomDialog(context, ProviderFilter(),onthen: (value){
-                          context.read<ProviderProvider>().resetProducsList();
-                        });
-                      },
-                      onTap: () {
-                        showCustomDialog(context, ProviderSearch(),onthen: (query) {
-                          if (query!=null) {
-                            searchController.text=query;
-                          }
-                        },);
-                      },
-                    ),
-                  ),
-              Expanded(
-                  child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: providerProvider.providersList.length,
-                      itemBuilder: (context, index) => ProviderCell(
-                            provider: providerProvider.providersList[index],
-                          )),
-                ),
-            ],
-          ),
-    );
+                  );
+  }
+  
+  onRefresh(BuildContext context) {
+    callProviders();
+    return Future.value(true);
   }
 }
 

@@ -43,7 +43,12 @@ class _ProviderCellState extends State<ProviderCell> {
       padding: getPadding(left: 16,right: 16,top: 8,bottom: 8),
       child: GestureDetector(
         onTap: () {
-          push(context, ProviderDetail(provider: widget.provider,));
+          push(context, ProviderDetail(provider: widget.provider,onBack: (isFav) {
+              if(widget.provider.isFavourite!=isFav)
+                setState(() {
+                  widget.provider.isFavourite=isFav;   
+                });
+          },));
         },
         child: Container(
           width: widget.width ?? getSize(307),
@@ -66,7 +71,7 @@ class _ProviderCellState extends State<ProviderCell> {
                 CachedNetworkImage(
                    width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.2,
-                  imageUrl: imageProvider??sampleImage,
+                  imageUrl: imageProvider??providerMediaPlaceholder,
                   placeholder: (context, url) => placeholderWidget(),
                   imageBuilder: (context,image) {
                     return Container(
@@ -83,6 +88,8 @@ class _ProviderCellState extends State<ProviderCell> {
                         alignment: Alignment.topRight,
                         children: [
                           IconButton(
+                            splashColor: Colors.transparent,
+                            splashRadius: 1,
                             onPressed: () {
                               context.read<ProviderProvider>().doCallProviderLikeUnlike(widget.provider.sId!,isShowLoader: widget.provider.isFavourite!);
                               setState(() {
@@ -140,12 +147,12 @@ class _ProviderCellState extends State<ProviderCell> {
                   }
                 ),
               
-              SizedBox(height: 8),
               Container(
-                margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                margin: EdgeInsets.fromLTRB(15, 8, 15, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Row(
                       mainAxisSize: MainAxisSize.min,
@@ -203,20 +210,21 @@ class _ProviderCellState extends State<ProviderCell> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(widget.provider.tagLine!,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontFamily: "Poppinssr",
-                              fontSize: getFontSize(14),
-                              fontWeight: FontWeight.w400,
-                              color: Color(0xff555353),
-                            )),
+                    if(widget.provider.tagLine!.isNotEmpty)
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 10),
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(widget.provider.tagLine!,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontFamily: "Poppinssr",
+                                fontSize: getFontSize(14),
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xff555353),
+                              )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

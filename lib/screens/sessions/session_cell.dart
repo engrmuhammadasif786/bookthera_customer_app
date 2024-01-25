@@ -1,6 +1,7 @@
 import 'package:bookthera_customer/components/custom_readmore.dart';
 import 'package:bookthera_customer/models/Provider.dart';
 import 'package:bookthera_customer/models/book_sessoin.dart';
+import 'package:bookthera_customer/screens/provider/book_session/book_session_provider.dart';
 import 'package:bookthera_customer/screens/sessions/audioVideosCalls/call.dart';
 import 'package:bookthera_customer/screens/provider/widgets/sessions_button.dart';
 import 'package:bookthera_customer/screens/sessions/session_provider.dart';
@@ -423,6 +424,7 @@ class SessionCell extends StatelessWidget {
       builder: (context) {
         return EditSession(
           intensions: bookSession.intensions!,
+          sesstionType: bookSession.type=='video'?SesstionType.Video:SesstionType.Audio,
         );
       },
     ).then((value) {
