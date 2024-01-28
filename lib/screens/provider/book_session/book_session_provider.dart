@@ -79,7 +79,7 @@ class BookSesstionProvider extends ChangeNotifier {
   getTotal() {
     isShowCardFrom = paymentCards.isEmpty ? true : false;
     if (selectedSesssion != null) {
-      total = selectedSesssion!.price + Datamanager().serviceFee*selectedSesssion!.price;
+      total = selectedSesssion!.price + (Datamanager().serviceFee*selectedSesssion!.price)/100;
     }
     notifyListeners();
   }

@@ -595,8 +595,12 @@ Future<dynamic> callGetMessages() async {
   }
 }
 
-Future<dynamic> callGetMessagesById(String senderId) async {
-  Map res = await getRequest('api/v1/get-messages-by-id?id=$senderId');
+Future<dynamic> callGetMessagesById(String? senderId) async {
+ String url= 'api/v1/get-messages-by-id-simple';
+  if (senderId!=null) {
+    url="$url?id=$senderId";
+  }
+  Map res = await getRequest(url);
   if (res['success']) {
     List data = <MessageModel>[];
     if (res['results'] != null) {

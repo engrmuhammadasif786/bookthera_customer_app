@@ -299,7 +299,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           infoCell('Session Type', provider.sesstionType.name),
           infoCell('Session Price',
               '\$${provider.selectedSesssion!.price.toStringAsFixed(2)}'),
-          infoCell('Service Fee', '\$${(Datamanager().serviceFee*provider.selectedSesssion!.price).toStringAsFixed(2)}'),
+          infoCell('Service Fee', '\$${(Datamanager().serviceFee*provider.selectedSesssion!.price/100).toStringAsFixed(2)}'),
           infoCell('Total', '\$${provider.total.toStringAsFixed(2)}',
               keyFont: FontWeight.w600,
               ValueFont: FontWeight.w700,

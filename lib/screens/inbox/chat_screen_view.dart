@@ -448,7 +448,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                         }
                       },
                       child: Hero(
-                        tag: mediaUrl,
+                        tag: messageData.id!,
                         child: CachedNetworkImage(
                           memCacheHeight: 200,
                           // memCacheWidth: 50,
@@ -517,6 +517,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         mediaCell,
+        if(messageData.message!.isNotEmpty)
         ConstrainedBox(
             constraints: BoxConstraints(
               minWidth: 50,
@@ -545,7 +546,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                               color: Colors.black.withOpacity(0.1))
                         ]),
                     child: Text(
-                      mediaUrl.isEmpty ? messageData.message! : '',
+                      messageData.message!,
                       textAlign: TextAlign.left,
                       textDirection: TextDirection.rtl,
                       style: TextStyle(
@@ -682,7 +683,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                       }
                     },
                     child: Hero(
-                      tag: mediaUrl,
+                      tag: messageData.id!,
                       child: CachedNetworkImage(
                               memCacheHeight: 200,
                               // memCacheWidth: 50,
@@ -784,7 +785,9 @@ class _ChatScreenViewState extends State<ChatScreenView> {
     ChatProvider chatProvider = context.read<ChatProvider>();
     Map data = {'payload': {}};
     data['type'] = 'send-message';
-    data['payload']['receiverId'] = widget.senderId;
+    if (widget.bugSuggestionType=='normal') {
+      data['payload']['receiverId'] = widget.senderId;  
+    }
     data['payload']['message'] = content;
     data['payload']['bugSuggestionType'] = widget.bugSuggestionType;
     if (mediaFile != null) {
@@ -795,6 +798,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
         data['payload']['message'] = '${Datamanager().firstName} sent an video';
       }
     }
+    print(data);
     chatProvider.channel.sink.add(jsonEncode(data));
   }
 
